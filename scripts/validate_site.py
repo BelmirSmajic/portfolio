@@ -15,6 +15,11 @@ PROJECT_ORDER = [
     "acquisition",
     "worldcup",
 ]
+RETIRED_PROFESSIONAL_PUBLIC_TARGETS = [
+    "provider-cost-outlier-analysis",
+    "preferred-provider-contract-model",
+    "acquisition-product-matching",
+]
 
 
 class VisibleTextParser(HTMLParser):
@@ -83,6 +88,9 @@ def check_html():
     for phrase in forbidden:
         if phrase in visible or phrase in html:
             fail(f"forbidden public phrase appears: {phrase}")
+    for target in RETIRED_PROFESSIONAL_PUBLIC_TARGETS:
+        if target in html:
+            fail(f"retired professional public target remains in HTML: {target}")
     for required in ["1.4 million", "4 million", "hundreds of manual work hours"]:
         if required not in visible:
             fail(f"required acquisition language missing: {required}")
@@ -127,7 +135,11 @@ def check_data():
     data_path = ROOT / "assets" / "portfolio-data.json"
     if not data_path.exists():
         fail("portfolio data bundle missing")
-    data = json.loads(data_path.read_text(encoding="utf-8"))
+    raw_data = data_path.read_text(encoding="utf-8")
+    for target in RETIRED_PROFESSIONAL_PUBLIC_TARGETS:
+        if target in raw_data:
+            fail(f"retired professional public target remains in data bundle: {target}")
+    data = json.loads(raw_data)
     required = ["provider", "preferred", "acquisition", "worldcup"]
     for key in required:
         if key not in data:

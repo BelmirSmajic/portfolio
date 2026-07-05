@@ -1,5 +1,7 @@
 # Analytics Portfolio
 
+Live portfolio: https://belmirsmajic.github.io/portfolio/
+
 Combined public portfolio site for selected analytics projects.
 
 The site presents real professional business context first and uses public synthetic demonstrations as supporting artifacts where applicable. The World Cup analysis is labeled as independent public research.

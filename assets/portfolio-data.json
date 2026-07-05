@@ -8512,9 +8512,9 @@
     ]
   },
   "sources": {
-    "providerMetric": "provider-cost-outlier-analysis README.md and docs/interview_story.md",
-    "acquisitionMetric": "acquisition-product-matching README.md and current portfolio revision brief",
+    "providerMetric": "professional project summary and selected synthetic provider review data",
+    "acquisitionMetric": "professional project summary and selected synthetic matching workflow data",
     "worldcupMetric": "2026-world-cup-weakest-link README.md",
-    "preferredMetric": "preferred-provider-contract-model README.md and site/data/model_output.json"
+    "preferredMetric": "professional project summary and selected synthetic model output"
   }
 }
