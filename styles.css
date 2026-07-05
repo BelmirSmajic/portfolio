@@ -201,11 +201,33 @@ button.primary {
 .steps article,
 .project-grid article,
 .visual-panel,
+.glance,
 .links-section {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 1rem;
+}
+
+.glance {
+  margin: 1.4rem 0;
+}
+
+.glance dl {
+  display: grid;
+  grid-template-columns: minmax(170px, 0.35fr) 1fr;
+  gap: 0.7rem 1rem;
+  margin: 1rem 0 0;
+}
+
+.glance dt {
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+.glance dd {
+  margin: 0;
+  color: var(--muted);
 }
 
 .impact strong {
@@ -347,17 +369,20 @@ th {
   font-weight: 700;
 }
 
-.status.review {
+.status.above,
+tr.above td:first-child {
   background: #f7dddd;
   color: var(--review);
 }
 
-.status.caution {
+.status.near,
+tr.near td:first-child {
   background: #f8ecd3;
   color: var(--caution);
 }
 
-.status.normal {
+.status.below,
+tr.below td:first-child {
   background: #dff0e9;
   color: var(--normal);
 }
@@ -392,6 +417,61 @@ svg {
 .bar-fill {
   height: 100%;
   background: var(--accent);
+}
+
+.comparison-row {
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) 2fr minmax(100px, auto);
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.comparison-row span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.comparison-track {
+  position: relative;
+  height: 1.2rem;
+  background: var(--soft);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.comparison-fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+.comparison-row.above .comparison-fill {
+  background: var(--review);
+}
+
+.comparison-row.near .comparison-fill {
+  background: var(--caution);
+}
+
+.comparison-row.below .comparison-fill {
+  background: var(--normal);
+}
+
+.median-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--ink);
+  z-index: 2;
+}
+
+.chart-note {
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 
 .record-list {
@@ -453,6 +533,10 @@ footer {
   border-top: 1px solid var(--line);
 }
 
+footer a {
+  margin-right: 1rem;
+}
+
 @media (max-width: 900px) {
   .site-header {
     align-items: flex-start;
@@ -462,8 +546,13 @@ footer {
   .impact-grid,
   .steps,
   .project-grid,
+  .glance dl,
   .project-index ol,
   .visual-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-row {
     grid-template-columns: 1fr;
   }
 
