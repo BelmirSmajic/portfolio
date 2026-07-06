@@ -96,11 +96,34 @@ function projectUsPoint(lat, lon) {
   return { x, y };
 }
 
+function corridorPolygon(points, factor) {
+  const left = [];
+  const right = [];
+  points.forEach((point, index) => {
+    const previous = points[Math.max(0, index - 1)];
+    const next = points[Math.min(points.length - 1, index + 1)];
+    const p = projectUsPoint(point.lat, point.lon);
+    const a = projectUsPoint(previous.lat, previous.lon);
+    const b = projectUsPoint(next.lat, next.lon);
+    const dx = b.x - a.x || 1;
+    const dy = b.y - a.y || 1;
+    const length = Math.sqrt(dx * dx + dy * dy) || 1;
+    const nx = -dy / length;
+    const ny = dx / length;
+    const width = Math.max(14, point.radius * factor);
+    const coastalBias = index < 5 ? 1 : 0.84;
+    left.push(`${(p.x + nx * width * coastalBias).toFixed(1)},${(p.y + ny * width).toFixed(1)}`);
+    right.unshift(`${(p.x - nx * width * coastalBias).toFixed(1)},${(p.y - ny * width).toFixed(1)}`);
+  });
+  return left.concat(right).join(" ");
+}
+
 function showHurricaneDetail(row, target) {
   state.hurricaneSelected = row.id;
   const detail = target.querySelector(".hurricane-detail");
   if (detail) {
-    detail.innerHTML = `<h4>${cleanText(row.name)}</h4><div class="detail-grid"><span>City, State<br><strong>${cleanText(row.city)}, ${cleanText(row.state)}</strong></span><span>Property type<br><strong>${cleanText(row.type)}</strong></span><span>Estimated value<br><strong>${money(row.estimatedValue)}</strong></span><span>Exposure tier<br><strong>${cleanText(row.exposureTier)}</strong></span><span>Distance to storm path<br><strong>${row.distanceToPathMiles} miles</strong></span><span>Status<br><strong>${cleanText(row.status)}</strong></span></div>`;
+    const scenarioName = state.data?.hurricane?.scenario?.name || "Hurricane Debby 2024 Scenario";
+    detail.innerHTML = `<h4>${cleanText(row.name)}</h4><div class="detail-grid"><span>City, State<br><strong>${cleanText(row.city)}, ${cleanText(row.state)}</strong></span><span>Property type<br><strong>${cleanText(row.type)}</strong></span><span>Estimated value<br><strong>${money(row.estimatedValue)}</strong></span><span>Exposure tier<br><strong>${cleanText(row.exposureTier)}</strong></span><span>Distance to storm path<br><strong>${row.distanceToPathMiles} miles</strong></span><span>Status<br><strong>${cleanText(row.status)}</strong></span><span>Scenario<br><strong>${cleanText(scenarioName)}</strong></span></div>`;
   }
   document.querySelectorAll("[data-hurricane-property]").forEach((node) => {
     node.classList.toggle("selected", node.dataset.hurricaneProperty === row.id);
@@ -112,34 +135,28 @@ function renderHurricaneMap(data, target) {
   const scenario = data.scenario;
   const pathPoints = scenario.stormPath.map((point) => projectUsPoint(point.lat, point.lon));
   const line = pathPoints.map((point) => `${point.x},${point.y}`).join(" ");
-  const coneLeft = scenario.stormPath.map((point) => {
-    const p = projectUsPoint(point.lat, point.lon);
-    return `${p.x - point.radius * 0.72},${p.y + point.radius * 0.28}`;
-  });
-  const coneRight = [...scenario.stormPath].reverse().map((point) => {
-    const p = projectUsPoint(point.lat, point.lon);
-    return `${p.x + point.radius * 0.54},${p.y - point.radius * 0.2}`;
-  });
-  const summary = el("div", "narrative-box", `${scenario.affectedCount} potentially affected properties. Total potentially exposed value is ${money(scenario.totalPotentialExposure)}. Highest exposure state is ${scenario.highestExposureState}.`);
+  const summary = el("div", "narrative-box", `${scenario.name}. ${scenario.affectedCount} potentially affected properties. Total potentially exposed value is ${money(scenario.totalPotentialExposure)}. Highest exposure state is ${scenario.highestExposureState}. Synthetic exposure demo based on a named storm scenario.`);
   const mapWrap = el("div", "hurricane-map-frame");
-  mapWrap.innerHTML = `<svg viewBox="0 0 1000 600" role="img" aria-label="USA map with hurricane exposure markers">
-    <rect x="0" y="0" width="1000" height="600" fill="#fbfcfb"></rect>
-    <path d="M99 151 L164 95 L286 77 L396 91 L516 84 L668 114 L780 168 L884 246 L898 321 L848 396 L734 453 L573 493 L408 472 L276 512 L162 478 L107 386 L83 276 Z" fill="#eef3f0" stroke="#c9d2ce" stroke-width="2"></path>
-    <path d="M730 458 C788 468 842 497 867 541 C795 554 737 539 700 498 Z" fill="#eef3f0" stroke="#c9d2ce" stroke-width="2"></path>
-    <path d="M708 150 C752 222 795 291 841 382" fill="none" stroke="#d8dedb" stroke-width="2"></path>
-    <path d="M584 101 C593 191 590 286 573 493" fill="none" stroke="#d8dedb" stroke-width="2"></path>
-    <path d="M387 91 C394 183 392 299 408 472" fill="none" stroke="#d8dedb" stroke-width="2"></path>
-    <path d="M196 112 C223 224 224 350 162 478" fill="none" stroke="#d8dedb" stroke-width="2"></path>
-    <polygon points="${coneLeft.concat(coneRight).join(" ")}" fill="#dfeaf0" opacity="0.78" stroke="#95afbc" stroke-width="2"></polygon>
+  mapWrap.innerHTML = `<svg viewBox="0 0 1000 600" role="img" aria-label="United States map with state boundaries and hurricane exposure markers">
+    <rect x="0" y="0" width="1000" height="600" fill="#f8fbfc"></rect>
+    <g class="state-layer">
+      ${scenario.statePaths.map((statePath) => `<path class="state-boundary" d="${statePath.path}" aria-label="${cleanText(statePath.name)}"></path>`).join("")}
+    </g>
+    <polygon class="storm-band watch-band" points="${corridorPolygon(scenario.stormPath, 0.96)}"></polygon>
+    <polygon class="storm-band moderate-band" points="${corridorPolygon(scenario.stormPath, 0.62)}"></polygon>
+    <polygon class="storm-band high-band" points="${corridorPolygon(scenario.stormPath, 0.34)}"></polygon>
     <polyline points="${line}" fill="none" stroke="#1f5f7a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></polyline>
-    <text x="78" y="72" fill="#667078" font-size="18">USA portfolio view</text>
-    <text x="650" y="90" fill="#1f5f7a" font-size="16">${cleanText(scenario.name)}</text>
+    ${pathPoints.map((point, index) => `<circle class="track-point" cx="${point.x}" cy="${point.y}" r="${index < 2 ? 6 : 4}"></circle>`).join("")}
+    <text x="76" y="55" fill="#202427" font-size="18" font-weight="700">United States exposure monitoring view</text>
+    <text x="620" y="64" fill="#1f5f7a" font-size="17" font-weight="700">${cleanText(scenario.name)}</text>
+    <text x="620" y="88" fill="#667078" font-size="13">Synthetic bands inspired by the reported Debby 2024 track</text>
     <g class="property-layer"></g>
   </svg>`;
   const legend = el("div", "exposure-legend");
   Object.entries(exposureColors).forEach(([tier, color]) => {
     const item = el("span");
-    item.innerHTML = `<i style="background:${color}"></i>${cleanText(tier)}`;
+    const definition = scenario.tierDefinitions.find((row) => row.tier === tier);
+    item.innerHTML = `<i style="background:${color}"></i><strong>${cleanText(tier)}</strong> ${cleanText(definition?.description || "")}`;
     legend.appendChild(item);
   });
   const detail = el("div", "record-detail hurricane-detail");
@@ -170,10 +187,14 @@ function renderHurricaneMap(data, target) {
 function renderHurricaneTable(data, target) {
   target.innerHTML = "";
   const summary = el("div", "metric-grid hurricane-summary");
+  const affected = data.properties
+    .filter((row) => ["High", "Moderate"].includes(row.exposureTier))
+    .sort((a, b) => b.estimatedValue - a.estimatedValue);
   [
     ["Potentially affected properties", data.scenario.affectedCount],
     ["Total potentially exposed value", money(data.scenario.totalPotentialExposure)],
     ["Highest exposure state", data.scenario.highestExposureState],
+    ["Highest value affected property", affected[0]?.name || "None"],
     ["Storm scenario name", data.scenario.name]
   ].forEach(([label, value]) => {
     const box = el("div", "metric-box");
@@ -184,9 +205,7 @@ function renderHurricaneTable(data, target) {
   const table = el("table");
   table.innerHTML = `<thead><tr><th>Property</th><th>City, State</th><th>Property type</th><th>Estimated value</th><th>Exposure tier</th><th>Distance to storm path</th><th>Status</th></tr></thead>`;
   const body = el("tbody");
-  data.properties
-    .filter((row) => ["High", "Moderate"].includes(row.exposureTier))
-    .sort((a, b) => b.estimatedValue - a.estimatedValue)
+  affected
     .forEach((row) => {
       const tr = el("tr");
       tr.dataset.hurricaneProperty = row.id;

@@ -18,7 +18,7 @@ Data, business, and product analytics across healthcare cost, contract strategy,
    Compared approximately 1.4 million acquired products with roughly 4 million existing products while saving hundreds of manual work hours.
 
 4. Hurricane Exposure and Portfolio Risk Analysis
-   Mapped potential hurricane exposure across a state pension fund real estate portfolio to identify affected properties, estimate exposed value, and support leadership and board reporting.
+   Mapped Hurricane Debby 2024 scenario exposure across a 16 billion dollar state pension fund real estate portfolio to identify affected properties, estimate exposed value, and support Chief Investment Officer and board level reporting.
 
 5. World Cup Weakest Link Analysis
    Independent public research testing whether lineup floor was more informative about group stage performance and advancement than total value or star power.

@@ -674,7 +674,40 @@ svg {
   border: 1px solid var(--line);
   border-radius: 6px;
   overflow: hidden;
-  background: #fbfcfb;
+  background: #f8fbfc;
+}
+
+.state-boundary {
+  fill: #eef3f0;
+  stroke: #aebbb6;
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.storm-band {
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.watch-band {
+  fill: rgba(31, 95, 122, 0.2);
+  stroke: rgba(31, 95, 122, 0.55);
+}
+
+.moderate-band {
+  fill: rgba(236, 168, 52, 0.34);
+  stroke: rgba(173, 111, 21, 0.55);
+}
+
+.high-band {
+  fill: rgba(162, 59, 59, 0.38);
+  stroke: rgba(119, 36, 36, 0.62);
+}
+
+.track-point {
+  fill: #ffffff;
+  stroke: var(--accent);
+  stroke-width: 3;
 }
 
 .hurricane-dot {
@@ -701,6 +734,7 @@ svg {
   gap: 0.35rem;
   color: var(--muted);
   font-size: 0.9rem;
+  max-width: 36rem;
 }
 
 .exposure-legend i {

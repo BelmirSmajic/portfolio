@@ -130,7 +130,10 @@ def check_html():
         "hundreds of manual work hours",
         "regional Medicaid health plan",
         "Hurricane Exposure and Portfolio Risk Analysis",
-        "state pension fund real estate portfolio",
+        "16 billion dollar state pension fund real estate portfolio",
+        "Chief Investment Officer",
+        "board level reporting",
+        "Hurricane Debby 2024",
         "Board ready hurricane exposure view",
     ]
     for phrase in required_visible:
@@ -184,6 +187,9 @@ def check_html():
         "What I Owned",
         "Interactive Hurricane Exposure Map",
         "Potentially Affected Properties Table",
+        "16 billion dollar",
+        "Chief Investment Officer",
+        "Hurricane Debby 2024",
         "board level reporting",
         "active storm tracking",
     ]:
@@ -195,6 +201,12 @@ def check_html():
         fail("hurricane map lacks property detail interaction")
     if "renderHurricaneTable" not in js or "sort((a, b) => b.estimatedValue - a.estimatedValue)" not in js:
         fail("hurricane table lacks ranked estimated value sorting")
+    for phrase in ["state-boundary", "watch-band", "moderate-band", "high-band", "corridorPolygon"]:
+        if phrase not in js and phrase not in (ROOT / "styles.css").read_text(encoding="utf-8"):
+            fail(f"hurricane map visual contract missing: {phrase}")
+    for forbidden in ["NOAA logo", "official NOAA branding", "real observed Debby property impacts are shown"]:
+        if forbidden in public_surface:
+            fail(f"forbidden hurricane claim or branding appears: {forbidden}")
 
     worldcup = section_html(html, "worldcup")
     for phrase in ["Business at a Glance", "Who the work supported", "Business problem", "Result or Business Value"]:
@@ -245,6 +257,24 @@ def check_data():
     if len(data["worldcup"].get("rankGaps", [])) < 6:
         fail("world cup rank gap data looks incomplete")
     hurricane = data["hurricane"]
+    scenario = hurricane.get("scenario", {})
+    scenario_text = json.dumps(scenario)
+    for phrase in ["16 billion dollar", "Chief Investment Officer", "Debby 2024"]:
+        if phrase not in scenario_text:
+            fail(f"hurricane scenario data missing {phrase}")
+    if "Hurricane Debby 2024" not in scenario.get("name", "") and "Debby 2024" not in scenario.get("name", ""):
+        fail("hurricane scenario name does not mention Debby 2024")
+    if len(scenario.get("statePaths", [])) < 49:
+        fail("hurricane state boundary data is missing")
+    if len(scenario.get("stormPath", [])) < 8:
+        fail("hurricane storm path is too sparse")
+    tier_text = json.dumps(scenario.get("tierDefinitions", []))
+    for tier in ["High", "Moderate", "Watch", "Outside"]:
+        if tier not in tier_text:
+            fail(f"hurricane legend tier missing from scenario data: {tier}")
+    for forbidden in ["NOAA logo", "official NOAA branding", "real observed Debby property impacts are shown"]:
+        if forbidden in raw_data:
+            fail(f"forbidden hurricane claim or branding appears in data: {forbidden}")
     if len(hurricane.get("properties", [])) < 50:
         fail("hurricane property data looks incomplete")
     tiers = {row.get("exposureTier") for row in hurricane.get("properties", [])}
