@@ -30,6 +30,7 @@
             <a href="#provider" data-section-link="provider">Provider Costs</a>
             <a href="#contract" data-section-link="contract">Contract Model</a>
             <a href="#acquisition" data-section-link="acquisition">Product Matching</a>
+            <a href="#hurricane" data-section-link="hurricane">Hurricane Exposure</a>
             <a href="#worldcup" data-section-link="worldcup">World Cup Research</a>
             <a href="#approach" data-section-link="approach">Approach</a>
             <a href="#top" data-section-link="top">Back to Top</a>
@@ -40,6 +41,7 @@
               <option value="#provider">Provider</option>
               <option value="#contract">Contract</option>
               <option value="#acquisition">Matching</option>
+              <option value="#hurricane">Hurricane Exposure</option>
               <option value="#worldcup">World Cup</option>
               <option value="#approach">Approach</option>
               <option value="#top">Top</option>
@@ -52,7 +54,7 @@
             <p class="eyebrow">Selected Projects</p>
             <h1>Data, Business, and Product Analytics</h1>
             <p class="hero-label">Selected Work</p>
-            <p class="hero-copy">Selected work across healthcare cost, contract strategy, product integration, and decision support, plus independent public research.</p>
+            <p class="hero-copy">Selected work across healthcare cost, contract strategy, product integration, real estate risk, and decision support, plus independent public research.</p>
             <div class="actions">
               <a class="button primary" href="#projects">View Projects</a>
               <a class="button" href="https://github.com/BelmirSmajic" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -82,6 +84,11 @@
                 <p>Compared an acquired product catalog with the existing enterprise product master and saved hundreds of manual work hours.</p>
               </article>
               <article>
+                <h3>Hurricane Exposure and Portfolio Risk Analysis</h3>
+                <strong>Board ready hurricane exposure view</strong>
+                <p>Mapped potential hurricane exposure across a state pension fund real estate portfolio to identify affected properties, estimate exposed value, and support leadership and board reporting.</p>
+              </article>
+              <article>
                 <h3>World Cup Weakest Link Analysis</h3>
                 <strong>Lineup floor was the stronger signal</strong>
                 <p>The weakest regular starters were more strongly associated with group stage performance and advancement than total team value or star power among the tested measures, supported by a 0.77 Spearman relationship.</p>
@@ -92,19 +99,20 @@
           <section id="projects" class="project-index" aria-labelledby="project-index-title">
             <div class="section-heading compact">
               <p class="eyebrow">Project Index</p>
-              <h2 id="project-index-title">Four selected projects</h2>
+              <h2 id="project-index-title">Five selected projects</h2>
             </div>
             <ol>
               <li><a href="#provider">Provider Cost Outlier Analysis</a><p>Normalized provider cost within peer groups to identify actionable outliers and support more than $500,000 in documented annual reductions.</p></li>
               <li><a href="#contract">Preferred Provider Contract Scenario Model</a><p>Modeled reimbursement and volume shift for a specific DME arrangement and compared projected savings with actual performance.</p></li>
               <li><a href="#acquisition">Acquisition Product Matching</a><p>Compared approximately 1.4 million acquired products with roughly 4 million existing products while saving hundreds of manual work hours.</p></li>
+              <li><a href="#hurricane">Hurricane Exposure and Portfolio Risk Analysis</a><p>Mapped potential hurricane exposure across a state pension fund real estate portfolio to identify affected properties, estimate exposed value, and support leadership and board reporting.</p></li>
               <li><a href="#worldcup">World Cup Weakest Link Analysis</a><p>Tested whether the weakest regular starters were more informative about group stage performance and advancement than total value or star power.</p></li>
             </ol>
           </section>
 
           <section class="data-note" aria-labelledby="data-note-title">
             <h2 id="data-note-title">Data note</h2>
-            <p>Professional project visuals use synthetic data created to demonstrate the original analytical workflows. No employer, member, provider, contract, supplier, or product data is displayed. The World Cup analysis uses public data.</p>
+            <p>Professional project visuals use synthetic data created to demonstrate the original analytical workflows. No employer, member, provider, contract, supplier, property, or product data is displayed. The World Cup analysis uses public data.</p>
           </section>
 
           <section id="provider" class="project" data-project="provider">
@@ -293,9 +301,71 @@
             </div>
           </section>
 
-          <section id="worldcup" class="project" data-project="worldcup">
+          <section id="hurricane" class="project" data-project="hurricane">
             <div class="project-kicker">
               <p>Project 04</p>
+              <span>Real Estate Risk and Exposure Analytics</span>
+            </div>
+            <h2>Hurricane Exposure and Portfolio Risk Analysis</h2>
+            <p class="overview">Mapped potential hurricane exposure across a state pension fund real estate portfolio to support monitoring, prioritization, and board level reporting.</p>
+            <div class="glance">
+              <h3>Business at a Glance</h3>
+              <dl>
+                <dt>Industry and setting</dt><dd>State pension fund real estate portfolio.</dd>
+                <dt>Who the work supported</dt><dd>Investment, risk, and leadership stakeholders, including board level reporting.</dd>
+                <dt>Business problem</dt><dd>Stakeholders needed to monitor potential hurricane exposure across the real estate portfolio during active storm tracking.</dd>
+                <dt>Why it was useful</dt><dd>The analysis helped identify potentially affected properties, estimate exposed value, understand geographic concentration, and prioritize monitoring and response.</dd>
+                <dt>Key Impact</dt><dd>Built a hurricane exposure view that identified potentially affected properties, summarized exposure for leadership, and supported board level reporting during storm monitoring.</dd>
+                <dt>Tools</dt><dd>SQL, Tableau, geospatial shapefiles, and government storm or hurricane data APIs.</dd>
+              </dl>
+            </div>
+            <div class="project-grid single">
+              <article>
+                <h3>What I Owned</h3>
+                <ul>
+                  <li>Gathered requirements from investment, risk, and leadership stakeholders</li>
+                  <li>Compiled portfolio data and joined geographic location data</li>
+                  <li>Overlaid hurricane path and impact zones to calculate potentially affected exposure</li>
+                  <li>Built executive visuals, presented findings to leadership and the board, and updated the report during active storm tracking</li>
+                </ul>
+              </article>
+            </div>
+            <div class="visual-grid">
+              <article class="visual-panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Interactive Hurricane Exposure Map</h3>
+                    <p>Property markers show exposure tiers for a single East Coast hurricane scenario.</p>
+                  </div>
+                  <button type="button" data-expand="hurricane-map">Expand</button>
+                </div>
+                <div id="hurricane-map" class="workspace-visual hurricane-map-visual"></div>
+                <small>Example data: state pension fund real estate exposure workflow</small>
+              </article>
+              <article class="visual-panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Potentially Affected Properties Table</h3>
+                    <p>High and Moderate exposure properties are ranked by estimated property value.</p>
+                  </div>
+                  <button type="button" data-expand="hurricane-table">Expand</button>
+                </div>
+                <div id="hurricane-table" class="workspace-visual"></div>
+                <small>Example data: state pension fund real estate exposure workflow</small>
+              </article>
+            </div>
+            <div class="methods">
+              <h3>Tools and Methods</h3>
+              <dl>
+                <dt>Tools</dt><dd>SQL, Tableau, geospatial shapefiles, government storm or hurricane data APIs</dd>
+                <dt>Methods</dt><dd>Portfolio exposure analysis, location and geographic joins, storm path overlay, impact zone analysis, potential exposure calculation, scenario based monitoring, executive reporting, board level communication</dd>
+              </dl>
+            </div>
+          </section>
+
+          <section id="worldcup" class="project" data-project="worldcup">
+            <div class="project-kicker">
+              <p>Project 05</p>
               <span>Independent Football Analytics Research</span>
             </div>
             <h2>World Cup Weakest Link Analysis</h2>

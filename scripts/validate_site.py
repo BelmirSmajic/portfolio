@@ -9,11 +9,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DASHES = "-\u2013\u2014"
 FULL_NAME = "Belmir Smajic"
-PROJECT_ORDER = ["provider", "contract", "acquisition", "worldcup"]
+PROJECT_ORDER = ["provider", "contract", "acquisition", "hurricane", "worldcup"]
 RETIRED_PROFESSIONAL_PUBLIC_TARGETS = [
     "provider-cost-outlier-analysis",
     "preferred-provider-contract-model",
     "acquisition-product-matching",
+    "hurricane-exposure-portfolio-risk-analysis",
 ]
 
 
@@ -121,12 +122,16 @@ def check_html():
         "Data, Business, and Product Analytics",
         "Selected Work",
         "Impact at a Glance",
+        "Five selected projects",
         "Data note",
         "Professional project visuals use synthetic data created to demonstrate the original analytical workflows.",
         "Lineup floor was the stronger signal",
         "1.4 million compared with 4 million",
         "hundreds of manual work hours",
         "regional Medicaid health plan",
+        "Hurricane Exposure and Portfolio Risk Analysis",
+        "state pension fund real estate portfolio",
+        "Board ready hurricane exposure view",
     ]
     for phrase in required_visible:
         if phrase not in visible:
@@ -171,6 +176,26 @@ def check_html():
         if "Project 0" not in section:
             fail(f"{project} lacks project number")
 
+    hurricane = section_html(html, "hurricane")
+    for phrase in [
+        "Project 04",
+        "Real Estate Risk and Exposure Analytics",
+        "Business at a Glance",
+        "What I Owned",
+        "Interactive Hurricane Exposure Map",
+        "Potentially Affected Properties Table",
+        "board level reporting",
+        "active storm tracking",
+    ]:
+        if phrase not in hurricane:
+            fail(f"hurricane section missing: {phrase}")
+    if html.find('data-project="hurricane"') > html.find('data-project="worldcup"'):
+        fail("hurricane project appears below World Cup")
+    if "renderHurricaneMap" not in js or "hurricane-detail" not in js or "data-hurricane-property" not in js:
+        fail("hurricane map lacks property detail interaction")
+    if "renderHurricaneTable" not in js or "sort((a, b) => b.estimatedValue - a.estimatedValue)" not in js:
+        fail("hurricane table lacks ranked estimated value sorting")
+
     worldcup = section_html(html, "worldcup")
     for phrase in ["Business at a Glance", "Who the work supported", "Business problem", "Result or Business Value"]:
         if phrase in worldcup:
@@ -179,10 +204,13 @@ def check_html():
         if phrase not in worldcup:
             fail(f"World Cup visual missing: {phrase}")
 
-    for anchor in ["top", "projects", "provider", "contract", "acquisition", "worldcup", "approach"]:
+    if "Project 05" not in worldcup:
+        fail("World Cup project number was not updated to Project 05")
+
+    for anchor in ["top", "projects", "provider", "contract", "acquisition", "hurricane", "worldcup", "approach"]:
         if f'id="{anchor}"' not in html:
             fail(f"project anchor missing: {anchor}")
-    for label in ["Overview", "Provider Costs", "Contract Model", "Product Matching", "World Cup Research", "Approach", "Back to Top"]:
+    for label in ["Overview", "Provider Costs", "Contract Model", "Product Matching", "Hurricane Exposure", "World Cup Research", "Approach", "Back to Top"]:
         if label not in html:
             fail(f"sticky navigation link missing: {label}")
     if "aria-current" not in js or "IntersectionObserver" not in js:
@@ -202,7 +230,7 @@ def check_data():
     if "Synthetic Provider" in raw_data:
         fail("provider display name begins with Synthetic Provider")
     data = json.loads(raw_data)
-    for key in ["provider", "preferred", "acquisition", "worldcup"]:
+    for key in ["provider", "preferred", "acquisition", "hurricane", "worldcup"]:
         if key not in data:
             fail(f"missing data key {key}")
     if len(data["provider"]["workspaceRows"]) < 6:
@@ -216,6 +244,24 @@ def check_data():
         fail("acquisition examples do not include review cases")
     if len(data["worldcup"].get("rankGaps", [])) < 6:
         fail("world cup rank gap data looks incomplete")
+    hurricane = data["hurricane"]
+    if len(hurricane.get("properties", [])) < 50:
+        fail("hurricane property data looks incomplete")
+    tiers = {row.get("exposureTier") for row in hurricane.get("properties", [])}
+    for tier in ["High", "Moderate", "Watch", "Outside"]:
+        if tier not in tiers:
+            fail(f"hurricane exposure tier missing: {tier}")
+    affected = [row for row in hurricane["properties"] if row.get("exposureTier") in {"High", "Moderate"}]
+    if len(affected) < 8:
+        fail("hurricane affected properties table lacks enough records")
+    if affected != sorted(affected, key=lambda row: row["estimatedValue"], reverse=True):
+        fail("hurricane data is not sorted by estimated property value for affected rows")
+    for row in hurricane["properties"]:
+        if row["estimatedValue"] < 100000 or row["estimatedValue"] > 30000000:
+            fail("hurricane property value outside expected range")
+        for field in ["name", "city", "state", "type", "exposureTier", "status"]:
+            if any(ch in str(row.get(field, "")) for ch in DASHES):
+                fail(f"hurricane visible data contains dash characters in {field}")
     for row in data["worldcup"].get("comparison", []):
         for required in ["totalRank", "topThreeRank", "floorRank", "advanced", "points", "goalDifference"]:
             if required not in row:

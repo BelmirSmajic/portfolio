@@ -255,6 +255,10 @@ button.primary {
   gap: 1rem;
 }
 
+.impact-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
 .project-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 1.6rem 0 1.4rem;
@@ -320,7 +324,7 @@ button.primary {
 
 .project-index ol {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0.8rem;
   list-style-position: inside;
   padding: 0;
@@ -666,6 +670,95 @@ svg {
   min-width: 660px;
 }
 
+.hurricane-map-frame {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fbfcfb;
+}
+
+.hurricane-dot {
+  cursor: pointer;
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+
+.hurricane-dot.selected {
+  stroke: var(--ink);
+  stroke-width: 4;
+}
+
+.exposure-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 0.75rem 0;
+}
+
+.exposure-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.exposure-legend i {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 999px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.detail-grid strong {
+  color: var(--ink);
+}
+
+.exposure-pill {
+  display: inline-flex;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.18rem 0.5rem;
+}
+
+.exposure-pill.high {
+  background: var(--review);
+}
+
+.exposure-pill.moderate {
+  background: #c5792a;
+}
+
+.exposure-pill.watch {
+  background: #c3a233;
+  color: var(--ink);
+}
+
+.exposure-pill.outside {
+  background: var(--muted);
+}
+
+tr.selected td:first-child {
+  background: var(--soft);
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+.hurricane-summary {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 0.75rem;
+}
+
 dialog {
   width: min(1100px, calc(100% - 2rem));
   border: 1px solid var(--line);
@@ -739,6 +832,7 @@ footer a {
   }
 
   .metric-grid,
+  .detail-grid,
   .methods dl {
     grid-template-columns: 1fr;
   }
