@@ -78,6 +78,7 @@ def section_html(html, project):
 def check_html():
     html = (ROOT / "index.html").read_text(encoding="utf-8")
     js = (ROOT / "app.js").read_text(encoding="utf-8")
+    css = (ROOT / "styles.css").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     parser = VisibleTextParser()
     parser.feed(html)
@@ -108,7 +109,7 @@ def check_html():
         "Lineup Floor Ranking",
         "Result or Business Value",
     ]
-    public_surface = "\n".join([html, js, readme])
+    public_surface = "\n".join([html, js, css, readme])
     for phrase in forbidden:
         if phrase in public_surface:
             fail(f"forbidden public phrase appears: {phrase}")
@@ -201,12 +202,75 @@ def check_html():
         fail("hurricane map lacks property detail interaction")
     if "renderHurricaneTable" not in js or "sort((a, b) => b.estimatedValue - a.estimatedValue)" not in js:
         fail("hurricane table lacks ranked estimated value sorting")
-    for phrase in ["state-boundary", "watch-band", "moderate-band", "high-band", "corridorPolygon"]:
-        if phrase not in js and phrase not in (ROOT / "styles.css").read_text(encoding="utf-8"):
+    for phrase in [
+        "hurricane-visual-stack",
+        "state-boundary",
+        "forecast-cone",
+        "storm-track",
+        "storm-marker",
+        "forecast-label",
+        "city-label",
+        "watch-band",
+        "moderate-band",
+        "high-band",
+        "corridorPolygon",
+    ]:
+        if phrase not in js and phrase not in css and phrase not in html:
             fail(f"hurricane map visual contract missing: {phrase}")
+    for city in ["Tampa", "Gainesville", "Jacksonville", "Savannah", "Charleston", "Raleigh"]:
+        if city not in js:
+            fail(f"hurricane city label missing: {city}")
+    if "max-height: 430px" not in css:
+        fail("hurricane table internal scroll contract missing")
     for forbidden in ["NOAA logo", "official NOAA branding", "real observed Debby property impacts are shown"]:
         if forbidden in public_surface:
             fail(f"forbidden hurricane claim or branding appears: {forbidden}")
+
+    contract = section_html(html, "contract")
+    for phrase in ["Project 02", "SQL and Excel", "Specific DME Provider Scenario", "Savings Variance Bridge"]:
+        if phrase not in contract:
+            fail(f"contract section missing: {phrase}")
+    for phrase in [
+        "contract-scenario-model",
+        "Current network baseline",
+        "Preferred provider scenario",
+        "Projected savings",
+        "Decision signal",
+        "waterfall-row",
+        "Projected",
+        "Rate variance",
+        "Utilization",
+        "Volume shift",
+        "Service mix",
+        "Leakage",
+        "Validated savings",
+    ]:
+        if phrase not in "\n".join([js, css, html]):
+            fail(f"contract visual contract missing: {phrase}")
+
+    acquisition = section_html(html, "acquisition")
+    for phrase in ["Project 03", "Python and Excel", "1.4 million", "4 million", "hundreds of manual work hours"]:
+        if phrase not in acquisition:
+            fail(f"acquisition section missing: {phrase}")
+    for phrase in [
+        "pipeline-stage",
+        "Acquired catalog",
+        "Normalized records",
+        "Exact matches",
+        "High confidence fuzzy matches",
+        "Manual review queue",
+        "Unmatched or excluded records",
+        "Approved matches",
+        "review-adjudication",
+        "Selected acquired product",
+        "Primary recommended match",
+        "Second closest match",
+        "Confidence",
+    ]:
+        if phrase not in "\n".join([js, css, html]):
+            fail(f"acquisition visual contract missing: {phrase}")
+    if "50 percent" in public_surface.lower():
+        fail("acquisition public surface contains a 50 percent reduction claim")
 
     worldcup = section_html(html, "worldcup")
     for phrase in ["Business at a Glance", "Who the work supported", "Business problem", "Result or Business Value"]:

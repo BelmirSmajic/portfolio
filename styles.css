@@ -27,6 +27,7 @@ body {
   color: var(--ink);
   font-family: "Segoe UI", Arial, sans-serif;
   line-height: 1.55;
+  overflow-x: hidden;
 }
 
 a {
@@ -594,10 +595,24 @@ svg {
   gap: 0.55rem;
 }
 
+.review-queue {
+  display: grid;
+  gap: 0.45rem;
+  max-height: 15rem;
+  overflow: auto;
+  padding-right: 0.25rem;
+}
+
 .record-button {
   justify-content: flex-start;
   text-align: left;
   min-height: auto;
+}
+
+.record-button.selected {
+  border-color: var(--accent);
+  background: var(--soft);
+  color: var(--accent-dark);
 }
 
 .record-detail {
@@ -605,6 +620,69 @@ svg {
   background: var(--soft);
   border-radius: 6px;
   padding: 0.8rem;
+}
+
+.review-adjudication {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.8rem;
+}
+
+.selected-product-card,
+.candidate-compare article {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fbfcfb;
+  padding: 0.85rem;
+}
+
+.selected-product-card span,
+.candidate-compare span,
+.contract-state span,
+.contract-impact span,
+.service-group-grid span,
+.pipeline-stage span {
+  display: block;
+  color: var(--accent-dark);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.selected-product-card h4,
+.candidate-compare h4 {
+  margin: 0.35rem 0 0.55rem;
+}
+
+.selected-product-card dl {
+  display: grid;
+  grid-template-columns: minmax(90px, 0.32fr) 1fr;
+  gap: 0.3rem 0.65rem;
+  margin: 0;
+}
+
+.selected-product-card dt {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.selected-product-card dd {
+  margin: 0;
+}
+
+.candidate-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.candidate-compare strong {
+  display: inline-flex;
+  margin-bottom: 0.45rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #ffffff;
+  padding: 0.15rem 0.55rem;
 }
 
 .methods {
@@ -670,6 +748,135 @@ svg {
   min-width: 660px;
 }
 
+.contract-scenario-model {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.contract-state,
+.contract-impact {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fbfcfb;
+  padding: 0.85rem;
+}
+
+.contract-state strong,
+.contract-impact strong {
+  display: block;
+  margin: 0.35rem 0;
+  color: var(--accent-dark);
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+}
+
+.contract-state.preferred {
+  border-color: rgba(31, 95, 122, 0.36);
+  background: linear-gradient(180deg, #ffffff, var(--soft));
+}
+
+.contract-impact {
+  grid-column: 1 / -1;
+}
+
+.service-group-grid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.service-group-grid div {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #ffffff;
+  padding: 0.65rem;
+}
+
+.service-group-grid strong,
+.service-group-grid small {
+  display: block;
+}
+
+.service-group-grid strong {
+  margin: 0.3rem 0;
+  color: var(--accent-dark);
+}
+
+.service-group-grid small {
+  color: var(--muted);
+}
+
+.waterfall {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.waterfall-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.5fr) minmax(180px, 1fr) minmax(96px, auto);
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.waterfall-row > span {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.waterfall-track {
+  position: relative;
+  height: 1.6rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--soft);
+  overflow: hidden;
+}
+
+.waterfall-bar {
+  position: absolute;
+  left: var(--left);
+  width: var(--width);
+  top: 0.25rem;
+  bottom: 0.25rem;
+  border-radius: 4px;
+  background: var(--normal);
+}
+
+.waterfall-bar.endpoint {
+  background: var(--accent);
+}
+
+.waterfall-bar.unfavorable {
+  background: var(--review);
+}
+
+.waterfall-row strong {
+  text-align: right;
+  font-size: 0.86rem;
+}
+
+.pipeline-stage {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(120px, 0.7fr) minmax(110px, 0.55fr) minmax(150px, 1fr);
+  gap: 0.55rem;
+  align-items: center;
+  margin-bottom: 0.55rem;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--accent);
+  border-radius: 6px;
+  background: #fbfcfb;
+  padding: 0.65rem;
+}
+
+.pipeline-stage b {
+  color: var(--normal);
+}
+
+.pipeline-stage small {
+  color: var(--muted);
+}
+
 .hurricane-map-frame {
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -677,10 +884,36 @@ svg {
   background: #f8fbfc;
 }
 
+.hurricane-visual-stack {
+  grid-template-columns: 1fr;
+}
+
+.hurricane-visual-stack .visual-panel {
+  min-height: auto;
+}
+
+.hurricane-visual-stack .hurricane-map-visual {
+  min-height: 620px;
+  overflow: hidden;
+}
+
+.hurricane-visual-stack #hurricane-table {
+  max-height: 430px;
+  overflow: auto;
+}
+
 .state-boundary {
   fill: #eef3f0;
   stroke: #aebbb6;
   stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.forecast-cone {
+  fill: rgba(255, 255, 255, 0.48);
+  stroke: rgba(32, 36, 39, 0.54);
+  stroke-width: 1.8;
+  stroke-dasharray: 7 5;
   vector-effect: non-scaling-stroke;
 }
 
@@ -700,14 +933,65 @@ svg {
 }
 
 .high-band {
-  fill: rgba(162, 59, 59, 0.38);
+  fill: rgba(191, 64, 45, 0.48);
   stroke: rgba(119, 36, 36, 0.62);
 }
 
-.track-point {
-  fill: #ffffff;
-  stroke: var(--accent);
-  stroke-width: 3;
+.storm-track {
+  fill: none;
+  stroke: #7f1d1d;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 2px 2px rgba(32, 36, 39, 0.28));
+  vector-effect: non-scaling-stroke;
+}
+
+.storm-marker circle {
+  fill: #fff7ed;
+  stroke: #7f1d1d;
+  stroke-width: 2.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.storm-marker path {
+  fill: #c2410c;
+}
+
+.forecast-label rect,
+.scenario-label rect {
+  fill: rgba(255, 255, 255, 0.9);
+  stroke: rgba(32, 36, 39, 0.18);
+}
+
+.forecast-label text,
+.scenario-label text,
+.city-label text {
+  fill: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.scenario-label text:first-of-type {
+  fill: #7f1d1d;
+  font-size: 14px;
+}
+
+.scenario-label text:last-of-type {
+  fill: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.city-label circle {
+  fill: #202427;
+}
+
+.city-label text {
+  fill: #2f383d;
+  paint-order: stroke;
+  stroke: rgba(255, 255, 255, 0.85);
+  stroke-width: 3px;
 }
 
 .hurricane-dot {
@@ -867,7 +1151,10 @@ footer a {
 
   .metric-grid,
   .detail-grid,
-  .methods dl {
+  .methods dl,
+  .candidate-compare,
+  .contract-scenario-model,
+  .service-group-grid {
     grid-template-columns: 1fr;
   }
 
@@ -881,6 +1168,16 @@ footer a {
 
   .control-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pipeline-stage,
+  .waterfall-row,
+  .selected-product-card dl {
+    grid-template-columns: 1fr;
+  }
+
+  .hurricane-visual-stack .hurricane-map-visual {
+    min-height: 480px;
   }
 }
 

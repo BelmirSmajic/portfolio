@@ -8638,7 +8638,7 @@
       "summary": "Synthetic East Coast exposure monitoring scenario inspired by Hurricane Debby 2024.",
       "portfolioScale": "16 billion dollar state pension fund real estate portfolio",
       "audience": "Investment, risk, and leadership stakeholders, including the Chief Investment Officer and board level reporting.",
-      "disclaimer": "Synthetic exposure demonstration inspired by the National Hurricane Center reported Debby 2024 track. Property impacts shown here are not real observed Debby impacts and this is not an official weather product.",
+      "disclaimer": "Synthetic exposure demonstration inspired by the publicly reported Debby 2024 storm track. Property impacts shown here are not real observed Debby impacts and this is not an official weather product.",
       "stormPath": [
         {
           "label": "Eastern Gulf approach",

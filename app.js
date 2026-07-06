@@ -21,6 +21,30 @@ const exposureColors = {
   Outside: "#73808a"
 };
 
+const hurricaneCityLabels = [
+  { name: "Tampa", lat: 27.9506, lon: -82.4572 },
+  { name: "Gainesville", lat: 29.6516, lon: -82.3248 },
+  { name: "Jacksonville", lat: 30.3322, lon: -81.6557 },
+  { name: "Savannah", lat: 32.0809, lon: -81.0912 },
+  { name: "Charleston", lat: 32.7765, lon: -79.9311 },
+  { name: "Raleigh", lat: 35.7796, lon: -78.6382 },
+  { name: "Richmond", lat: 37.5407, lon: -77.4360 },
+  { name: "Washington", lat: 38.9072, lon: -77.0369 },
+  { name: "Philadelphia", lat: 39.9526, lon: -75.1652 }
+];
+
+const hurricaneForecastLabels = [
+  { day: "Mon AM", wind: "65 mph" },
+  { day: "Mon PM", wind: "80 mph" },
+  { day: "Tue AM", wind: "55 mph" },
+  { day: "Tue PM", wind: "45 mph" },
+  { day: "Wed AM", wind: "40 mph" },
+  { day: "Wed PM", wind: "35 mph" },
+  { day: "Thu AM", wind: "30 mph" },
+  { day: "Thu PM", wind: "25 mph" },
+  { day: "Fri AM", wind: "20 mph" }
+];
+
 function cleanText(value) {
   return String(value ?? "").replace(/[-\u2013\u2014]/g, " ");
 }
@@ -118,6 +142,19 @@ function corridorPolygon(points, factor) {
   return left.concat(right).join(" ");
 }
 
+function hurricaneForecastLabel(point, index) {
+  const projected = projectUsPoint(point.lat, point.lon);
+  const label = hurricaneForecastLabels[index] || { day: point.label, wind: "" };
+  const dx = index < 3 ? -76 : index < 6 ? 16 : 20;
+  const dy = index % 2 === 0 ? -18 : 28;
+  return `<g class="forecast-label" transform="translate(${projected.x + dx} ${projected.y + dy})"><rect x="0" y="-16" width="70" height="32" rx="4"></rect><text x="6" y="-3">${cleanText(label.day)}</text><text x="6" y="11">${cleanText(label.wind)}</text></g>`;
+}
+
+function hurricaneCityLabel(city) {
+  const point = projectUsPoint(city.lat, city.lon);
+  return `<g class="city-label" transform="translate(${point.x} ${point.y})"><circle r="2.6"></circle><text x="6" y="-5">${cleanText(city.name)}</text></g>`;
+}
+
 function showHurricaneDetail(row, target) {
   state.hurricaneSelected = row.id;
   const detail = target.querySelector(".hurricane-detail");
@@ -137,19 +174,23 @@ function renderHurricaneMap(data, target) {
   const line = pathPoints.map((point) => `${point.x},${point.y}`).join(" ");
   const summary = el("div", "narrative-box", `${scenario.name}. ${scenario.affectedCount} potentially affected properties. Total potentially exposed value is ${money(scenario.totalPotentialExposure)}. Highest exposure state is ${scenario.highestExposureState}. Synthetic exposure demo based on a named storm scenario.`);
   const mapWrap = el("div", "hurricane-map-frame");
-  mapWrap.innerHTML = `<svg viewBox="0 0 1000 600" role="img" aria-label="United States map with state boundaries and hurricane exposure markers">
-    <rect x="0" y="0" width="1000" height="600" fill="#f8fbfc"></rect>
+  mapWrap.innerHTML = `<svg viewBox="570 165 335 390" role="img" aria-label="Southeast and East Coast hurricane exposure map with state boundaries, forecast cone, storm markers, city labels, and property markers">
+    <rect x="560" y="150" width="370" height="430" fill="#dcecf1"></rect>
     <g class="state-layer">
       ${scenario.statePaths.map((statePath) => `<path class="state-boundary" d="${statePath.path}" aria-label="${cleanText(statePath.name)}"></path>`).join("")}
     </g>
+    <polygon class="forecast-cone" points="${corridorPolygon(scenario.stormPath, 1.18)}"></polygon>
     <polygon class="storm-band watch-band" points="${corridorPolygon(scenario.stormPath, 0.96)}"></polygon>
     <polygon class="storm-band moderate-band" points="${corridorPolygon(scenario.stormPath, 0.62)}"></polygon>
     <polygon class="storm-band high-band" points="${corridorPolygon(scenario.stormPath, 0.34)}"></polygon>
-    <polyline points="${line}" fill="none" stroke="#1f5f7a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></polyline>
-    ${pathPoints.map((point, index) => `<circle class="track-point" cx="${point.x}" cy="${point.y}" r="${index < 2 ? 6 : 4}"></circle>`).join("")}
-    <text x="76" y="55" fill="#202427" font-size="18" font-weight="700">United States exposure monitoring view</text>
-    <text x="620" y="64" fill="#1f5f7a" font-size="17" font-weight="700">${cleanText(scenario.name)}</text>
-    <text x="620" y="88" fill="#667078" font-size="13">Synthetic bands inspired by the reported Debby 2024 track</text>
+    <g class="city-layer">${hurricaneCityLabels.map(hurricaneCityLabel).join("")}</g>
+    <polyline class="storm-track" points="${line}"></polyline>
+    ${scenario.stormPath.map((point, index) => {
+      const projected = pathPoints[index];
+      return `<g class="storm-marker" transform="translate(${projected.x} ${projected.y})"><circle r="${index < 2 ? 8 : 6}"></circle><path d="M-4 0 C-1 -5 5 -5 6 0 C4 4 -2 5 -5 1"></path></g>`;
+    }).join("")}
+    ${scenario.stormPath.map(hurricaneForecastLabel).join("")}
+    <g class="scenario-label"><rect x="590" y="184" width="202" height="48" rx="6"></rect><text x="604" y="205">${cleanText(scenario.name)}</text><text x="604" y="223">Synthetic executive exposure view</text></g>
     <g class="property-layer"></g>
   </svg>`;
   const legend = el("div", "exposure-legend");
@@ -275,30 +316,50 @@ function renderProviderComparison(data, target) {
 
 function renderAcquisitionFunnel(data, target) {
   target.innerHTML = "";
-  const max = Math.max(...data.funnel.map((d) => d.count)) || 1;
-  data.funnel.forEach((row) => {
-    const line = el("div", "bar-row");
-    line.innerHTML = `<span>${cleanText(row.label)}</span><span class="bar-track"><span class="bar-fill" style="width:${(row.count / max) * 100}%"></span></span><strong>${fmtNum.format(row.count)}</strong>`;
-    target.appendChild(line);
+  const auto = data.funnel.find((row) => row.label === "Auto match")?.count || 0;
+  const suggested = data.funnel.find((row) => row.label === "Suggested match")?.count || 0;
+  const review = data.funnel.find((row) => row.label === "Review required")?.count || 0;
+  const noMatch = data.funnel.find((row) => row.label === "No confident match")?.count || 0;
+  [
+    ["Acquired catalog", "1.4 million acquired products", "Compared with 4 million existing products"],
+    ["Normalized records", "Descriptions, brands, packs, units", "Prepared for matching"],
+    ["Exact matches", fmtNum.format(auto), "Safe deterministic outcomes"],
+    ["High confidence fuzzy matches", fmtNum.format(suggested), "Candidate ranking for strong text matches"],
+    ["Manual review queue", fmtNum.format(review), "Ranked candidates for stewardship"],
+    ["Unmatched or excluded records", fmtNum.format(noMatch), "New product or no viable candidate"],
+    ["Approved matches", "Reviewer output", "Browser and Excel decisions"]
+  ].forEach(([label, value, note], index) => {
+    const stage = el("div", "pipeline-stage");
+    stage.innerHTML = `<span>${String(index + 1).padStart(2, "0")}</span><strong>${cleanText(label)}</strong><b>${cleanText(value)}</b><small>${cleanText(note)}</small>`;
+    target.appendChild(stage);
   });
 }
 
 function renderAcquisitionReview(data, target) {
   target.innerHTML = "";
-  const list = el("div", "record-list");
-  const detail = el("div", "record-detail");
+  const list = el("div", "review-queue");
+  const detail = el("div", "review-adjudication");
   target.append(list, detail);
 
   function show(row) {
+    [...list.querySelectorAll("button")].forEach((button) => {
+      button.classList.toggle("selected", button.dataset.product === row.acquired);
+    });
     const reviewControl = row.outcome === "Review"
       ? `<label>Review decision<select><option>Approve primary match</option><option>Choose second closest match</option><option>Send for stewardship review</option></select></label>`
       : `<p><strong>Decision:</strong> ${cleanText(row.decision)}</p>`;
-    detail.innerHTML = `<h4>${cleanText(row.acquired)}</h4><p><strong>Primary recommended match:</strong> ${cleanText(row.recommended)}</p><p><strong>Primary confidence score:</strong> ${row.score}</p><p><strong>Second closest match:</strong> ${cleanText(row.secondBest)}</p><p><strong>Second closest score:</strong> ${row.secondScore}</p><p><strong>Evidence:</strong> ${cleanText(row.evidence)}</p><p><strong>Method:</strong> ${cleanText(row.method)}</p>${reviewControl}`;
+    detail.innerHTML = `<div class="selected-product-card"><span>Selected acquired product</span><h4>${cleanText(row.acquired)}</h4><dl><dt>Confidence</dt><dd>${cleanText(row.confidence)}</dd><dt>Method</dt><dd>${cleanText(row.method)}</dd><dt>Decision status</dt><dd>${cleanText(row.decision)}</dd></dl></div>
+      <div class="candidate-compare">
+        <article><span>Primary recommended match</span><h4>${cleanText(row.recommended)}</h4><strong>${row.score}</strong><p>${cleanText(row.evidence)}</p></article>
+        <article><span>Second closest match</span><h4>${cleanText(row.secondBest)}</h4><strong>${row.secondScore}</strong><p>Compare score, description, pack size, brand and evidence before approval.</p></article>
+      </div>
+      ${reviewControl}`;
   }
 
   data.review.slice(0, 8).forEach((row, index) => {
     const button = el("button", "record-button", `${row.outcome}: ${row.acquired}`);
     button.type = "button";
+    button.dataset.product = row.acquired;
     button.addEventListener("click", () => show(row));
     list.appendChild(button);
     if (index === 0) show(row);
@@ -311,23 +372,20 @@ function renderContractScenario(data, target) {
   const steer = makeRange("Volume shift percentage", 40, 90, 70);
   const rate = makeRange("Contract percentage", 70, 100, 80);
   controls.append(steer.wrap, rate.wrap);
-  const summary = el("div", "narrative-box");
-  const bars = el("div");
-  target.append(controls, summary, bars);
+  const summary = el("div", "contract-scenario-model");
+  target.append(controls, summary);
 
   function update() {
     const steerFactor = Number(steer.input.value) / 70;
     const rateFactor = (100 - Number(rate.input.value)) / 20;
     const baseSavings = Number(data.summary.projected_savings || 0);
     const estimate = baseSavings * steerFactor * rateFactor;
-    summary.textContent = cleanText(`Estimated projected savings are ${money(estimate)} for this specific DME provider arrangement at ${steer.input.value} percent volume shift and ${rate.input.value} percent of benchmark.`);
-    bars.innerHTML = "";
-    data.scenario.slice(0, 8).forEach((row) => {
-      const adjusted = row.projectedSavings * steerFactor * rateFactor;
-      const line = el("div", "bar-row");
-      line.innerHTML = `<span>${cleanText(row.code)}</span><span class="bar-track"><span class="bar-fill" style="width:${Math.max(4, Math.min(100, adjusted / 50000))}%"></span></span><strong>${money(adjusted)}</strong>`;
-      bars.appendChild(line);
-    });
+    const projectedSpend = Math.max(0, Number(data.summary.baseline_spend || 0) - estimate);
+    const topRows = data.scenario.slice(0, 4);
+    summary.innerHTML = `<div class="contract-state current"><span>Current network baseline</span><strong>${money(data.summary.baseline_spend || 0)}</strong><p>Eligible DME service categories priced through current network rates.</p></div>
+      <div class="contract-state preferred"><span>Preferred provider scenario</span><strong>${money(projectedSpend)}</strong><p>${steer.input.value} percent expected volume shift at ${rate.input.value} percent of benchmark.</p></div>
+      <div class="contract-impact"><span>Projected savings</span><strong>${money(estimate)}</strong><p>Decision signal: continue contracting review if access, capacity and service scope remain acceptable.</p></div>
+      <div class="service-group-grid">${topRows.map((row) => `<div><span>${cleanText(row.code)} ${cleanText(row.category)}</span><strong>${money(row.projectedSavings * steerFactor * rateFactor)}</strong><small>${cleanText(row.description)}</small></div>`).join("")}</div>`;
   }
 
   [steer.input, rate.input].forEach((input) => input.addEventListener("input", update));
@@ -336,14 +394,33 @@ function renderContractScenario(data, target) {
 
 function renderContractBridge(data, target) {
   target.innerHTML = "";
-  const rows = data.bridge;
-  const max = Math.max(...rows.map((d) => Math.abs(d.value))) || 1;
-  rows.forEach((row) => {
-    const line = el("div", "bar-row");
-    const color = row.value >= 0 ? "#2d6b57" : "#a23b3b";
-    line.innerHTML = `<span>${cleanText(titleCase(row.label))}</span><span class="bar-track"><span class="bar-fill" style="width:${(Math.abs(row.value) / max) * 100}%;background:${color}"></span></span><strong>${money(row.value)}</strong>`;
-    target.appendChild(line);
+  const lookup = Object.fromEntries(data.bridge.map((row) => [row.label, row.value]));
+  const steps = [
+    { label: "Projected", value: lookup.projected_savings, endpoint: true },
+    { label: "Rate variance", value: (lookup.preferred_rate_savings_effect || 0) + (lookup.residual_rate_savings_effect || 0) },
+    { label: "Utilization", value: lookup.utilization_forecast_error || 0 },
+    { label: "Volume shift", value: lookup.missed_steerage_savings_effect || 0 },
+    { label: "Service mix", value: lookup.service_mix_forecast_error || 0 },
+    { label: "Leakage", value: lookup.residual_rate_savings_effect || 0 },
+    { label: "Validated savings", value: lookup.actual_savings, endpoint: true }
+  ];
+  let running = steps[0].value;
+  const display = steps.map((step, index) => {
+    if (index === 0 || step.endpoint) return { ...step, start: 0, end: step.value, shown: step.value };
+    const start = running;
+    running += step.value;
+    return { ...step, start, end: running, shown: step.value };
   });
+  const max = Math.max(...display.flatMap((step) => [step.start, step.end, 0]), 1);
+  const waterfall = el("div", "waterfall");
+  waterfall.innerHTML = display.map((step) => {
+    const left = Math.min(step.start, step.end) / max * 100;
+    const width = Math.max(2, Math.abs(step.end - step.start) / max * 100);
+    const cls = step.endpoint ? "endpoint" : step.shown < 0 ? "unfavorable" : "favorable";
+    const value = step.endpoint ? money(step.end) : `${step.shown < 0 ? "minus " : "plus "}${money(Math.abs(step.shown))}`;
+    return `<div class="waterfall-row"><span>${cleanText(step.label)}</span><div class="waterfall-track"><div class="waterfall-bar ${cls}" style="--left:${left}%;--width:${width}%"></div></div><strong>${cleanText(value)}</strong></div>`;
+  }).join("");
+  target.appendChild(waterfall);
 }
 
 function renderWorldcupRankGap(data, target) {
