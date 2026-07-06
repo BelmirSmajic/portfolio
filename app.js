@@ -7,6 +7,12 @@ const fmtMoney = new Intl.NumberFormat("en-US", {
 });
 
 const fmtNum = new Intl.NumberFormat("en-US");
+const fmtCompactMoney = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  notation: "compact",
+  maximumFractionDigits: 1
+});
 
 function cleanText(value) {
   return String(value ?? "").replace(/[-\u2013\u2014]/g, " ");
@@ -16,6 +22,10 @@ function money(value) {
   const number = Number(value || 0);
   if (number < 0) return `(${fmtMoney.format(Math.abs(number))})`;
   return fmtMoney.format(number);
+}
+
+function compactMoney(value) {
+  return fmtCompactMoney.format(Number(value || 0));
 }
 
 function signed(value) {
@@ -201,40 +211,48 @@ function renderContractBridge(data, target) {
   });
 }
 
-function renderWorldcupRanking(data, target) {
+function renderWorldcupRankGap(data, target) {
   target.innerHTML = "";
   const table = el("table");
-  table.innerHTML = `<thead><tr><th>Team</th><th>Lineup floor value</th><th>Group stage points</th><th>Goal difference</th><th>Outcome</th></tr></thead>`;
+  table.innerHTML = `<thead><tr><th>Team</th><th>Total value rank</th><th>Top three rank</th><th>Lineup floor rank</th><th>Rank gap</th><th>Points</th><th>Outcome</th></tr></thead>`;
   const body = el("tbody");
-  data.ranking.forEach((row) => {
+  data.rankGaps.forEach((row) => {
     const tr = el("tr");
-    tr.innerHTML = `<td>${cleanText(row.team)}</td><td>${money(row.floor)}</td><td>${row.points}</td><td>${signed(row.goalDifference)}</td><td>${row.advanced ? "Advanced" : "Eliminated"}</td>`;
+    tr.innerHTML = `<td>${cleanText(row.team)}</td><td>${row.totalRank}</td><td>${row.topThreeRank}</td><td>${row.floorRank}</td><td>${signed(row.rankGap)}</td><td>${row.points}</td><td><span class="outcome-pill ${row.advanced ? "advanced" : "eliminated"}">${row.advanced ? "Advanced" : "Eliminated"}</span></td>`;
     body.appendChild(tr);
   });
   table.appendChild(body);
+  target.classList.add("rank-gap-table");
   target.appendChild(table);
-  target.appendChild(el("p", "chart-note", "The table pairs lineup floor strength with group stage outcome so the central finding is readable without interpreting a correlation chart."));
+  target.appendChild(el("p", "chart-note", "Positive gaps mean lineup floor ranked stronger than total team value. Negative gaps mean headline value ranked stronger than lineup floor."));
 }
 
 function renderWorldcupComparison(data, target) {
   target.innerHTML = "";
   const rows = data.comparison;
-  const max = Math.max(...rows.flatMap((r) => [r.floor, r.topThree, r.totalValue])) || 1;
   rows.forEach((row) => {
     const block = el("div", "record-detail");
-    block.innerHTML = `<h4>${cleanText(row.team)}</h4><p>Points ${row.points}. Goal difference ${signed(row.goalDifference)}. ${row.advanced ? "Advanced" : "Did not advance"}.</p>`;
-    [
-      ["Total team value", row.totalValue],
-      ["Top three average", row.topThree],
-      ["Lineup floor value", row.floor]
-    ].forEach(([label, value]) => {
-      const line = el("div", "bar-row");
-      line.innerHTML = `<span>${cleanText(label)}</span><span class="bar-track"><span class="bar-fill" style="width:${Math.max(4, (value / max) * 100)}%"></span></span><strong>${money(value)}</strong>`;
-      block.appendChild(line);
-    });
+    block.innerHTML = `<h4>${cleanText(row.team)}</h4><p><span class="outcome-pill ${row.advanced ? "advanced" : "eliminated"}">${row.advanced ? "Advanced" : "Eliminated"}</span> ${row.points} points. Goal difference ${signed(row.goalDifference)}.</p><div class="metric-grid"><div class="metric-box"><span>Total team value</span><strong>${compactMoney(row.totalValue)}</strong><span>Rank ${row.totalRank}</span></div><div class="metric-box"><span>Top three average</span><strong>${compactMoney(row.topThree)}</strong><span>Rank ${row.topThreeRank}</span></div><div class="metric-box"><span>Lineup floor value</span><strong>${compactMoney(row.floor)}</strong><span>Rank ${row.floorRank}</span></div></div>`;
     target.appendChild(block);
   });
-  target.appendChild(el("p", "chart-note", "Mexico paired a lower total value with a stronger group result, while Uruguay had higher headline value but weaker lineup floor and did not advance."));
+  target.appendChild(el("p", "chart-note", "Mexico had weaker headline value ranks but a stronger lineup floor rank and advanced as group winner. Uruguay had stronger headline value ranks, a weaker lineup floor rank, and was eliminated."));
+}
+
+function renderExpandedVisual(sourceId, destination) {
+  const data = state.data;
+  if (!data) return;
+  const map = {
+    "provider-workspace": () => renderProviderWorkspace(data.provider, destination),
+    "provider-comparison": () => renderProviderComparison(data.provider, destination),
+    "contract-scenario": () => renderContractScenario(data.preferred, destination),
+    "contract-bridge": () => renderContractBridge(data.preferred, destination),
+    "acquisition-funnel": () => renderAcquisitionFunnel(data.acquisition, destination),
+    "acquisition-review": () => renderAcquisitionReview(data.acquisition, destination),
+    "worldcup-comparison": () => renderWorldcupComparison(data.worldcup, destination),
+    "worldcup-rank-gap": () => renderWorldcupRankGap(data.worldcup, destination)
+  };
+  destination.className = document.getElementById(sourceId).className;
+  if (map[sourceId]) map[sourceId]();
 }
 
 function wireExpanders() {
@@ -244,13 +262,78 @@ function wireExpanders() {
   close.addEventListener("click", () => dialog.close());
   document.querySelectorAll("[data-expand]").forEach((button) => {
     button.addEventListener("click", () => {
-      const source = document.getElementById(button.dataset.expand);
       body.innerHTML = "";
-      body.appendChild(source.cloneNode(true));
+      const expanded = el("div");
+      body.appendChild(expanded);
+      renderExpandedVisual(button.dataset.expand, expanded);
       document.getElementById("dialog-title").textContent = cleanText(button.closest(".visual-panel").querySelector("h3").textContent);
       dialog.showModal();
     });
   });
+}
+
+function wireSectionNavigation() {
+  const links = [...document.querySelectorAll("[data-section-link]")];
+  const jump = document.getElementById("section-jump");
+  function setActive(id) {
+    if (!id) return;
+    links.forEach((link) => {
+      if (link.dataset.sectionLink === id) {
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+    if (jump) {
+      const value = `#${id}`;
+      if ([...jump.options].some((option) => option.value === value)) jump.value = value;
+    }
+  }
+  if (jump) {
+    jump.addEventListener("change", () => {
+      window.location.hash = jump.value;
+    });
+  }
+  const sections = links
+    .map((link) => document.getElementById(link.dataset.sectionLink))
+    .filter(Boolean);
+  let scheduled = false;
+  function updateFromPosition() {
+    scheduled = false;
+    const headerOffset = (document.querySelector(".site-header")?.getBoundingClientRect().bottom || 0) + 12;
+    const current = sections
+      .map((section) => ({ id: section.id, distance: Math.abs(section.getBoundingClientRect().top - headerOffset) }))
+      .sort((a, b) => a.distance - b.distance)[0];
+    if (current) setActive(current.id);
+  }
+  function schedulePositionUpdate() {
+    if (scheduled) return;
+    scheduled = true;
+    window.requestAnimationFrame(updateFromPosition);
+  }
+  if (!("IntersectionObserver" in window)) return;
+  const observer = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (!visible) return;
+    setActive(visible.target.id);
+  }, { rootMargin: "-25% 0px -55% 0px", threshold: [0.2, 0.45, 0.7] });
+  sections.forEach((section) => observer.observe(section));
+  window.addEventListener("scroll", schedulePositionUpdate, { passive: true });
+  window.addEventListener("resize", schedulePositionUpdate);
+  window.addEventListener("hashchange", () => {
+    setActive(window.location.hash.replace("#", ""));
+    window.setTimeout(schedulePositionUpdate, 120);
+  });
+  if (window.location.hash) {
+    const id = window.location.hash.replace("#", "");
+    document.getElementById(id)?.scrollIntoView();
+    setActive(id);
+    window.setTimeout(schedulePositionUpdate, 120);
+  } else {
+    setActive("projects");
+  }
 }
 
 function checkVisibleCopy() {
@@ -280,9 +363,10 @@ fetch("assets/portfolio-data.json")
     renderContractBridge(data.preferred, document.getElementById("contract-bridge"));
     renderAcquisitionFunnel(data.acquisition, document.getElementById("acquisition-funnel"));
     renderAcquisitionReview(data.acquisition, document.getElementById("acquisition-review"));
-    renderWorldcupRanking(data.worldcup, document.getElementById("worldcup-ranking"));
     renderWorldcupComparison(data.worldcup, document.getElementById("worldcup-comparison"));
+    renderWorldcupRankGap(data.worldcup, document.getElementById("worldcup-rank-gap"));
     wireExpanders();
+    wireSectionNavigation();
     checkVisibleCopy();
   })
   .catch((error) => {

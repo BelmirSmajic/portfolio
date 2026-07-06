@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Analytics Portfolio</title>
-    <meta name="description" content="Selected analytics projects with public demonstrations.">
+    <meta name="description" content="Selected analytics projects across data, business, and product analytics.">
     <meta property="og:title" content="Analytics Portfolio">
-    <meta property="og:description" content="Selected analytics projects with public demonstrations.">
+    <meta property="og:description" content="Selected analytics projects across data, business, and product analytics.">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -22,341 +22,360 @@
     </header>
 
     <main id="main">
-      <section id="top" class="hero">
-        <p class="eyebrow">Selected Projects</p>
-        <h1>Real business projects. Public demonstrations.</h1>
-        <p class="hero-copy">Selected work across healthcare analytics, contract strategy, enterprise data integration, and independent research.</p>
-        <p class="hero-note">Each professional project combines the real business context and result with a synthetic public demonstration of the underlying workflow.</p>
-        <div class="actions">
-          <a class="button primary" href="#projects">View Projects</a>
-          <a class="button" href="https://github.com/BelmirSmajic" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a class="button" href="https://github.com/BelmirSmajic/portfolio" target="_blank" rel="noopener noreferrer">Portfolio Repository</a>
-        </div>
-      </section>
+      <div class="page-shell">
+        <nav class="page-nav" aria-label="Section navigation">
+          <p>On this page</p>
+          <div class="rail-links">
+            <a href="#projects" data-section-link="projects">Overview</a>
+            <a href="#provider" data-section-link="provider">Provider Costs</a>
+            <a href="#contract" data-section-link="contract">Contract Model</a>
+            <a href="#acquisition" data-section-link="acquisition">Product Matching</a>
+            <a href="#worldcup" data-section-link="worldcup">World Cup Research</a>
+            <a href="#approach" data-section-link="approach">Approach</a>
+            <a href="#top" data-section-link="top">Back to Top</a>
+          </div>
+          <label class="jump-nav" for="section-jump">Jump to Section
+            <select id="section-jump">
+              <option value="#projects">Overview</option>
+              <option value="#provider">Provider</option>
+              <option value="#contract">Contract</option>
+              <option value="#acquisition">Matching</option>
+              <option value="#worldcup">World Cup</option>
+              <option value="#approach">Approach</option>
+              <option value="#top">Top</option>
+            </select>
+          </label>
+        </nav>
 
-      <section class="impact" aria-labelledby="impact-title">
-        <div class="section-heading compact">
-          <p class="eyebrow">Impact Summary</p>
-          <h2 id="impact-title">Business value at a glance</h2>
-        </div>
-        <div class="impact-grid">
-          <article>
-            <strong>More than $500,000</strong>
-            <p>Documented annual healthcare cost reductions supported by normalized provider review.</p>
-          </article>
-          <article>
-            <strong>About 1.4 million products</strong>
-            <p>Acquired products compared with roughly 4 million existing products during catalog integration.</p>
-          </article>
-          <article>
-            <strong>Hundreds of hours</strong>
-            <p>Manual product matching work saved through structured matching logic and focused review.</p>
-          </article>
-          <article>
-            <strong>0.77 Spearman</strong>
-            <p>Relationship identified between lineup floor strength and World Cup group stage points.</p>
-          </article>
-        </div>
-      </section>
+        <div class="page-content">
+          <section id="top" class="hero">
+            <p class="eyebrow">Selected Projects</p>
+            <h1>Data, Business, and Product Analytics</h1>
+            <p class="hero-label">Selected Work</p>
+            <p class="hero-copy">Selected work across healthcare cost, contract strategy, product integration, and decision support, plus independent public research.</p>
+            <div class="actions">
+              <a class="button primary" href="#projects">View Projects</a>
+              <a class="button" href="https://github.com/BelmirSmajic" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a class="button" href="https://github.com/BelmirSmajic/portfolio" target="_blank" rel="noopener noreferrer">Portfolio Repository</a>
+            </div>
+          </section>
 
-      <section id="projects" class="project-index" aria-labelledby="project-index-title">
-        <div class="section-heading compact">
-          <p class="eyebrow">Project Index</p>
-          <h2 id="project-index-title">Four selected projects</h2>
-        </div>
-        <ol>
-          <li><a href="#provider">Provider Cost Outlier Analysis</a></li>
-          <li><a href="#contract">Preferred Provider Contract Scenario Model</a></li>
-          <li><a href="#acquisition">Acquisition Product Matching</a></li>
-          <li><a href="#worldcup">World Cup Weakest Link Analysis</a></li>
-        </ol>
-      </section>
+          <section class="impact" aria-labelledby="impact-title">
+            <div class="section-heading compact">
+              <p class="eyebrow">Impact Summary</p>
+              <h2 id="impact-title">Impact at a Glance</h2>
+            </div>
+            <div class="impact-grid">
+              <article>
+                <h3>Provider Cost Outlier Analysis</h3>
+                <strong>More than $500,000</strong>
+                <p>Documented annual cost reductions for a regional Medicaid health plan through normalized provider cost review.</p>
+              </article>
+              <article>
+                <h3>Preferred Provider Contract Scenario Model</h3>
+                <strong>Preferred provider decision</strong>
+                <p>Modeled reimbursement and volume shift for a specific DME provider arrangement, then compared projected savings with actual performance.</p>
+              </article>
+              <article>
+                <h3>Acquisition Product Matching</h3>
+                <strong>1.4 million compared with 4 million</strong>
+                <p>Compared an acquired product catalog with the existing enterprise product master and saved hundreds of manual work hours.</p>
+              </article>
+              <article>
+                <h3>World Cup Weakest Link Analysis</h3>
+                <strong>Lineup floor was the stronger signal</strong>
+                <p>The weakest regular starters were more strongly associated with group stage performance and advancement than total team value or star power among the tested measures, supported by a 0.77 Spearman relationship.</p>
+              </article>
+            </div>
+          </section>
 
-      <section id="provider" class="project" data-project="provider">
-        <p class="classification">Professional Healthcare Analytics Project</p>
-        <h2>Provider Cost Outlier Analysis</h2>
-        <p class="overview">Developed a peer based provider cost analysis for a regional Medicaid health plan to distinguish genuine cost outliers from providers whose spending reflected specialty, volume, or member exposure.</p>
-        <p class="achievement">Supported more than $500,000 in documented annual healthcare cost reductions by querying 12 months of claims data in SQL, calculating provider cost per active member month, and ranking peer group outliers in Tableau for targeted provider and policy review.</p>
-        <div class="glance">
-          <h3>Business at a Glance</h3>
-          <dl>
-            <dt>Industry and setting</dt><dd>Regional Medicaid health plan and healthcare payer analytics.</dd>
-            <dt>Who the work supported</dt><dd>Finance, Provider Contracting, and business users reviewing provider cost variation.</dd>
-            <dt>Business problem</dt><dd>Total provider spending alone did not show whether a provider was genuinely high cost because providers differed in member volume, specialty, and active exposure.</dd>
-            <dt>Why the work was useful</dt><dd>The analysis gave business users a defensible way to focus investigation on providers materially above their peer median.</dd>
-            <dt>Google XYZ achievement</dt><dd>Supported more than $500,000 in documented annual healthcare cost reductions by querying 12 months of claims data in SQL, calculating provider cost per active member month, and ranking peer group outliers in Tableau for targeted provider and policy review.</dd>
-            <dt>Tools used</dt><dd>SQL, Tableau, claims analysis, provider and member data, provider peer grouping, cost per active member month, peer ranking, root cause analysis, stakeholder validation.</dd>
-          </dl>
-        </div>
-        <div class="project-grid">
-          <article>
-            <h3>Business Context</h3>
-            <p>Raw provider spending did not reliably show which providers were truly abnormal. Cost per active member month normalized spending by exposure, then compared providers within relevant peer groups.</p>
-          </article>
-          <article>
-            <h3>What I Owned</h3>
-            <ul>
-              <li>Gathered and translated business requirements</li>
-              <li>Defined relevant provider peer groups</li>
-              <li>Established the normalized cost methodology</li>
-              <li>Investigated service and billing drivers behind flagged providers</li>
-              <li>Built repeatable reporting for business review</li>
-            </ul>
-          </article>
-          <article>
-            <h3>Result or Business Value</h3>
-            <p>The work supported provider and policy actions that generated more than $500,000 in documented annual healthcare cost reductions and gave stakeholders a repeatable review method.</p>
-          </article>
-        </div>
-        <div class="visual-grid">
-          <article class="visual-panel">
-            <div class="panel-head">
-              <div>
-                <h3>Provider Review Workspace</h3>
-                <p>Six examples show which providers were materially above the peer median after normalizing by active member exposure.</p>
-              </div>
-              <button type="button" data-expand="provider-workspace">Expand</button>
+          <section id="projects" class="project-index" aria-labelledby="project-index-title">
+            <div class="section-heading compact">
+              <p class="eyebrow">Project Index</p>
+              <h2 id="project-index-title">Four selected projects</h2>
             </div>
-            <div id="provider-workspace" class="workspace-visual"></div>
-            <small>Source: Provider Cost Outlier Analysis public synthetic data</small>
-          </article>
-          <article class="visual-panel">
-            <div class="panel-head">
-              <div>
-                <h3>Peer Median Comparison</h3>
-                <p>Each bar compares provider cost per active member month with the expected peer level.</p>
-              </div>
-              <button type="button" data-expand="provider-comparison">Expand</button>
-            </div>
-            <div id="provider-comparison" class="chart-area"></div>
-            <small>Source: selected synthetic provider peer ranking data</small>
-          </article>
-        </div>
-        <div class="methods">
-          <p><strong>Original project tools and methods:</strong> Twelve months of claims data, SQL, provider and member data, provider peer groups, cost per active member month, Tableau, peer ranking, root cause analysis, and business validation.</p>
-          <p><strong>Selected synthetic demonstration:</strong> Python, DuckDB, SQL, pandas, NumPy, PyArrow, Parquet, pytest, HTML, CSS, and JavaScript.</p>
-          <p class="disclosure">Business context and results describe the original professional project. The public demonstration uses synthetic data to recreate the workflow without exposing proprietary information.</p>
-        </div>
-      </section>
+            <ol>
+              <li><a href="#provider">Provider Cost Outlier Analysis</a><p>Normalized provider cost within peer groups to identify actionable outliers and support more than $500,000 in documented annual reductions.</p></li>
+              <li><a href="#contract">Preferred Provider Contract Scenario Model</a><p>Modeled reimbursement and volume shift for a specific DME arrangement and compared projected savings with actual performance.</p></li>
+              <li><a href="#acquisition">Acquisition Product Matching</a><p>Compared approximately 1.4 million acquired products with roughly 4 million existing products while saving hundreds of manual work hours.</p></li>
+              <li><a href="#worldcup">World Cup Weakest Link Analysis</a><p>Tested whether the weakest regular starters were more informative about group stage performance and advancement than total value or star power.</p></li>
+            </ol>
+          </section>
 
-      <section id="contract" class="project" data-project="contract">
-        <p class="classification">Professional Healthcare Product and Contract Strategy Project</p>
-        <h2>Preferred Provider Contract Scenario Model</h2>
-        <p class="overview">Modeled reimbursement and volume shift scenarios for a proposed preferred durable medical equipment provider arrangement at a regional Medicaid health plan, then compared projected savings with actual post implementation performance.</p>
-        <p class="achievement">Supported a preferred provider contract decision by using SQL claims analysis and scenario modeling to compare eligible services, reimbursement rates, historical utilization, and expected volume shift for a specific DME provider, then validating projected savings against post implementation performance.</p>
-        <div class="glance">
-          <h3>Business at a Glance</h3>
-          <dl>
-            <dt>Industry and setting</dt><dd>Regional Medicaid health plan and durable medical equipment contracting.</dd>
-            <dt>Who the work supported</dt><dd>Finance, Provider Contracting, and operational stakeholders evaluating a proposed preferred provider arrangement.</dd>
-            <dt>Business problem</dt><dd>Stakeholders needed to know whether shifting eligible durable medical equipment volume to a specific DME provider would generate savings.</dd>
-            <dt>Why the work was useful</dt><dd>The model tested whether the specific provider arrangement was financially attractive and showed whether projected savings materialized after implementation.</dd>
-            <dt>Google XYZ achievement</dt><dd>Supported a preferred provider contract decision by using SQL claims analysis and scenario modeling to compare eligible services, reimbursement rates, historical utilization, and expected volume shift for a specific DME provider, then validating projected savings against post implementation performance.</dd>
-            <dt>Tools used</dt><dd>SQL claims analysis, Excel scenario modeling, CPT and HCPCS service analysis, rate comparison, historical utilization analysis, volume shift modeling, projected savings analysis, post implementation validation.</dd>
-          </dl>
-        </div>
-        <div class="project-grid">
-          <article>
-            <h3>Business Context</h3>
-            <p>The decision required more than comparing two rate schedules. Savings depended on eligible CPT and HCPCS services, historical utilization, current reimbursement, benchmark reimbursement, provider rate structure, expected volume shift, and implementation assumptions.</p>
-          </article>
-          <article>
-            <h3>What I Owned</h3>
-            <ul>
-              <li>Clarified eligible service and code scope</li>
-              <li>Documented reimbursement and volume assumptions</li>
-              <li>Modeled alternative rate and steerage scenarios</li>
-              <li>Aligned Finance, Contracting, and operational stakeholders</li>
-              <li>Compared projected savings with actual results</li>
-            </ul>
-          </article>
-          <article>
-            <h3>Result or Business Value</h3>
-            <p>The model gave stakeholders a structured way to test a specific provider arrangement before making a decision and to evaluate whether savings materialized after implementation.</p>
-          </article>
-        </div>
-        <div class="visual-grid">
-          <article class="visual-panel">
-            <div class="panel-head">
-              <div>
-                <h3>Specific DME Provider Scenario</h3>
-                <p>Adjust volume shift and reimbursement assumptions to see projected savings for the proposed arrangement.</p>
-              </div>
-              <button type="button" data-expand="contract-scenario">Expand</button>
-            </div>
-            <div id="contract-scenario" class="workspace-visual"></div>
-            <small>Source: preferred provider model public synthetic output</small>
-          </article>
-          <article class="visual-panel">
-            <div class="panel-head">
-              <div>
-                <h3>Savings Variance Bridge</h3>
-                <p>The bridge compares projected savings with actual post implementation savings and separates the major drivers.</p>
-              </div>
-              <button type="button" data-expand="contract-bridge">Expand</button>
-            </div>
-            <div id="contract-bridge" class="chart-area"></div>
-            <small>Source: selected synthetic model output and workbook logic</small>
-          </article>
-        </div>
-        <div class="methods">
-          <p><strong>Original project tools and methods:</strong> SQL claims analysis, Excel scenario modeling, CPT and HCPCS service analysis, rate comparison, historical utilization analysis, volume shift modeling, projected savings analysis, and post implementation validation.</p>
-          <p><strong>Interactive workflow example:</strong> Python, pandas, openpyxl, Excel, HTML, CSS, JavaScript, and pytest.</p>
-          <p class="disclosure">Business context and results describe the original professional project. The public demonstration uses synthetic data to recreate the workflow without exposing proprietary information.</p>
-        </div>
-      </section>
+          <section class="data-note" aria-labelledby="data-note-title">
+            <h2 id="data-note-title">Data note</h2>
+            <p>Professional project visuals use synthetic data created to demonstrate the original analytical workflows. No employer, member, provider, contract, supplier, or product data is displayed. The World Cup analysis uses public data.</p>
+          </section>
 
-      <section id="acquisition" class="project" data-project="acquisition">
-        <p class="classification">Professional Data Integration and Product Project</p>
-        <h2>Acquisition Product Matching</h2>
-        <p class="overview">Designed matching logic and exception workflow for a Fortune 500 food distribution company integrating a large acquired product catalog into an existing enterprise product master.</p>
-        <p class="achievement">Saved hundreds of manual work hours by using Python and a structured matching workflow to compare approximately 1.4 million acquired products with roughly 4 million existing products, automatically resolve strong matches, and route uncertain records for focused human review.</p>
-        <div class="glance">
-          <h3>Business at a Glance</h3>
-          <dl>
-            <dt>Industry and setting</dt><dd>Fortune 500 food distribution company integrating a large acquired product catalog into an existing enterprise product master.</dd>
-            <dt>Who the work supported</dt><dd>Product data, acquisition integration, operations, reporting, and business users responsible for resolving uncertain product matches.</dd>
-            <dt>Business problem</dt><dd>People had to manually compare products across large Excel spreadsheets where descriptions, manufacturers, brands, package sizes, units, quantities, abbreviations, and identifiers did not always align.</dd>
-            <dt>Why the work was useful</dt><dd>The workflow surfaced likely matches, automatically resolved strong cases, preserved human review for uncertain records, and saved hundreds of manual work hours.</dd>
-            <dt>Google XYZ achievement</dt><dd>Saved hundreds of manual work hours by using Python and a structured matching workflow to compare approximately 1.4 million acquired products with roughly 4 million existing products, automatically resolve strong matches, and route uncertain records for focused human review.</dd>
-            <dt>Tools used</dt><dd>Python, Excel source files, Excel review outputs, data profiling, text normalization, exact matching, fuzzy matching, confidence scoring, exception handling, manual review workflow, validation of false matches, validation of missed matches.</dd>
-          </dl>
-        </div>
-        <div class="project-grid">
-          <article>
-            <h3>Business Context</h3>
-            <p>The acquired and existing catalogs represented similar products differently. At the scale of millions of records, spreadsheet search and manual comparison were not practical or reliable.</p>
-          </article>
-          <article>
-            <h3>What I Owned</h3>
-            <ul>
-              <li>Translated the integration problem into matching requirements</li>
-              <li>Defined exact and fuzzy matching rules</li>
-              <li>Established confidence categories and review thresholds</li>
-              <li>Designed exception categories for uncertain matches</li>
-              <li>Tested false positive and false negative scenarios</li>
-            </ul>
-          </article>
-          <article>
-            <h3>Result or Business Value</h3>
-            <p>The workflow saved hundreds of manual work hours while preserving human review for uncertain or high risk records.</p>
-          </article>
-        </div>
-        <div class="visual-grid">
-          <article class="visual-panel">
-            <div class="panel-head">
-              <div>
-                <h3>Matching Funnel</h3>
-                <p>The summary shows strong matches resolved automatically and uncertain records reserved for review.</p>
-              </div>
-              <button type="button" data-expand="acquisition-funnel">Expand</button>
+          <section id="provider" class="project" data-project="provider">
+            <div class="project-kicker">
+              <p>Project 01</p>
+              <span>Healthcare Analytics</span>
             </div>
-            <div id="acquisition-funnel" class="chart-area"></div>
-            <small>Source: selected synthetic matching workflow data</small>
-          </article>
-          <article class="visual-panel">
-            <div class="panel-head">
-              <div>
-                <h3>Manual Review Workspace</h3>
-                <p>Select a record to compare the primary match, second closest candidate, and review decision.</p>
-              </div>
-              <button type="button" data-expand="acquisition-review">Expand</button>
+            <h2>Provider Cost Outlier Analysis</h2>
+            <p class="overview">Normalized provider cost per active member month within peer groups for a regional Medicaid health plan, helping Finance and Provider Contracting focus on materially abnormal cost patterns.</p>
+            <div class="glance">
+              <h3>Business at a Glance</h3>
+              <dl>
+                <dt>Industry and setting</dt><dd>Regional Medicaid health plan and healthcare payer analytics.</dd>
+                <dt>Who the work supported</dt><dd>Finance, Provider Contracting, and business users reviewing provider cost variation.</dd>
+                <dt>Business problem</dt><dd>Total provider spending alone did not show whether a provider was genuinely high cost because providers differed in member volume, specialty, and active exposure.</dd>
+                <dt>Why it was useful</dt><dd>The analysis gave business users a defensible way to focus investigation on providers materially above their peer median.</dd>
+                <dt>Key Impact</dt><dd>Supported more than $500,000 in documented annual healthcare cost reductions through targeted provider and policy review.</dd>
+                <dt>Tools</dt><dd>SQL and Tableau.</dd>
+              </dl>
             </div>
-            <div id="acquisition-review" class="workspace-visual"></div>
-            <small>Source: selected synthetic review queue</small>
-          </article>
-        </div>
-        <div class="methods">
-          <p><strong>Original project tools and methods:</strong> Python, Excel source files, Excel review outputs, data profiling, text normalization, exact matching, fuzzy matching, confidence scoring, exception handling, manual review workflow, validation of false matches, and validation of missed matches.</p>
-          <p><strong>Synthetic business scenario:</strong> Python, pandas, RapidFuzz, Excel, openpyxl, HTML, CSS, JavaScript, and pytest.</p>
-          <p class="disclosure">Business context and results describe the original professional project. The public demonstration uses synthetic data to recreate the workflow without exposing proprietary information.</p>
-        </div>
-      </section>
+            <div class="project-grid single">
+              <article>
+                <h3>What I Owned</h3>
+                <ul>
+                  <li>Gathered and translated business requirements</li>
+                  <li>Defined relevant provider peer groups</li>
+                  <li>Established the normalized cost methodology</li>
+                  <li>Investigated service and billing drivers behind flagged providers</li>
+                </ul>
+              </article>
+            </div>
+            <div class="visual-grid">
+              <article class="visual-panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Provider Review Workspace</h3>
+                    <p>Six examples show which providers were materially above the peer median after normalizing by active member exposure.</p>
+                  </div>
+                  <button type="button" data-expand="provider-workspace">Expand</button>
+                </div>
+                <div id="provider-workspace" class="workspace-visual"></div>
+                <small>Example data: provider peer review dataset</small>
+              </article>
+              <article class="visual-panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Peer Median Comparison</h3>
+                    <p>Each bar compares provider cost per active member month with the expected peer level.</p>
+                  </div>
+                  <button type="button" data-expand="provider-comparison">Expand</button>
+                </div>
+                <div id="provider-comparison" class="chart-area"></div>
+                <small>Example data: provider peer review dataset</small>
+              </article>
+            </div>
+            <div class="methods">
+              <h3>Tools and Methods</h3>
+              <dl>
+                <dt>Tools</dt><dd>SQL, Tableau</dd>
+                <dt>Methods</dt><dd>Claims analysis, provider peer grouping, cost per active member month, peer ranking, root cause analysis, business validation</dd>
+              </dl>
+            </div>
+          </section>
 
-      <section id="worldcup" class="project" data-project="worldcup">
-        <p class="classification">Independent Data Research Project</p>
-        <h2>World Cup Weakest Link Analysis</h2>
-        <p class="overview">Tested whether the quality of a team&rsquo;s weakest regular starters explained World Cup group stage performance better than total team value or top end star power.</p>
-        <p class="achievement">Identified a 0.77 Spearman relationship between lineup floor strength and group stage performance by constructing a usage based Core XI for each team and comparing the three lowest valued regular starters with results, advancement, total value, and star power.</p>
-        <div class="glance">
-          <h3>Business at a Glance</h3>
-          <dl>
-            <dt>Industry and setting</dt><dd>Independent football analytics research using public tournament usage, player valuation, and team performance data.</dd>
-            <dt>Who the work supported</dt><dd>An independent research project designed to test a football analytics hypothesis and communicate the finding publicly.</dd>
-            <dt>Business problem</dt><dd>Football analysis often emphasizes total team value and elite players while underweighting weakness among regular starters.</dd>
-            <dt>Why the work was useful</dt><dd>The analysis created a repeatable way to measure lineup floor strength and showed how weak regular starters can reveal competitive limitations.</dd>
-            <dt>Google XYZ achievement</dt><dd>Identified a 0.77 Spearman relationship between lineup floor strength and group stage performance by constructing a retrospective usage based Core XI for each team and comparing the three lowest valued regular starters with results, advancement, total team value, and star power.</dd>
-            <dt>Tools used</dt><dd>Python, data cleaning, data validation, statistical analysis, Spearman correlation, public football data, public player valuation data, HTML, CSS, JavaScript, GitHub Pages.</dd>
-          </dl>
-        </div>
-        <div class="project-grid">
-          <article>
-            <h3>Research Context</h3>
-            <p>The Core XI is retrospective, based on group stage minutes, starts, and appearances. The bottom three are the three lowest valued players within that Core XI, not the full squad and not every player who appeared.</p>
-          </article>
-          <article>
-            <h3>What I Owned</h3>
-            <ul>
-              <li>Defined the lineup floor research question</li>
-              <li>Constructed the usage based Core XI</li>
-              <li>Joined player values and group stage results</li>
-              <li>Validated complete team and player coverage</li>
-              <li>Compared lineup floor, total value, and star power</li>
-            </ul>
-          </article>
-          <article>
-            <h3>Result or Business Value</h3>
-            <p>The analysis found that lineup floor had the strongest observed relationship with group stage performance and advancement among the tested value measures.</p>
-          </article>
-        </div>
-        <div class="visual-grid">
-          <article class="visual-panel">
-            <div class="panel-head">
-              <div>
-                <h3>Lineup Floor Ranking</h3>
-                <p>Selected teams show how regular starter depth aligned with group stage results.</p>
-              </div>
-              <button type="button" data-expand="worldcup-ranking">Expand</button>
+          <section id="contract" class="project" data-project="contract">
+            <div class="project-kicker">
+              <p>Project 02</p>
+              <span>Healthcare Product and Contract Strategy</span>
             </div>
-            <div id="worldcup-ranking" class="workspace-visual"></div>
-            <small>Source: public World Cup analysis data</small>
-          </article>
-          <article class="visual-panel">
-            <div class="panel-head">
-              <div>
-                <h3>Mexico and Uruguay Comparison</h3>
-                <p>The comparison shows why total value and lineup floor can point to different risk signals.</p>
-              </div>
-              <button type="button" data-expand="worldcup-comparison">Expand</button>
+            <h2>Preferred Provider Contract Scenario Model</h2>
+            <p class="overview">Modeled a specific DME provider arrangement for a regional Medicaid health plan, then compared projected savings with post implementation performance.</p>
+            <div class="glance">
+              <h3>Business at a Glance</h3>
+              <dl>
+                <dt>Industry and setting</dt><dd>Regional Medicaid health plan and durable medical equipment contracting.</dd>
+                <dt>Who the work supported</dt><dd>Finance, Provider Contracting, and operational stakeholders evaluating a proposed preferred provider arrangement.</dd>
+                <dt>Business problem</dt><dd>Stakeholders needed to know whether shifting eligible durable medical equipment volume to a specific DME provider would generate savings.</dd>
+                <dt>Why it was useful</dt><dd>The model tested whether the specific provider arrangement was financially attractive and showed whether projected savings materialized after implementation.</dd>
+                <dt>Key Impact</dt><dd>Supported a preferred provider contract decision by testing reimbursement, eligible services, utilization, and expected volume shift assumptions.</dd>
+                <dt>Tools</dt><dd>SQL and Excel.</dd>
+              </dl>
             </div>
-            <div id="worldcup-comparison" class="chart-area"></div>
-            <small>Source: public World Cup team ranking data</small>
-          </article>
-        </div>
-        <div class="methods">
-          <p><strong>Original project tools and methods:</strong> Python, data cleaning, data validation, statistical analysis, Spearman correlation, public football data, public player valuation data, HTML, CSS, JavaScript, and GitHub Pages.</p>
-          <p>This is an independent public research project. The live analysis is the actual project.</p>
-          <p><a href="https://belmirsmajic.github.io/2026-world-cup-weakest-link/" target="_blank" rel="noopener noreferrer">View Full Analysis</a> <a href="https://github.com/BelmirSmajic/2026-world-cup-weakest-link" target="_blank" rel="noopener noreferrer">View Repository</a></p>
-        </div>
-      </section>
+            <div class="project-grid single">
+              <article>
+                <h3>What I Owned</h3>
+                <ul>
+                  <li>Clarified eligible service and code scope</li>
+                  <li>Documented reimbursement and volume assumptions</li>
+                  <li>Modeled alternative rate and steerage scenarios</li>
+                  <li>Compared projected savings with actual results</li>
+                </ul>
+              </article>
+            </div>
+            <div class="visual-grid">
+              <article class="visual-panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Specific DME Provider Scenario</h3>
+                    <p>Adjust volume shift and reimbursement assumptions to see projected savings for the proposed arrangement.</p>
+                  </div>
+                  <button type="button" data-expand="contract-scenario">Expand</button>
+                </div>
+                <div id="contract-scenario" class="workspace-visual"></div>
+                <small>Example data: DME contract scenario output</small>
+              </article>
+              <article class="visual-panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Savings Variance Bridge</h3>
+                    <p>The bridge compares projected savings with actual post implementation savings and separates the major drivers.</p>
+                  </div>
+                  <button type="button" data-expand="contract-bridge">Expand</button>
+                </div>
+                <div id="contract-bridge" class="chart-area"></div>
+                <small>Example data: DME contract scenario output</small>
+              </article>
+            </div>
+            <div class="methods">
+              <h3>Tools and Methods</h3>
+              <dl>
+                <dt>Tools</dt><dd>SQL, Excel</dd>
+                <dt>Methods</dt><dd>Claims analysis, rate comparison, utilization modeling, scenario analysis, volume shift modeling, projected savings validation</dd>
+              </dl>
+            </div>
+          </section>
 
-      <section id="approach" class="approach">
-        <div class="section-heading compact">
-          <p class="eyebrow">How I Work</p>
-          <h2>From question to decision</h2>
-        </div>
-        <div class="steps">
-          <article><strong>Frame the decision</strong><p>Clarify the business problem, users, constraints, risks, and definition of success.</p></article>
-          <article><strong>Define the logic</strong><p>Translate the problem into metrics, business rules, scenarios, requirements, or matching criteria.</p></article>
-          <article><strong>Build and validate</strong><p>Develop the analysis or workflow, test edge cases, reconcile results, and document assumptions.</p></article>
-          <article><strong>Turn analysis into action</strong><p>Present the result in a form that business users can review, challenge, and use to make a decision.</p></article>
-        </div>
-      </section>
+          <section id="acquisition" class="project" data-project="acquisition">
+            <div class="project-kicker">
+              <p>Project 03</p>
+              <span>Data Integration and Product Analytics</span>
+            </div>
+            <h2>Acquisition Product Matching</h2>
+            <p class="overview">Designed matching logic and exception workflow for a Fortune 500 food distribution company comparing approximately 1.4 million acquired products with roughly 4 million existing products.</p>
+            <div class="glance">
+              <h3>Business at a Glance</h3>
+              <dl>
+                <dt>Industry and setting</dt><dd>Fortune 500 food distribution company integrating a large acquired product catalog into an existing enterprise product master.</dd>
+                <dt>Who the work supported</dt><dd>Product data, acquisition integration, operations, reporting, and business users responsible for resolving uncertain product matches.</dd>
+                <dt>Business problem</dt><dd>People had to manually compare products across large Excel spreadsheets where descriptions, manufacturers, brands, package sizes, units, quantities, abbreviations, and identifiers did not always align.</dd>
+                <dt>Why it was useful</dt><dd>The workflow surfaced likely matches, automatically resolved strong cases, preserved human review for uncertain records, and saved hundreds of manual work hours.</dd>
+                <dt>Key Impact</dt><dd>Saved hundreds of manual work hours while preserving focused review for uncertain or high risk records.</dd>
+                <dt>Tools</dt><dd>Python and Excel.</dd>
+              </dl>
+            </div>
+            <div class="project-grid single">
+              <article>
+                <h3>What I Owned</h3>
+                <ul>
+                  <li>Translated the integration problem into matching requirements</li>
+                  <li>Defined exact and fuzzy matching rules</li>
+                  <li>Established confidence categories and review thresholds</li>
+                  <li>Tested false positive and false negative scenarios</li>
+                </ul>
+              </article>
+            </div>
+            <div class="visual-grid">
+              <article class="visual-panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Matching Funnel</h3>
+                    <p>The summary shows strong matches resolved automatically and uncertain records reserved for review.</p>
+                  </div>
+                  <button type="button" data-expand="acquisition-funnel">Expand</button>
+                </div>
+                <div id="acquisition-funnel" class="chart-area"></div>
+                <small>Example data: product matching workflow</small>
+              </article>
+              <article class="visual-panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Manual Review Workspace</h3>
+                    <p>Select a record to compare the primary match, second closest candidate, and review decision.</p>
+                  </div>
+                  <button type="button" data-expand="acquisition-review">Expand</button>
+                </div>
+                <div id="acquisition-review" class="workspace-visual"></div>
+                <small>Example data: product matching review queue</small>
+              </article>
+            </div>
+            <div class="methods">
+              <h3>Tools and Methods</h3>
+              <dl>
+                <dt>Tools</dt><dd>Python, Excel</dd>
+                <dt>Methods</dt><dd>Data profiling, text normalization, exact matching, fuzzy matching, confidence scoring, exception handling, manual review design, false match validation, missed match validation</dd>
+              </dl>
+            </div>
+          </section>
 
+          <section id="worldcup" class="project" data-project="worldcup">
+            <div class="project-kicker">
+              <p>Project 04</p>
+              <span>Independent Football Analytics Research</span>
+            </div>
+            <h2>World Cup Weakest Link Analysis</h2>
+            <p class="overview">Tested whether a team&rsquo;s weakest regular starters were more informative about group stage performance and advancement than total team value or star power among the tested value measures.</p>
+            <div class="glance">
+              <h3>Research at a Glance</h3>
+              <dl>
+                <dt>Research setting</dt><dd>Independent football analytics research using public tournament usage, player valuation, and team performance data.</dd>
+                <dt>Purpose and audience</dt><dd>A public research project designed to test and communicate a football analytics hypothesis.</dd>
+                <dt>Research question</dt><dd>Does lineup floor track group stage performance and advancement better than total value or star power?</dd>
+                <dt>Why it matters</dt><dd>Football analysis often emphasizes headline talent while underweighting weakness among regular starters.</dd>
+                <dt>Key Finding</dt><dd>Lineup floor had the strongest observed relationship among the tested value measures, including a 0.77 Spearman relationship with group stage points.</dd>
+                <dt>Tools</dt><dd>Python, HTML, CSS, JavaScript, GitHub Pages.</dd>
+              </dl>
+            </div>
+            <div class="project-grid single">
+              <article>
+                <h3>What I Owned</h3>
+                <ul>
+                  <li>Defined the lineup floor research question</li>
+                  <li>Constructed the usage based Core XI</li>
+                  <li>Joined player values and group stage results</li>
+                  <li>Compared lineup floor, total value, and star power</li>
+                </ul>
+                <p>The Core XI is retrospective, based on group stage minutes, starts, and appearances. The bottom three are the three lowest valued players within that Core XI, not the full squad and not every player who appeared.</p>
+              </article>
+            </div>
+            <div class="visual-grid">
+              <article class="visual-panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Mexico and Uruguay Comparison</h3>
+                    <p>Headline value, lineup floor, and advancement outcome tell different stories for these two teams.</p>
+                  </div>
+                  <button type="button" data-expand="worldcup-comparison">Expand</button>
+                </div>
+                <div id="worldcup-comparison" class="chart-area"></div>
+                <small>Source: public World Cup analysis data</small>
+              </article>
+              <article class="visual-panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Value Rank Versus Lineup Floor Rank</h3>
+                    <p>Selected rank gaps show where headline team value and lineup floor produced different expectations.</p>
+                  </div>
+                  <button type="button" data-expand="worldcup-rank-gap">Expand</button>
+                </div>
+                <div id="worldcup-rank-gap" class="workspace-visual"></div>
+                <small>Source: public World Cup team ranking data</small>
+              </article>
+            </div>
+            <div class="methods">
+              <h3>Tools and Methods</h3>
+              <dl>
+                <dt>Tools</dt><dd>Python, HTML, CSS, JavaScript, GitHub Pages</dd>
+                <dt>Methods</dt><dd>Data cleaning, usage based Core XI construction, player valuation analysis, Spearman correlation, comparative team analysis</dd>
+              </dl>
+              <p>This is an independent public research project. The live analysis is the actual project.</p>
+              <p><a href="https://belmirsmajic.github.io/2026-world-cup-weakest-link/" target="_blank" rel="noopener noreferrer">View Full Analysis</a> <a href="https://github.com/BelmirSmajic/2026-world-cup-weakest-link" target="_blank" rel="noopener noreferrer">View Repository</a></p>
+            </div>
+          </section>
+
+          <section id="approach" class="approach">
+            <div class="section-heading compact">
+              <p class="eyebrow">How I Work</p>
+              <h2>From question to decision</h2>
+            </div>
+            <div class="steps">
+              <article><strong>Frame the decision</strong><p>Clarify the business problem, users, constraints, risks, and definition of success.</p></article>
+              <article><strong>Define the logic</strong><p>Translate the problem into metrics, business rules, scenarios, requirements, or matching criteria.</p></article>
+              <article><strong>Build and validate</strong><p>Develop the analysis or workflow, test edge cases, reconcile results, and document assumptions.</p></article>
+              <article><strong>Turn analysis into action</strong><p>Present the result in a form that business users can review, challenge, and use to make a decision.</p></article>
+            </div>
+          </section>
+        </div>
+      </div>
     </main>
 
     <footer>
-      <p>Public demonstrations use synthetic data unless the project is labeled independent public research.</p>
+      <p>Professional visuals are demonstration examples. World Cup research uses public data.</p>
       <p><a href="https://github.com/BelmirSmajic/portfolio" target="_blank" rel="noopener noreferrer">Portfolio Repository</a> <a href="https://github.com/BelmirSmajic" target="_blank" rel="noopener noreferrer">GitHub Profile</a></p>
     </footer>
 

@@ -1,20 +1,15 @@
 import json
 import os
-import re
 import sys
 import urllib.request
 from html.parser import HTMLParser
 from pathlib import Path
 
+
 ROOT = Path(__file__).resolve().parents[1]
-DASHES = "-–—"
+DASHES = "-\u2013\u2014"
 FULL_NAME = "Belmir Smajic"
-PROJECT_ORDER = [
-    "provider",
-    "contract",
-    "acquisition",
-    "worldcup",
-]
+PROJECT_ORDER = ["provider", "contract", "acquisition", "worldcup"]
 RETIRED_PROFESSIONAL_PUBLIC_TARGETS = [
     "provider-cost-outlier-analysis",
     "preferred-provider-contract-model",
@@ -32,6 +27,8 @@ class VisibleTextParser(HTMLParser):
         self.current_project = None
         self.panel_counts = {key: 0 for key in PROJECT_ORDER}
         self.glance_counts = {key: 0 for key in PROJECT_ORDER}
+        self.chapter_counts = {key: 0 for key in PROJECT_ORDER}
+        self.methods_counts = {key: 0 for key in PROJECT_ORDER}
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
@@ -42,10 +39,15 @@ class VisibleTextParser(HTMLParser):
         if tag == "section" and attrs.get("data-project"):
             self.current_project = attrs["data-project"]
             self.sections.append(self.current_project)
-        if self.current_project and "class" in attrs and "visual-panel" in attrs["class"].split():
+        classes = attrs.get("class", "").split()
+        if self.current_project and "visual-panel" in classes:
             self.panel_counts[self.current_project] += 1
-        if self.current_project and "class" in attrs and "glance" in attrs["class"].split():
+        if self.current_project and "glance" in classes:
             self.glance_counts[self.current_project] += 1
+        if self.current_project and "project-kicker" in classes:
+            self.chapter_counts[self.current_project] += 1
+        if self.current_project and "methods" in classes:
+            self.methods_counts[self.current_project] += 1
 
     def handle_endtag(self, tag):
         if tag in {"script", "style"}:
@@ -63,14 +65,30 @@ def fail(message):
     sys.exit(1)
 
 
+def section_html(html, project):
+    marker = f'data-project="{project}"'
+    start = html.find(marker)
+    if start == -1:
+        fail(f"{project} section missing")
+    end = html.find('data-project="', start + 1)
+    return html[start : end if end != -1 else len(html)]
+
+
 def check_html():
     html = (ROOT / "index.html").read_text(encoding="utf-8")
+    js = (ROOT / "app.js").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
     parser = VisibleTextParser()
     parser.feed(html)
     visible = "\n".join(parser.text)
-    if FULL_NAME in html:
-        fail("full personal name appears in site source")
+
+    if FULL_NAME in html or FULL_NAME in js or FULL_NAME in readme:
+        fail("full personal name appears in public surface")
+
+    google_xyz = "Google" + " XYZ"
     forbidden = [
+        "Real business projects. Public demonstrations.",
+        google_xyz,
         "146,000",
         "400,000",
         "146000",
@@ -84,25 +102,47 @@ def check_html():
         "could not be verified",
         "Resume and Profile Links",
         "LinkedIn",
+        "Business value at a glance",
+        "Synthetic Provider",
+        "Lineup Floor Ranking",
+        "Result or Business Value",
     ]
+    public_surface = "\n".join([html, js, readme])
     for phrase in forbidden:
-        if phrase in visible or phrase in html:
+        if phrase in public_surface:
             fail(f"forbidden public phrase appears: {phrase}")
+
     for target in RETIRED_PROFESSIONAL_PUBLIC_TARGETS:
-        if target in html:
-            fail(f"retired professional public target remains in HTML: {target}")
-    for required in ["1.4 million", "4 million", "hundreds of manual work hours"]:
-        if required not in visible:
-            fail(f"required acquisition language missing: {required}")
-    if "cost per active member month" not in visible:
-        fail("provider content omits cost per active member month")
-    if "SQL" not in visible or "Tableau" not in visible:
-        fail("provider tools omit SQL or Tableau")
+        if target in public_surface:
+            fail(f"retired professional public target remains in public surface: {target}")
+
+    required_visible = [
+        "Analytics Portfolio",
+        "Data, Business, and Product Analytics",
+        "Selected Work",
+        "Impact at a Glance",
+        "Data note",
+        "Professional project visuals use synthetic data created to demonstrate the original analytical workflows.",
+        "Lineup floor was the stronger signal",
+        "1.4 million compared with 4 million",
+        "hundreds of manual work hours",
+        "regional Medicaid health plan",
+    ]
+    for phrase in required_visible:
+        if phrase not in visible:
+            fail(f"required visible phrase missing: {phrase}")
+
+    if "<strong>Hundreds of hours</strong>" in html:
+        fail("acquisition project still uses a separate top impact card for hours saved")
+    if "<strong>0.77 Spearman</strong>" in html:
+        fail("World Cup top card still uses coefficient as the whole headline")
     if "provider-scatter" in html or "worldcup-scatter" in html or "Scatterplot" in visible:
         fail("provider or World Cup scatterplot remains on combined page")
+
     bad = [text for text in parser.text if any(ch in text for ch in DASHES)]
     if bad:
         fail(f"visible static copy contains dash characters: {bad[:5]}")
+
     if parser.sections != PROJECT_ORDER:
         fail(f"project order is {parser.sections}")
     for project, count in parser.panel_counts.items():
@@ -110,24 +150,44 @@ def check_html():
             fail(f"{project} has {count} visual panels")
     for project, count in parser.glance_counts.items():
         if count != 1:
-            fail(f"{project} has {count} Business at a Glance panels")
+            fail(f"{project} has {count} at a glance panels")
+    for project, count in parser.chapter_counts.items():
+        if count != 1:
+            fail(f"{project} lacks a clear project chapter header")
+    for project, count in parser.methods_counts.items():
+        if count != 1:
+            fail(f"{project} lacks a Tools and Methods section")
+
     for project in PROJECT_ORDER:
-        marker = f'data-project="{project}"'
-        start = html.find(marker)
-        end = html.find('data-project="', start + 1)
-        section = html[start:end if end != -1 else len(html)]
-        if "Business at a Glance" not in section:
-            fail(f"{project} lacks Business at a Glance")
-        if "Google XYZ achievement" not in section:
-            fail(f"{project} lacks Google XYZ")
-        if "Tools used" not in section and "Original project tools and methods" not in section:
-            fail(f"{project} lacks original tools")
-    for phrase in [
-        "Business context and results describe the original professional project.",
-        "This is an independent public research project.",
-    ]:
-        if phrase not in visible:
-            fail(f"required disclosure missing: {phrase}")
+        section = section_html(html, project)
+        expected_glance = "Research at a Glance" if project == "worldcup" else "Business at a Glance"
+        if expected_glance not in section:
+            fail(f"{project} lacks {expected_glance}")
+        key_label = "Key Finding" if project == "worldcup" else "Key Impact"
+        if key_label not in section:
+            fail(f"{project} lacks {key_label}")
+        if "Tools and Methods" not in section or "<dt>Tools</dt>" not in section or "<dt>Methods</dt>" not in section:
+            fail(f"{project} does not separate tools and methods")
+        if "Project 0" not in section:
+            fail(f"{project} lacks project number")
+
+    worldcup = section_html(html, "worldcup")
+    for phrase in ["Business at a Glance", "Who the work supported", "Business problem", "Result or Business Value"]:
+        if phrase in worldcup:
+            fail(f"World Cup section uses business wording: {phrase}")
+    for phrase in ["Mexico and Uruguay Comparison", "Value Rank Versus Lineup Floor Rank"]:
+        if phrase not in worldcup:
+            fail(f"World Cup visual missing: {phrase}")
+
+    for anchor in ["top", "projects", "provider", "contract", "acquisition", "worldcup", "approach"]:
+        if f'id="{anchor}"' not in html:
+            fail(f"project anchor missing: {anchor}")
+    for label in ["Overview", "Provider Costs", "Contract Model", "Product Matching", "World Cup Research", "Approach", "Back to Top"]:
+        if label not in html:
+            fail(f"sticky navigation link missing: {label}")
+    if "aria-current" not in js or "IntersectionObserver" not in js:
+        fail("active sticky navigation is not wired")
+
     return parser.links
 
 
@@ -139,15 +199,14 @@ def check_data():
     for target in RETIRED_PROFESSIONAL_PUBLIC_TARGETS:
         if target in raw_data:
             fail(f"retired professional public target remains in data bundle: {target}")
+    if "Synthetic Provider" in raw_data:
+        fail("provider display name begins with Synthetic Provider")
     data = json.loads(raw_data)
-    required = ["provider", "preferred", "acquisition", "worldcup"]
-    for key in required:
+    for key in ["provider", "preferred", "acquisition", "worldcup"]:
         if key not in data:
             fail(f"missing data key {key}")
-    if len(data["provider"]["workspaceRows"]) == 0:
-        fail("provider workspace rows missing")
-    if len(data["worldcup"].get("ranking", [])) < 6:
-        fail("world cup ranking data looks incomplete")
+    if len(data["provider"]["workspaceRows"]) < 6:
+        fail("provider table data has fewer than six rows")
     for row in data["acquisition"]["review"]:
         if row["outcome"] == "Review" and not row.get("secondBest"):
             fail("acquisition review case lacks second closest candidate")
@@ -155,8 +214,15 @@ def check_data():
         fail("acquisition examples do not include auto match cases")
     if not any(row["outcome"] == "Review" for row in data["acquisition"]["review"]):
         fail("acquisition examples do not include review cases")
-    if len(data["provider"]["workspaceRows"]) < 6:
-        fail("provider table data has fewer than six rows")
+    if len(data["worldcup"].get("rankGaps", [])) < 6:
+        fail("world cup rank gap data looks incomplete")
+    for row in data["worldcup"].get("comparison", []):
+        for required in ["totalRank", "topThreeRank", "floorRank", "advanced", "points", "goalDifference"]:
+            if required not in row:
+                fail(f"World Cup comparison lacks {required}")
+    outcomes = {row.get("advanced") for row in data["worldcup"].get("comparison", [])}
+    if outcomes != {True, False}:
+        fail("Mexico and Uruguay comparison lacks advancement outcomes")
 
 
 def check_links(links):
@@ -191,16 +257,9 @@ def check_links(links):
     return checked
 
 
-def check_js_copy_literals():
-    js = (ROOT / "app.js").read_text(encoding="utf-8")
-    if FULL_NAME in js:
-        fail("full personal name appears in app script")
-
-
 def main():
     links = check_html()
     check_data()
-    check_js_copy_literals()
     checked = check_links(links)
     print(json.dumps({"status": "passed", "links_checked": len(checked)}, indent=2))
 
