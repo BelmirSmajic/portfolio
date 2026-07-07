@@ -15,10 +15,8 @@ const fmtCompactMoney = new Intl.NumberFormat("en-US", {
 });
 
 const exposureColors = {
-  High: "#a23b3b",
-  Moderate: "#c5792a",
-  Watch: "#c3a233",
-  Outside: "#73808a"
+  "High exposure": "#b91c1c",
+  "Outside exposure area": "#607080"
 };
 
 const legacyHurricaneCityLabels = [
@@ -335,6 +333,7 @@ function renderHurricaneMap(data, target) {
   const scenario = data.scenario;
   const pathPoints = scenario.stormPath.map((point) => projectUsPoint(point.lat, point.lon));
   const line = pathPoints.map((point) => `${point.x},${point.y}`).join(" ");
+  const statePaths = (scenario.statePaths || []).map((row) => `<path class="usa-state" d="${row.path}"><title>${cleanText(row.name)}</title></path>`).join("");
   const summary = el("div", "narrative-box", `${scenario.name}. ${scenario.affectedCount} potentially affected properties. Total potentially exposed value is ${money(scenario.totalPotentialExposure)}. Highest exposure state is ${scenario.highestExposureState}. Synthetic exposure demo based on a named storm scenario.`);
   const mapWrap = el("div", "hurricane-map-frame");
   mapWrap.innerHTML = `<svg class="weather-map" viewBox="0 0 960 560" role="img" aria-label="Full USA hurricane forecast and property exposure map">
@@ -357,14 +356,10 @@ function renderHurricaneMap(data, target) {
       <path d="M54 115 H906 M54 251 H906 M54 387 H906"></path>
       <path d="M164 34 V526 M384 34 V526 M604 34 V526 M824 34 V526"></path>
     </g>
-    <path class="usa-land" d="${usPolygon(usLandShape)}"></path>
-    <path class="coastline" d="M ${usLine(usLandShape.slice(0, 45))}"></path>
-    <g class="state-layer">
-      ${usStateBoundaryLines.map((linePoints) => `<polyline class="state-boundary" points="${usLine(linePoints)}"></polyline>`).join("")}
-    </g>
-    <polygon class="forecast-cone" points="${corridorPolygon(scenario.stormPath, 1.1)}"></polygon>
-    <polygon class="storm-band watch-band" points="${corridorPolygon(scenario.stormPath, 0.78)}"></polygon>
-    <polygon class="storm-band high-band" points="${corridorPolygon(scenario.stormPath, 0.46)}"></polygon>
+    <g class="state-layer">${statePaths}</g>
+    <polygon class="forecast-cone forecast-cone-outer" points="${corridorPolygon(scenario.stormPath, 1.15)}"></polygon>
+    <polygon class="forecast-cone-mid" points="${corridorPolygon(scenario.stormPath, 0.78)}"></polygon>
+    <polygon class="forecast-cone-core" points="${corridorPolygon(scenario.stormPath, 0.42)}"></polygon>
     <g class="property-layer"></g>
     <g class="city-layer">${nationalCityLabels.map(hurricaneCityLabel).join("")}</g>
     <polyline class="storm-track" points="${line}"></polyline>
@@ -399,8 +394,8 @@ function renderHurricaneMap(data, target) {
     const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     dot.setAttribute("cx", point.x);
     dot.setAttribute("cy", point.y);
-    dot.setAttribute("r", row.exposureTier === "Outside" ? 4.5 : row.exposureTier === "High" ? 8 : 6.5);
-    dot.setAttribute("fill", exposureColors[row.exposureTier]);
+    dot.setAttribute("r", row.exposureTier === "High exposure" ? 7.5 : 4.4);
+    dot.setAttribute("fill", exposureColors[row.exposureTier] || exposureColors["Outside exposure area"]);
     dot.setAttribute("class", "hurricane-dot");
     dot.dataset.hurricaneProperty = row.id;
     dot.setAttribute("tabindex", "0");
@@ -419,7 +414,7 @@ function renderHurricaneTable(data, target) {
   target.innerHTML = "";
   const summary = el("div", "metric-grid hurricane-summary");
   const affected = data.properties
-    .filter((row) => ["High", "Moderate"].includes(row.exposureTier))
+    .filter((row) => row.exposureTier === "High exposure")
     .sort((a, b) => b.estimatedValue - a.estimatedValue);
   [
     ["Potentially affected properties", data.scenario.affectedCount],
@@ -434,7 +429,7 @@ function renderHurricaneTable(data, target) {
   });
   const wrap = el("div", "table-wrap");
   const table = el("table");
-  table.innerHTML = `<thead><tr><th>Property</th><th>City, State</th><th>Property type</th><th>Estimated value</th><th>Exposure tier</th><th>Distance to storm path</th><th>Status</th></tr></thead>`;
+  table.innerHTML = `<thead><tr><th>Property</th><th>City, State</th><th>Property type</th><th>Estimated value</th><th>Exposure status</th><th>Distance to storm path</th><th>Status</th></tr></thead>`;
   const body = el("tbody");
   affected
     .forEach((row) => {
@@ -497,41 +492,7 @@ function renderProviderWorkspace(data, target) {
   update();
 }
 
-function renderProviderComparison(data, target) {
-  target.innerHTML = "";
-  const rows = data.workspaceRows
-    .filter((row) => row.type === "Oncology" && row.members >= 20)
-    .sort((a, b) => b.ratio - a.ratio)
-    .slice(0, 6);
-  const max = Math.max(...rows.map((row) => row.cost)) || 1;
-  rows.forEach((row) => {
-    const line = el("div", `comparison-row ${statusKey(row.status)}`);
-    line.innerHTML = `<div><strong>${cleanText(row.provider)}</strong><span>${cleanText(row.specialty)}</span></div><div class="comparison-track"><span class="median-marker" style="left:${Math.min(100, (row.peerMedian / max) * 100)}%"></span><span class="comparison-fill" style="width:${Math.min(100, (row.cost / max) * 100)}%"></span></div><div>${row.ratio.toFixed(2)} times median</div>`;
-    target.appendChild(line);
-  });
-  target.appendChild(el("p", "chart-note", "Vertical markers show the peer median. Longer bars show provider cost per active member month."));
-}
 
-function renderAcquisitionFunnel(data, target) {
-  target.innerHTML = "";
-  const auto = data.funnel.find((row) => row.label === "Auto match")?.count || 0;
-  const suggested = data.funnel.find((row) => row.label === "Suggested match")?.count || 0;
-  const review = data.funnel.find((row) => row.label === "Review required")?.count || 0;
-  const noMatch = data.funnel.find((row) => row.label === "No confident match")?.count || 0;
-  [
-    ["Acquired catalog", "1.4 million acquired products", "Compared with 4 million existing products"],
-    ["Normalized records", "Descriptions, brands, packs, units", "Prepared for matching"],
-    ["Exact matches", fmtNum.format(auto), "Safe deterministic outcomes"],
-    ["High confidence fuzzy matches", fmtNum.format(suggested), "Candidate ranking for strong text matches"],
-    ["Manual review queue", fmtNum.format(review), "Ranked candidates for stewardship"],
-    ["Unmatched or excluded records", fmtNum.format(noMatch), "New product or no viable candidate"],
-    ["Approved matches", "Reviewer output", "Browser and Excel decisions"]
-  ].forEach(([label, value, note], index) => {
-    const stage = el("div", "pipeline-stage");
-    stage.innerHTML = `<span>${String(index + 1).padStart(2, "0")}</span><strong>${cleanText(label)}</strong><b>${cleanText(value)}</b><small>${cleanText(note)}</small>`;
-    target.appendChild(stage);
-  });
-}
 
 function renderAcquisitionReview(data, target) {
   target.innerHTML = "";
@@ -583,39 +544,16 @@ function renderContractScenario(data, target) {
     const baseSavings = Number(data.summary.projected_savings || 0);
     const estimate = baseSavings * steerFactor * rateFactor;
     const projectedSpend = Math.max(0, Number(data.summary.baseline_spend || 0) - estimate);
-    const topRows = data.scenario.slice(0, 4);
+
     summary.innerHTML = `<div class="contract-state current"><span>Current network baseline</span><strong>${money(data.summary.baseline_spend || 0)}</strong><p>Eligible DME service categories priced through current network rates.</p></div>
       <div class="contract-state preferred"><span>Preferred provider scenario</span><strong>${money(projectedSpend)}</strong><p>${steer.input.value} percent expected eligible DME volume moving to the preferred supplier at ${rate.input.value} percent of benchmark.</p></div>
-      <div class="contract-impact"><span>Projected savings</span><strong>${money(estimate)}</strong><p>Decision signal: savings depend on actual volume moving to the preferred DME supplier, not just the 80 percent benchmark rate existing.</p></div>
-      <div class="service-group-grid">${topRows.map((row) => `<div><span>${cleanText(row.code)} ${cleanText(row.category)}</span><strong>${money(row.projectedSavings * steerFactor * rateFactor)}</strong><small>${cleanText(row.description)}</small></div>`).join("")}</div>`;
+      <div class="contract-impact"><span>Projected savings</span><strong>${money(estimate)}</strong><p>Decision signal: savings depend on actual volume moving to the preferred DME supplier, not just the 80 percent benchmark rate existing.</p></div>`;
   }
 
   [steer.input, rate.input].forEach((input) => input.addEventListener("input", update));
   update();
 }
 
-function renderContractBridge(data, target) {
-  target.innerHTML = "";
-  const totals = data.summary.savings_bridge_totals || data.summary.bridge_totals || {};
-  const rows = [
-    ["Utilization forecast error", totals.utilization_forecast_error || 0, "Actual DME volume differed from the projection"],
-    ["Service mix forecast error", totals.service_mix_forecast_error || 0, "Codes shifted away from the modeled mix"],
-    ["Missed preferred supplier steerage", totals.missed_steerage_savings_effect || 0, "Savings changed when eligible volume did not fully move to the preferred DME supplier"],
-    ["Preferred rate effect", totals.preferred_rate_savings_effect || 0, "Negotiated 80 percent benchmark rate benefit"],
-    ["Residual supplier rate effect", totals.residual_rate_savings_effect || 0, "Remaining non preferred supplier pricing effect"]
-  ];
-  const max = Math.max(...rows.map((row) => Math.abs(Number(row[1] || 0))), 1);
-  const bridge = el("div", "savings-bridge");
-  bridge.innerHTML = `<div class="bridge-title"><span>Savings Variance Bridge</span><strong>Preferred provider savings bridge</strong><small>80% of benchmark is the rate assumption. The bridge separates actual volume movement to the preferred DME supplier from rate effects.</small></div>
-    ${rows.map(([label, value, note]) => {
-      const amount = Number(value || 0);
-      const width = Math.max(8, Math.abs(amount) / max * 100);
-      const direction = amount < 0 ? "negative" : "positive";
-      return `<div class="bridge-row ${direction}"><div><strong>${cleanText(label)}</strong><small>${cleanText(note)}</small></div><div class="bridge-track"><span style="width:${width.toFixed(1)}%"></span></div><b>${money(amount)}</b></div>`;
-    }).join("")}
-    <p class="sensitivity-note">Decision signal: the preferred provider migration creates savings only when eligible volume actually moves to the preferred DME supplier while access, capacity, and exception handling remain acceptable.</p>`;
-  target.appendChild(bridge);
-}
 
 function renderWorldcupRankGap(data, target) {
   target.innerHTML = "";
@@ -648,15 +586,8 @@ function renderExpandedVisual(sourceId, destination) {
   const data = state.data;
   if (!data) return;
   const map = {
-    "provider-workspace": () => renderProviderWorkspace(data.provider, destination),
-    "provider-comparison": () => renderProviderComparison(data.provider, destination),
-    "contract-scenario": () => renderContractScenario(data.preferred, destination),
-    "contract-bridge": () => renderContractBridge(data.preferred, destination),
-    "acquisition-funnel": () => renderAcquisitionFunnel(data.acquisition, destination),
-    "acquisition-review": () => renderAcquisitionReview(data.acquisition, destination),
-    "hurricane-map": () => renderHurricaneMap(data.hurricane, destination),
-    "hurricane-table": () => renderHurricaneTable(data.hurricane, destination),
-    "worldcup-comparison": () => renderWorldcupComparison(data.worldcup, destination),
+    "provider-workspace": () => renderProviderWorkspace(data.provider, destination),    "contract-scenario": () => renderContractScenario(data.preferred, destination),    "acquisition-review": () => renderAcquisitionReview(data.acquisition, destination),
+    "hurricane-map": () => renderHurricaneMap(data.hurricane, destination),    "worldcup-comparison": () => renderWorldcupComparison(data.worldcup, destination),
     "worldcup-rank-gap": () => renderWorldcupRankGap(data.worldcup, destination)
   };
   destination.className = document.getElementById(sourceId).className;
@@ -765,12 +696,7 @@ fetch("assets/portfolio-data.json")
   .then((response) => response.json())
   .then((data) => {
     state.data = data;
-    renderProviderWorkspace(data.provider, document.getElementById("provider-workspace"));
-    renderProviderComparison(data.provider, document.getElementById("provider-comparison"));
-    renderContractScenario(data.preferred, document.getElementById("contract-scenario"));
-    renderContractBridge(data.preferred, document.getElementById("contract-bridge"));
-    renderAcquisitionFunnel(data.acquisition, document.getElementById("acquisition-funnel"));
-    renderAcquisitionReview(data.acquisition, document.getElementById("acquisition-review"));
+    renderProviderWorkspace(data.provider, document.getElementById("provider-workspace"));    renderContractScenario(data.preferred, document.getElementById("contract-scenario"));    renderAcquisitionReview(data.acquisition, document.getElementById("acquisition-review"));
     renderHurricaneMap(data.hurricane, document.getElementById("hurricane-map"));
     renderHurricaneTable(data.hurricane, document.getElementById("hurricane-table"));
     renderWorldcupComparison(data.worldcup, document.getElementById("worldcup-comparison"));
@@ -782,4 +708,11 @@ fetch("assets/portfolio-data.json")
   .catch((error) => {
     console.error("Portfolio data failed to load", error);
   });
+
+
+
+
+
+
+
 

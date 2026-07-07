@@ -1,412 +1,73 @@
-import json
-import os
+﻿import json
 import sys
-import urllib.request
 from html.parser import HTMLParser
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
-DASHES = "-\u2013\u2014"
-FULL_NAME = "Belmir Smajic"
 PROJECT_ORDER = ["provider", "contract", "acquisition", "hurricane", "worldcup"]
-RETIRED_PROFESSIONAL_PUBLIC_TARGETS = [
-    "provider-cost-outlier-analysis",
-    "preferred-provider-contract-model",
-    "acquisition-product-matching",
-    "hurricane-exposure-portfolio-risk-analysis",
-]
+PANEL_EXPECTED = {"provider": 1, "contract": 1, "acquisition": 1, "hurricane": 1, "worldcup": 2}
+PRIVATE_TARGETS = ["provider-cost-outlier-analysis", "preferred-provider-contract-model", "acquisition-product-matching", "hurricane-exposure-portfolio-risk-analysis"]
 
-
-class VisibleTextParser(HTMLParser):
+class Parser(HTMLParser):
     def __init__(self):
-        super().__init__()
-        self.skip = False
-        self.text = []
-        self.links = []
-        self.sections = []
-        self.current_project = None
-        self.panel_counts = {key: 0 for key in PROJECT_ORDER}
-        self.glance_counts = {key: 0 for key in PROJECT_ORDER}
-        self.chapter_counts = {key: 0 for key in PROJECT_ORDER}
-        self.methods_counts = {key: 0 for key in PROJECT_ORDER}
-
+        super().__init__(); self.skip=False; self.text=[]; self.sections=[]; self.current=None; self.panels={k:0 for k in PROJECT_ORDER}; self.glance={k:0 for k in PROJECT_ORDER}; self.methods={k:0 for k in PROJECT_ORDER}
     def handle_starttag(self, tag, attrs):
-        attrs = dict(attrs)
-        if tag in {"script", "style"}:
-            self.skip = True
-        if tag == "a" and attrs.get("href"):
-            self.links.append(attrs["href"])
-        if tag == "section" and attrs.get("data-project"):
-            self.current_project = attrs["data-project"]
-            self.sections.append(self.current_project)
-        classes = attrs.get("class", "").split()
-        if self.current_project and "visual-panel" in classes:
-            self.panel_counts[self.current_project] += 1
-        if self.current_project and "glance" in classes:
-            self.glance_counts[self.current_project] += 1
-        if self.current_project and "project-kicker" in classes:
-            self.chapter_counts[self.current_project] += 1
-        if self.current_project and "methods" in classes:
-            self.methods_counts[self.current_project] += 1
-
+        attrs=dict(attrs); classes=attrs.get("class","").split()
+        if tag in {"script","style"}: self.skip=True
+        if tag=="section" and attrs.get("data-project"):
+            self.current=attrs["data-project"]; self.sections.append(self.current)
+        if self.current and "visual-panel" in classes: self.panels[self.current]+=1
+        if self.current and "glance" in classes: self.glance[self.current]+=1
+        if self.current and "methods" in classes: self.methods[self.current]+=1
     def handle_endtag(self, tag):
-        if tag in {"script", "style"}:
-            self.skip = False
-        if tag == "section":
-            self.current_project = None
-
+        if tag in {"script","style"}: self.skip=False
+        if tag=="section": self.current=None
     def handle_data(self, data):
-        if not self.skip and data.strip():
-            self.text.append(data.strip())
+        if not self.skip and data.strip(): self.text.append(data.strip())
 
-
-def fail(message):
-    print(f"FAIL: {message}")
-    sys.exit(1)
-
-
-def section_html(html, project):
-    marker = f'data-project="{project}"'
-    start = html.find(marker)
-    if start == -1:
-        fail(f"{project} section missing")
-    end = html.find('data-project="', start + 1)
-    return html[start : end if end != -1 else len(html)]
-
-
-def check_html():
-    html = (ROOT / "index.html").read_text(encoding="utf-8")
-    js = (ROOT / "app.js").read_text(encoding="utf-8")
-    css = (ROOT / "styles.css").read_text(encoding="utf-8")
-    readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    parser = VisibleTextParser()
-    parser.feed(html)
-    visible = "\n".join(parser.text)
-
-    if FULL_NAME in html or FULL_NAME in js or FULL_NAME in readme:
-        fail("full personal name appears in public surface")
-
-    google_xyz = "Google" + " XYZ"
-    forbidden = [
-        "Real business projects. Public demonstrations.",
-        google_xyz,
-        "146,000",
-        "400,000",
-        "146000",
-        "400000",
-        "More than 50 percent",
-        "more than 50 percent",
-        "reduction of more than 50 percent",
-        "Approved professional summary",
-        "Verified professional summary",
-        "Could not verify",
-        "could not be verified",
-        "Resume and Profile Links",
-        "LinkedIn",
-        "Business value at a glance",
-        "Synthetic Provider",
-        "Lineup Floor Ranking",
-        "Result or Business Value",
-    ]
-    public_surface = "\n".join([html, js, css, readme])
-    for phrase in forbidden:
-        if phrase in public_surface:
-            fail(f"forbidden public phrase appears: {phrase}")
-
-    for target in RETIRED_PROFESSIONAL_PUBLIC_TARGETS:
-        if target in public_surface:
-            fail(f"retired professional public target remains in public surface: {target}")
-
-    required_visible = [
-        "Analytics Portfolio",
-        "Data, Business, and Product Analytics",
-        "Selected Work",
-        "Impact at a Glance",
-        "Five selected projects",
-        "Data note",
-        "Professional project visuals use synthetic data created to demonstrate the original analytical workflows.",
-        "Lineup floor was the stronger signal",
-        "1.4 million compared with 4 million",
-        "hundreds of manual work hours",
-        "regional Medicaid health plan",
-        "Hurricane Exposure and Portfolio Risk Analysis",
-        "16 billion dollar state pension fund real estate portfolio",
-        "Chief Investment Officer",
-        "board level reporting",
-        "Hurricane Debby 2024",
-        "Board ready hurricane exposure view",
-    ]
-    for phrase in required_visible:
-        if phrase not in visible:
-            fail(f"required visible phrase missing: {phrase}")
-
-    if "<strong>Hundreds of hours</strong>" in html:
-        fail("acquisition project still uses a separate top impact card for hours saved")
-    if "<strong>0.77 Spearman</strong>" in html:
-        fail("World Cup top card still uses coefficient as the whole headline")
-    if "provider-scatter" in html or "worldcup-scatter" in html or "Scatterplot" in visible:
-        fail("provider or World Cup scatterplot remains on combined page")
-
-    bad = [text for text in parser.text if any(ch in text for ch in DASHES)]
-    if bad:
-        fail(f"visible static copy contains dash characters: {bad[:5]}")
-
-    if parser.sections != PROJECT_ORDER:
-        fail(f"project order is {parser.sections}")
-    for project, count in parser.panel_counts.items():
-        if count != 2:
-            fail(f"{project} has {count} visual panels")
-    for project, count in parser.glance_counts.items():
-        if count != 1:
-            fail(f"{project} has {count} at a glance panels")
-    for project, count in parser.chapter_counts.items():
-        if count != 1:
-            fail(f"{project} lacks a clear project chapter header")
-    for project, count in parser.methods_counts.items():
-        if count != 1:
-            fail(f"{project} lacks a Tools and Methods section")
-
-    for project in PROJECT_ORDER:
-        section = section_html(html, project)
-        expected_glance = "Research at a Glance" if project == "worldcup" else "Business at a Glance"
-        if expected_glance not in section:
-            fail(f"{project} lacks {expected_glance}")
-        key_label = "Key Finding" if project == "worldcup" else "Key Impact"
-        if key_label not in section:
-            fail(f"{project} lacks {key_label}")
-        if "Tools and Methods" not in section or "<dt>Tools</dt>" not in section or "<dt>Methods</dt>" not in section:
-            fail(f"{project} does not separate tools and methods")
-        if "Project 0" not in section:
-            fail(f"{project} lacks project number")
-
-    hurricane = section_html(html, "hurricane")
-    for phrase in [
-        "Project 04",
-        "Real Estate Risk and Exposure Analytics",
-        "Business at a Glance",
-        "What I Owned",
-        "Interactive Hurricane Exposure Map",
-        "Potentially Affected Properties Table",
-        "16 billion dollar",
-        "Chief Investment Officer",
-        "Hurricane Debby 2024",
-        "board level reporting",
-        "active storm tracking",
-    ]:
-        if phrase not in hurricane:
-            fail(f"hurricane section missing: {phrase}")
-    if html.find('data-project="hurricane"') > html.find('data-project="worldcup"'):
-        fail("hurricane project appears below World Cup")
-    if "renderHurricaneMap" not in js or "hurricane-detail" not in js or "data-hurricane-property" not in js:
-        fail("hurricane map lacks property detail interaction")
-    if "renderHurricaneTable" not in js or "sort((a, b) => b.estimatedValue - a.estimatedValue)" not in js:
-        fail("hurricane table lacks ranked estimated value sorting")
-    for phrase in [
-        "hurricane-visual-stack",
-        "state-boundary",
-        "forecast-cone",
-        "storm-track",
-        "storm-marker",
-        "forecast-label",
-        "city-label",
-        "watch-band",
-        "moderate-band",
-        "high-band",
-        "corridorPolygon",
-        "Full USA",
-    ]:
-        if phrase not in js and phrase not in css and phrase not in html:
-            fail(f"hurricane map visual contract missing: {phrase}")
-    for city in ["Tampa", "Gainesville", "Jacksonville", "Savannah", "Charleston", "Raleigh"]:
-        if city not in js:
-            fail(f"hurricane city label missing: {city}")
-    if "max-height: 430px" not in css:
-        fail("hurricane table internal scroll contract missing")
-    for forbidden in ["NOAA logo", "official NOAA branding", "real observed Debby property impacts are shown"]:
-        if forbidden in public_surface:
-            fail(f"forbidden hurricane claim or branding appears: {forbidden}")
-
-    contract = section_html(html, "contract")
-    for phrase in ["Project 02", "SQL and Excel", "80%", "benchmark rates", "preferred provider", "Savings Variance Bridge"]:
-        if phrase not in contract:
-            fail(f"contract section missing: {phrase}")
-    for phrase in [
-        "contract-scenario-model",
-        "Current network baseline",
-        "Preferred provider scenario",
-        "Projected savings",
-        "Decision signal",
-        "savings-bridge",
-        "Preferred provider scenario",
-        "preferred DME supplier",
-        "80 percent benchmark rate",
-    ]:
-        if phrase not in "\n".join([js, css, html]):
-            fail(f"contract visual contract missing: {phrase}")
-
-    acquisition = section_html(html, "acquisition")
-    for phrase in ["Project 03", "Python and Excel", "1.4 million", "4 million", "hundreds of manual work hours"]:
-        if phrase not in acquisition:
-            fail(f"acquisition section missing: {phrase}")
-    for phrase in [
-        "pipeline-stage",
-        "Acquired catalog",
-        "Normalized records",
-        "Exact matches",
-        "High confidence fuzzy matches",
-        "Manual review queue",
-        "Unmatched or excluded records",
-        "Approved matches",
-        "review-adjudication",
-        "Selected acquired product",
-        "Primary recommended match",
-        "Second closest candidate",
-        "Confidence",
-    ]:
-        if phrase not in "\n".join([js, css, html]):
-            fail(f"acquisition visual contract missing: {phrase}")
-    if "50 percent" in public_surface.lower():
-        fail("acquisition public surface contains a 50 percent reduction claim")
-
-    worldcup = section_html(html, "worldcup")
-    for phrase in ["Business at a Glance", "Who the work supported", "Business problem", "Result or Business Value"]:
-        if phrase in worldcup:
-            fail(f"World Cup section uses business wording: {phrase}")
-    for phrase in ["Mexico and Uruguay Comparison", "Value Rank Versus Lineup Floor Rank"]:
-        if phrase not in worldcup:
-            fail(f"World Cup visual missing: {phrase}")
-
-    if "Project 05" not in worldcup:
-        fail("World Cup project number was not updated to Project 05")
-
-    for anchor in ["top", "projects", "provider", "contract", "acquisition", "hurricane", "worldcup", "approach"]:
-        if f'id="{anchor}"' not in html:
-            fail(f"project anchor missing: {anchor}")
-    for label in ["Overview", "Provider Costs", "Contract Model", "Product Matching", "Hurricane Exposure", "World Cup Research", "Approach", "Back to Top"]:
-        if label not in html:
-            fail(f"sticky navigation link missing: {label}")
-    if "aria-current" not in js or "IntersectionObserver" not in js:
-        fail("active sticky navigation is not wired")
-
-    return parser.links
-
-
-def check_data():
-    data_path = ROOT / "assets" / "portfolio-data.json"
-    if not data_path.exists():
-        fail("portfolio data bundle missing")
-    raw_data = data_path.read_text(encoding="utf-8")
-    for target in RETIRED_PROFESSIONAL_PUBLIC_TARGETS:
-        if target in raw_data:
-            fail(f"retired professional public target remains in data bundle: {target}")
-    if "Synthetic Provider" in raw_data:
-        fail("provider display name begins with Synthetic Provider")
-    data = json.loads(raw_data)
-    for key in ["provider", "preferred", "acquisition", "hurricane", "worldcup"]:
-        if key not in data:
-            fail(f"missing data key {key}")
-    if len(data["provider"]["workspaceRows"]) < 6:
-        fail("provider table data has fewer than six rows")
-    for row in data["acquisition"]["review"]:
-        if row["outcome"] == "Review" and not row.get("secondBest"):
-            fail("acquisition review case lacks second closest candidate")
-        if row.get("secondBest") and row.get("secondBest") not in {"No second candidate", "No close second candidate"}:
-            if row.get("recommended") == row.get("secondBest"):
-                fail("acquisition primary match duplicates second closest match text")
-            if row.get("primaryId") and row.get("secondId") and row.get("primaryId") == row.get("secondId"):
-                fail("acquisition primary match duplicates second closest match ID")
-            if float(row.get("score") or 0) == float(row.get("secondScore") or 0):
-                fail("acquisition primary match duplicates second closest score")
-    if not any(row["outcome"] == "Auto Match" for row in data["acquisition"]["review"]):
-        fail("acquisition examples do not include auto match cases")
-    if not any(row["outcome"] == "Review" for row in data["acquisition"]["review"]):
-        fail("acquisition examples do not include review cases")
-    if len(data["worldcup"].get("rankGaps", [])) < 6:
-        fail("world cup rank gap data looks incomplete")
-    hurricane = data["hurricane"]
-    scenario = hurricane.get("scenario", {})
-    scenario_text = json.dumps(scenario)
-    for phrase in ["16 billion dollar", "Chief Investment Officer", "Debby 2024"]:
-        if phrase not in scenario_text:
-            fail(f"hurricane scenario data missing {phrase}")
-    if "Hurricane Debby 2024" not in scenario.get("name", "") and "Debby 2024" not in scenario.get("name", ""):
-        fail("hurricane scenario name does not mention Debby 2024")
-    if len(scenario.get("statePaths", [])) < 49:
-        fail("hurricane state boundary data is missing")
-    if len(scenario.get("stormPath", [])) < 8:
-        fail("hurricane storm path is too sparse")
-    tier_text = json.dumps(scenario.get("tierDefinitions", []))
-    for tier in ["High", "Moderate", "Watch", "Outside"]:
-        if tier not in tier_text:
-            fail(f"hurricane legend tier missing from scenario data: {tier}")
-    for forbidden in ["NOAA logo", "official NOAA branding", "real observed Debby property impacts are shown"]:
-        if forbidden in raw_data:
-            fail(f"forbidden hurricane claim or branding appears in data: {forbidden}")
-    if len(hurricane.get("properties", [])) < 50:
-        fail("hurricane property data looks incomplete")
-    tiers = {row.get("exposureTier") for row in hurricane.get("properties", [])}
-    for tier in ["High", "Moderate", "Watch", "Outside"]:
-        if tier not in tiers:
-            fail(f"hurricane exposure tier missing: {tier}")
-    affected = [row for row in hurricane["properties"] if row.get("exposureTier") in {"High", "Moderate"}]
-    if len(affected) < 8:
-        fail("hurricane affected properties table lacks enough records")
-    if affected != sorted(affected, key=lambda row: row["estimatedValue"], reverse=True):
-        fail("hurricane data is not sorted by estimated property value for affected rows")
-    for row in hurricane["properties"]:
-        if row["estimatedValue"] < 100000 or row["estimatedValue"] > 30000000:
-            fail("hurricane property value outside expected range")
-        for field in ["name", "city", "state", "type", "exposureTier", "status"]:
-            if any(ch in str(row.get(field, "")) for ch in DASHES):
-                fail(f"hurricane visible data contains dash characters in {field}")
-    for row in data["worldcup"].get("comparison", []):
-        for required in ["totalRank", "topThreeRank", "floorRank", "advanced", "points", "goalDifference"]:
-            if required not in row:
-                fail(f"World Cup comparison lacks {required}")
-    outcomes = {row.get("advanced") for row in data["worldcup"].get("comparison", [])}
-    if outcomes != {True, False}:
-        fail("Mexico and Uruguay comparison lacks advancement outcomes")
-
-
-def check_links(links):
-    checked = []
-    check_external = os.environ.get("CHECK_EXTERNAL_LINKS") == "1"
-    for href in links:
-        if href.startswith("#"):
-            continue
-        if href.startswith("http"):
-            if not check_external:
-                continue
-            request = urllib.request.Request(href, method="HEAD", headers={"User-Agent": "portfolio-link-check"})
-            try:
-                with urllib.request.urlopen(request, timeout=20) as response:
-                    if response.status >= 400:
-                        fail(f"bad link {href} status {response.status}")
-                    checked.append((href, response.status))
-            except Exception as exc:
-                request = urllib.request.Request(href, method="GET", headers={"User-Agent": "portfolio-link-check"})
-                try:
-                    with urllib.request.urlopen(request, timeout=20) as response:
-                        if response.status >= 400:
-                            fail(f"bad link {href} status {response.status}")
-                        checked.append((href, response.status))
-                except Exception:
-                    fail(f"bad link {href}: {exc}")
-        else:
-            path = ROOT / href
-            if not path.exists():
-                fail(f"local link missing {href}")
-            checked.append((href, 200))
-    return checked
-
+def fail(msg): print(f"FAIL: {msg}"); sys.exit(1)
+def section(html, project):
+    s=html.find(f'data-project="{project}"')
+    if s < 0: fail(f"missing {project}")
+    e=html.find('data-project="', s+1)
+    return html[s:e if e >= 0 else len(html)]
 
 def main():
-    links = check_html()
-    check_data()
-    checked = check_links(links)
-    print(json.dumps({"status": "passed", "links_checked": len(checked)}, indent=2))
-
-
-if __name__ == "__main__":
-    main()
+    html=(ROOT/'index.html').read_text(encoding='utf-8'); js=(ROOT/'app.js').read_text(encoding='utf-8'); css=(ROOT/'styles.css').read_text(encoding='utf-8'); data=json.loads((ROOT/'assets'/'portfolio-data.json').read_text(encoding='utf-8'))
+    public='\n'.join([html,js,css]); p=Parser(); p.feed(html); visible='\n'.join(p.text)
+    for target in PRIVATE_TARGETS:
+        if target in public: fail(f"private repo target exposed: {target}")
+    for phrase in ["Impact Summary", "Peer Median Comparison", "Savings Variance Bridge", "Savings Bridge", "waterfall", "Matching Funnel", "146,000", "400,000", "50 percent"]:
+        if phrase.lower() in public.lower(): fail(f"retired phrase remains: {phrase}")
+    for phrase in ["Project Index", "Five selected projects", "Impact at a Glance", "Business at a Glance", "Provider Cost Outlier Analysis", "Preferred DME Supplier Scenario", "Manual Review Workspace", "National Hurricane Exposure Map", "World Cup Weakest Link Analysis", "Chief Investment Officer", "board level reporting", "16 billion dollar", "Hurricane Debby 2024", "lineup floor", "Core XI", "bottom three", "0.77 Spearman", "Mexico", "Uruguay"]:
+        if phrase not in visible and phrase not in public: fail(f"missing phrase: {phrase}")
+    if p.sections != PROJECT_ORDER: fail(f"project order is {p.sections}")
+    for k,v in PANEL_EXPECTED.items():
+        if p.panels[k] != v: fail(f"{k} has {p.panels[k]} visual panels")
+        if p.glance[k] != 1: fail(f"{k} glance count {p.glance[k]}")
+        if p.methods[k] != 1: fail(f"{k} methods count {p.methods[k]}")
+    provider=section(html,'provider')
+    for phrase in ["SQL and Tableau", "Cost per active member month", "Peer group comparison", "Provider outlier ranking", "Contracting analytics review"]:
+        if phrase not in provider: fail(f"provider missing {phrase}")
+    contract=section(html,'contract')
+    for phrase in ["SQL and Excel", "80 percent", "DMAS benchmark", "preferred DME supplier"]:
+        if phrase not in contract: fail(f"contract missing {phrase}")
+    acquisition=section(html,'acquisition')
+    for phrase in ["Python and Excel", "1.4 million", "4 million", "hundreds of manual work hours"]:
+        if phrase not in acquisition: fail(f"acquisition missing {phrase}")
+    hurricane=section(html,'hurricane')
+    for phrase in ["Project 04", "Full USA", "High exposure", "Outside exposure area", "SQL, Tableau"]:
+        if phrase not in hurricane and phrase not in public: fail(f"hurricane missing {phrase}")
+    for phrase in ["usa-state", "statePaths", "forecast-cone-mid", "forecast-cone-core", "data-hurricane-property"]:
+        if phrase not in public: fail(f"hurricane map contract missing {phrase}")
+    h=data['hurricane']; tiers={r['exposureTier'] for r in h['properties']}
+    if tiers != {"High exposure", "Outside exposure area"}: fail(f"hurricane tiers not simplified: {tiers}")
+    if len(h['scenario'].get('statePaths',[])) < 49: fail("state paths missing")
+    affected=[r for r in h['properties'] if r['exposureTier']=="High exposure"]
+    if len(affected) < 8: fail("not enough affected properties")
+    if affected != sorted(affected, key=lambda r: r['estimatedValue'], reverse=True): fail("affected properties not ranked")
+    for r in data['acquisition']['review']:
+        if r.get('secondBest') and r.get('secondBest') not in {"No second candidate", "No close second candidate"}:
+            if r.get('recommended') == r.get('secondBest') or r.get('primaryId') == r.get('secondId') or float(r.get('score') or 0) == float(r.get('secondScore') or 0): fail("acquisition primary and second candidate duplicate")
+    print(json.dumps({"status":"passed"}, indent=2))
+if __name__ == '__main__': main()

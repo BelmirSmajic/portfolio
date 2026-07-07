@@ -8977,20 +8977,12 @@
       ],
       "tierDefinitions": [
         {
-          "tier": "High",
-          "description": "Inside the strongest synthetic band near the Debby 2024 scenario centerline."
+          "tier": "High exposure",
+          "description": "Inside the weather style Debby 2024 scenario overlay and included in leadership monitoring."
         },
         {
-          "tier": "Moderate",
-          "description": "Inside the surrounding impact band and included in active monitoring."
-        },
-        {
-          "tier": "Watch",
-          "description": "Inside the broader lower severity monitoring band."
-        },
-        {
-          "tier": "Outside",
-          "description": "Outside the meaningful storm monitoring band."
+          "tier": "Outside exposure area",
+          "description": "Outside the scenario overlay used for this national portfolio review."
         }
       ],
       "affectedCount": 21,
@@ -8998,32 +8990,6 @@
       "highestExposureState": "NC"
     },
     "properties": [
-      {
-        "id": "P026",
-        "name": "Atlanta Commerce Center",
-        "city": "Atlanta",
-        "state": "GA",
-        "type": "Mixed use",
-        "estimatedValue": 30000000,
-        "lat": 33.749,
-        "lon": -84.388,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 196,
-        "status": "No current action"
-      },
-      {
-        "id": "P028",
-        "name": "Cincinnati Office Park",
-        "city": "Cincinnati",
-        "state": "OH",
-        "type": "Office",
-        "estimatedValue": 26630000,
-        "lat": 39.1031,
-        "lon": -84.512,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 383,
-        "status": "No current action"
-      },
       {
         "id": "P059",
         "name": "Tallahassee Office Center",
@@ -9033,22 +8999,9 @@
         "estimatedValue": 26300000,
         "lat": 30.4383,
         "lon": -84.2807,
-        "exposureTier": "Moderate",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 57,
-        "status": "Monitor storm updates"
-      },
-      {
-        "id": "P044",
-        "name": "Los Angeles Office Tower",
-        "city": "Los Angeles",
-        "state": "CA",
-        "type": "Office",
-        "estimatedValue": 22430000,
-        "lat": 34.0522,
-        "lon": -118.2437,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 2042,
-        "status": "No current action"
+        "status": "Monitor as affected scenario property"
       },
       {
         "id": "P009",
@@ -9059,9 +9012,9 @@
         "estimatedValue": 21920000,
         "lat": 34.2104,
         "lon": -77.8868,
-        "exposureTier": "High",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 58,
-        "status": "Immediate leadership brief"
+        "status": "Affected monitoring priority"
       },
       {
         "id": "P023",
@@ -9072,22 +9025,9 @@
         "estimatedValue": 21150000,
         "lat": 42.3601,
         "lon": -71.0589,
-        "exposureTier": "Moderate",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 255,
-        "status": "Monitor storm updates"
-      },
-      {
-        "id": "P029",
-        "name": "Cleveland Multifamily Reserve",
-        "city": "Cleveland",
-        "state": "OH",
-        "type": "Multifamily",
-        "estimatedValue": 20300000,
-        "lat": 41.4993,
-        "lon": -81.6944,
-        "exposureTier": "Watch",
-        "distanceToPathMiles": 298,
-        "status": "Watch list"
+        "status": "Monitor as affected scenario property"
       },
       {
         "id": "P022",
@@ -9098,48 +9038,9 @@
         "estimatedValue": 18540000,
         "lat": 41.824,
         "lon": -71.4128,
-        "exposureTier": "Moderate",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 228,
-        "status": "Monitor storm updates"
-      },
-      {
-        "id": "P024",
-        "name": "Burlington Office Center",
-        "city": "Burlington",
-        "state": "VT",
-        "type": "Office",
-        "estimatedValue": 18480000,
-        "lat": 44.4759,
-        "lon": -73.2121,
-        "exposureTier": "Watch",
-        "distanceToPathMiles": 265,
-        "status": "Watch list"
-      },
-      {
-        "id": "P033",
-        "name": "Minneapolis Multifamily Asset",
-        "city": "Minneapolis",
-        "state": "MN",
-        "type": "Multifamily",
-        "estimatedValue": 18180000,
-        "lat": 44.9778,
-        "lon": -93.265,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 924,
-        "status": "No current action"
-      },
-      {
-        "id": "P051",
-        "name": "Spokane Multifamily Asset",
-        "city": "Spokane",
-        "state": "WA",
-        "type": "Multifamily",
-        "estimatedValue": 16780000,
-        "lat": 47.6588,
-        "lon": -117.426,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 2083,
-        "status": "No current action"
+        "status": "Monitor as affected scenario property"
       },
       {
         "id": "P019",
@@ -9150,9 +9051,9 @@
         "estimatedValue": 16760000,
         "lat": 40.7357,
         "lon": -74.1724,
-        "exposureTier": "High",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 84,
-        "status": "Immediate leadership brief"
+        "status": "Affected monitoring priority"
       },
       {
         "id": "P020",
@@ -9163,35 +9064,9 @@
         "estimatedValue": 16750000,
         "lat": 40.7178,
         "lon": -74.0431,
-        "exposureTier": "High",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 90,
-        "status": "Immediate leadership brief"
-      },
-      {
-        "id": "P053",
-        "name": "Omaha Industrial Center",
-        "city": "Omaha",
-        "state": "NE",
-        "type": "Industrial",
-        "estimatedValue": 16560000,
-        "lat": 41.2565,
-        "lon": -95.9345,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 1002,
-        "status": "No current action"
-      },
-      {
-        "id": "P046",
-        "name": "San Diego Multifamily Reserve",
-        "city": "San Diego",
-        "state": "CA",
-        "type": "Multifamily",
-        "estimatedValue": 15890000,
-        "lat": 32.7157,
-        "lon": -117.1611,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 1977,
-        "status": "No current action"
+        "status": "Affected monitoring priority"
       },
       {
         "id": "P010",
@@ -9202,178 +9077,9 @@
         "estimatedValue": 15760000,
         "lat": 35.9574,
         "lon": -75.6241,
-        "exposureTier": "Moderate",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 146,
-        "status": "Monitor storm updates"
-      },
-      {
-        "id": "P003",
-        "name": "Palm Logistics Center",
-        "city": "West Palm Beach",
-        "state": "FL",
-        "type": "Industrial",
-        "estimatedValue": 15320000,
-        "lat": 26.7153,
-        "lon": -80.0534,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 276,
-        "status": "No current action"
-      },
-      {
-        "id": "P040",
-        "name": "Denver Mixed Use Campus",
-        "city": "Denver",
-        "state": "CO",
-        "type": "Mixed use",
-        "estimatedValue": 15150000,
-        "lat": 39.7392,
-        "lon": -104.9903,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 1384,
-        "status": "No current action"
-      },
-      {
-        "id": "P050",
-        "name": "Seattle Office Campus",
-        "city": "Seattle",
-        "state": "WA",
-        "type": "Office",
-        "estimatedValue": 15050000,
-        "lat": 47.6062,
-        "lon": -122.3321,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 2311,
-        "status": "No current action"
-      },
-      {
-        "id": "P045",
-        "name": "Inland Empire Warehouse",
-        "city": "Riverside",
-        "state": "CA",
-        "type": "Industrial",
-        "estimatedValue": 14910000,
-        "lat": 33.9806,
-        "lon": -117.3755,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 1992,
-        "status": "No current action"
-      },
-      {
-        "id": "P054",
-        "name": "Des Moines Office Park",
-        "city": "Des Moines",
-        "state": "IA",
-        "type": "Office",
-        "estimatedValue": 14500000,
-        "lat": 41.5868,
-        "lon": -93.625,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 887,
-        "status": "No current action"
-      },
-      {
-        "id": "P055",
-        "name": "Louisville Warehouse",
-        "city": "Louisville",
-        "state": "KY",
-        "type": "Industrial",
-        "estimatedValue": 14420000,
-        "lat": 38.2527,
-        "lon": -85.7585,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 435,
-        "status": "No current action"
-      },
-      {
-        "id": "P035",
-        "name": "Kansas City Warehouse",
-        "city": "Kansas City",
-        "state": "MO",
-        "type": "Industrial",
-        "estimatedValue": 13930000,
-        "lat": 39.0997,
-        "lon": -94.5786,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 863,
-        "status": "No current action"
-      },
-      {
-        "id": "P047",
-        "name": "Bay Area Life Science Center",
-        "city": "San Jose",
-        "state": "CA",
-        "type": "Office",
-        "estimatedValue": 13680000,
-        "lat": 37.3382,
-        "lon": -121.8863,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 2249,
-        "status": "No current action"
-      },
-      {
-        "id": "P056",
-        "name": "Birmingham Multifamily Reserve",
-        "city": "Birmingham",
-        "state": "AL",
-        "type": "Multifamily",
-        "estimatedValue": 13070000,
-        "lat": 33.5186,
-        "lon": -86.8104,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 291,
-        "status": "No current action"
-      },
-      {
-        "id": "P058",
-        "name": "Mobile Retail Center",
-        "city": "Mobile",
-        "state": "AL",
-        "type": "Retail",
-        "estimatedValue": 12510000,
-        "lat": 30.6954,
-        "lon": -88.0399,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 271,
-        "status": "No current action"
-      },
-      {
-        "id": "P052",
-        "name": "Boise Retail Commons",
-        "city": "Boise",
-        "state": "ID",
-        "type": "Retail",
-        "estimatedValue": 11940000,
-        "lat": 43.615,
-        "lon": -116.2023,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 2013,
-        "status": "No current action"
-      },
-      {
-        "id": "P036",
-        "name": "Dallas Distribution Campus",
-        "city": "Dallas",
-        "state": "TX",
-        "type": "Industrial",
-        "estimatedValue": 11880000,
-        "lat": 32.7767,
-        "lon": -96.797,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 805,
-        "status": "No current action"
-      },
-      {
-        "id": "P043",
-        "name": "Las Vegas Hospitality Center",
-        "city": "Las Vegas",
-        "state": "NV",
-        "type": "Hospitality",
-        "estimatedValue": 11340000,
-        "lat": 36.1699,
-        "lon": -115.1398,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 1871,
-        "status": "No current action"
+        "status": "Monitor as affected scenario property"
       },
       {
         "id": "P016",
@@ -9384,35 +9090,9 @@
         "estimatedValue": 11250000,
         "lat": 39.2904,
         "lon": -76.6122,
-        "exposureTier": "High",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 12,
-        "status": "Immediate leadership brief"
-      },
-      {
-        "id": "P049",
-        "name": "Portland Logistics Yard",
-        "city": "Portland",
-        "state": "OR",
-        "type": "Industrial",
-        "estimatedValue": 11210000,
-        "lat": 45.5152,
-        "lon": -122.6784,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 2347,
-        "status": "No current action"
-      },
-      {
-        "id": "P057",
-        "name": "New Orleans Hospitality Asset",
-        "city": "New Orleans",
-        "state": "LA",
-        "type": "Hospitality",
-        "estimatedValue": 11170000,
-        "lat": 29.9511,
-        "lon": -90.0715,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 373,
-        "status": "No current action"
+        "status": "Affected monitoring priority"
       },
       {
         "id": "P021",
@@ -9423,22 +9103,9 @@
         "estimatedValue": 10720000,
         "lat": 40.7062,
         "lon": -73.6187,
-        "exposureTier": "High",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 112,
-        "status": "Immediate leadership brief"
-      },
-      {
-        "id": "P032",
-        "name": "Milwaukee Office Center",
-        "city": "Milwaukee",
-        "state": "WI",
-        "type": "Office",
-        "estimatedValue": 9910000,
-        "lat": 43.0389,
-        "lon": -87.9065,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 632,
-        "status": "No current action"
+        "status": "Affected monitoring priority"
       },
       {
         "id": "P018",
@@ -9449,22 +9116,9 @@
         "estimatedValue": 9290000,
         "lat": 39.9526,
         "lon": -75.1652,
-        "exposureTier": "High",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 59,
-        "status": "Immediate leadership brief"
-      },
-      {
-        "id": "P039",
-        "name": "San Antonio Retail Center",
-        "city": "San Antonio",
-        "state": "TX",
-        "type": "Retail",
-        "estimatedValue": 9220000,
-        "lat": 29.4241,
-        "lon": -98.4936,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 856,
-        "status": "No current action"
+        "status": "Affected monitoring priority"
       },
       {
         "id": "P025",
@@ -9475,22 +9129,9 @@
         "estimatedValue": 9180000,
         "lat": 40.4406,
         "lon": -79.9959,
-        "exposureTier": "Moderate",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 188,
-        "status": "Monitor storm updates"
-      },
-      {
-        "id": "P038",
-        "name": "Austin Office Commons",
-        "city": "Austin",
-        "state": "TX",
-        "type": "Office",
-        "estimatedValue": 8430000,
-        "lat": 30.2672,
-        "lon": -97.7431,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 822,
-        "status": "No current action"
+        "status": "Monitor as affected scenario property"
       },
       {
         "id": "P017",
@@ -9501,9 +9142,9 @@
         "estimatedValue": 8380000,
         "lat": 38.9072,
         "lon": -77.0369,
-        "exposureTier": "High",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 4,
-        "status": "Immediate leadership brief"
+        "status": "Affected monitoring priority"
       },
       {
         "id": "P008",
@@ -9514,9 +9155,9 @@
         "estimatedValue": 8110000,
         "lat": 33.6891,
         "lon": -78.8867,
-        "exposureTier": "High",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 10,
-        "status": "Immediate leadership brief"
+        "status": "Affected monitoring priority"
       },
       {
         "id": "P007",
@@ -9527,35 +9168,9 @@
         "estimatedValue": 7090000,
         "lat": 32.7765,
         "lon": -79.9311,
-        "exposureTier": "High",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 16,
-        "status": "Immediate leadership brief"
-      },
-      {
-        "id": "P037",
-        "name": "Houston Hospitality Center",
-        "city": "Houston",
-        "state": "TX",
-        "type": "Hospitality",
-        "estimatedValue": 6970000,
-        "lat": 29.7604,
-        "lon": -95.3698,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 676,
-        "status": "No current action"
-      },
-      {
-        "id": "P031",
-        "name": "Chicago Logistics Center",
-        "city": "Chicago",
-        "state": "IL",
-        "type": "Industrial",
-        "estimatedValue": 6790000,
-        "lat": 41.8781,
-        "lon": -87.6298,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 594,
-        "status": "No current action"
+        "status": "Affected monitoring priority"
       },
       {
         "id": "P013",
@@ -9566,22 +9181,9 @@
         "estimatedValue": 6700000,
         "lat": 36.8508,
         "lon": -76.2859,
-        "exposureTier": "High",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 91,
-        "status": "Immediate leadership brief"
-      },
-      {
-        "id": "P030",
-        "name": "Detroit Industrial Campus",
-        "city": "Detroit",
-        "state": "MI",
-        "type": "Industrial",
-        "estimatedValue": 6120000,
-        "lat": 42.3314,
-        "lon": -83.0458,
-        "exposureTier": "Watch",
-        "distanceToPathMiles": 383,
-        "status": "Watch list"
+        "status": "Affected monitoring priority"
       },
       {
         "id": "P005",
@@ -9592,9 +9194,9 @@
         "estimatedValue": 5490000,
         "lat": 30.3322,
         "lon": -81.6557,
-        "exposureTier": "Moderate",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 81,
-        "status": "Monitor storm updates"
+        "status": "Monitor as affected scenario property"
       },
       {
         "id": "P011",
@@ -9605,48 +9207,9 @@
         "estimatedValue": 5450000,
         "lat": 35.7796,
         "lon": -78.6382,
-        "exposureTier": "High",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 10,
-        "status": "Immediate leadership brief"
-      },
-      {
-        "id": "P027",
-        "name": "Nashville Retail Commons",
-        "city": "Nashville",
-        "state": "TN",
-        "type": "Retail",
-        "estimatedValue": 4910000,
-        "lat": 36.1627,
-        "lon": -86.7816,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 411,
-        "status": "No current action"
-      },
-      {
-        "id": "P002",
-        "name": "Harborview Multifamily",
-        "city": "Fort Lauderdale",
-        "state": "FL",
-        "type": "Multifamily",
-        "estimatedValue": 4510000,
-        "lat": 26.1224,
-        "lon": -80.1373,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 286,
-        "status": "No current action"
-      },
-      {
-        "id": "P042",
-        "name": "Phoenix Retail Commons",
-        "city": "Phoenix",
-        "state": "AZ",
-        "type": "Retail",
-        "estimatedValue": 3380000,
-        "lat": 33.4484,
-        "lon": -112.074,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 1686,
-        "status": "No current action"
+        "status": "Affected monitoring priority"
       },
       {
         "id": "P012",
@@ -9657,9 +9220,9 @@
         "estimatedValue": 3300000,
         "lat": 35.2271,
         "lon": -80.8431,
-        "exposureTier": "Moderate",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 121,
-        "status": "Monitor storm updates"
+        "status": "Monitor as affected scenario property"
       },
       {
         "id": "P014",
@@ -9670,61 +9233,9 @@
         "estimatedValue": 3220000,
         "lat": 37.5407,
         "lon": -77.436,
-        "exposureTier": "High",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 19,
-        "status": "Immediate leadership brief"
-      },
-      {
-        "id": "P041",
-        "name": "Salt Lake Industrial Park",
-        "city": "Salt Lake City",
-        "state": "UT",
-        "type": "Industrial",
-        "estimatedValue": 3150000,
-        "lat": 40.7608,
-        "lon": -111.891,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 1754,
-        "status": "No current action"
-      },
-      {
-        "id": "P060",
-        "name": "Orlando Multifamily Asset",
-        "city": "Orlando",
-        "state": "FL",
-        "type": "Multifamily",
-        "estimatedValue": 2830000,
-        "lat": 28.5383,
-        "lon": -81.3792,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 156,
-        "status": "No current action"
-      },
-      {
-        "id": "P001",
-        "name": "Atlantic Gateway Offices",
-        "city": "Miami",
-        "state": "FL",
-        "type": "Office",
-        "estimatedValue": 2810000,
-        "lat": 25.7617,
-        "lon": -80.1918,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 292,
-        "status": "No current action"
-      },
-      {
-        "id": "P048",
-        "name": "Sacramento Retail Center",
-        "city": "Sacramento",
-        "state": "CA",
-        "type": "Retail",
-        "estimatedValue": 2720000,
-        "lat": 38.5816,
-        "lon": -121.4944,
-        "exposureTier": "Outside",
-        "distanceToPathMiles": 2232,
-        "status": "No current action"
+        "status": "Affected monitoring priority"
       },
       {
         "id": "P006",
@@ -9735,9 +9246,9 @@
         "estimatedValue": 2390000,
         "lat": 32.0809,
         "lon": -81.0912,
-        "exposureTier": "High",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 5,
-        "status": "Immediate leadership brief"
+        "status": "Affected monitoring priority"
       },
       {
         "id": "P015",
@@ -9748,9 +9259,490 @@
         "estimatedValue": 2160000,
         "lat": 38.3607,
         "lon": -75.5994,
-        "exposureTier": "High",
+        "exposureTier": "High exposure",
         "distanceToPathMiles": 85,
-        "status": "Immediate leadership brief"
+        "status": "Affected monitoring priority"
+      },
+      {
+        "id": "P026",
+        "name": "Atlanta Commerce Center",
+        "city": "Atlanta",
+        "state": "GA",
+        "type": "Mixed use",
+        "estimatedValue": 30000000,
+        "lat": 33.749,
+        "lon": -84.388,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 196,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P028",
+        "name": "Cincinnati Office Park",
+        "city": "Cincinnati",
+        "state": "OH",
+        "type": "Office",
+        "estimatedValue": 26630000,
+        "lat": 39.1031,
+        "lon": -84.512,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 383,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P044",
+        "name": "Los Angeles Office Tower",
+        "city": "Los Angeles",
+        "state": "CA",
+        "type": "Office",
+        "estimatedValue": 22430000,
+        "lat": 34.0522,
+        "lon": -118.2437,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 2042,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P029",
+        "name": "Cleveland Multifamily Reserve",
+        "city": "Cleveland",
+        "state": "OH",
+        "type": "Multifamily",
+        "estimatedValue": 20300000,
+        "lat": 41.4993,
+        "lon": -81.6944,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 298,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P024",
+        "name": "Burlington Office Center",
+        "city": "Burlington",
+        "state": "VT",
+        "type": "Office",
+        "estimatedValue": 18480000,
+        "lat": 44.4759,
+        "lon": -73.2121,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 265,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P033",
+        "name": "Minneapolis Multifamily Asset",
+        "city": "Minneapolis",
+        "state": "MN",
+        "type": "Multifamily",
+        "estimatedValue": 18180000,
+        "lat": 44.9778,
+        "lon": -93.265,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 924,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P051",
+        "name": "Spokane Multifamily Asset",
+        "city": "Spokane",
+        "state": "WA",
+        "type": "Multifamily",
+        "estimatedValue": 16780000,
+        "lat": 47.6588,
+        "lon": -117.426,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 2083,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P053",
+        "name": "Omaha Industrial Center",
+        "city": "Omaha",
+        "state": "NE",
+        "type": "Industrial",
+        "estimatedValue": 16560000,
+        "lat": 41.2565,
+        "lon": -95.9345,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 1002,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P046",
+        "name": "San Diego Multifamily Reserve",
+        "city": "San Diego",
+        "state": "CA",
+        "type": "Multifamily",
+        "estimatedValue": 15890000,
+        "lat": 32.7157,
+        "lon": -117.1611,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 1977,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P003",
+        "name": "Palm Logistics Center",
+        "city": "West Palm Beach",
+        "state": "FL",
+        "type": "Industrial",
+        "estimatedValue": 15320000,
+        "lat": 26.7153,
+        "lon": -80.0534,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 276,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P040",
+        "name": "Denver Mixed Use Campus",
+        "city": "Denver",
+        "state": "CO",
+        "type": "Mixed use",
+        "estimatedValue": 15150000,
+        "lat": 39.7392,
+        "lon": -104.9903,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 1384,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P050",
+        "name": "Seattle Office Campus",
+        "city": "Seattle",
+        "state": "WA",
+        "type": "Office",
+        "estimatedValue": 15050000,
+        "lat": 47.6062,
+        "lon": -122.3321,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 2311,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P045",
+        "name": "Inland Empire Warehouse",
+        "city": "Riverside",
+        "state": "CA",
+        "type": "Industrial",
+        "estimatedValue": 14910000,
+        "lat": 33.9806,
+        "lon": -117.3755,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 1992,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P054",
+        "name": "Des Moines Office Park",
+        "city": "Des Moines",
+        "state": "IA",
+        "type": "Office",
+        "estimatedValue": 14500000,
+        "lat": 41.5868,
+        "lon": -93.625,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 887,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P055",
+        "name": "Louisville Warehouse",
+        "city": "Louisville",
+        "state": "KY",
+        "type": "Industrial",
+        "estimatedValue": 14420000,
+        "lat": 38.2527,
+        "lon": -85.7585,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 435,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P035",
+        "name": "Kansas City Warehouse",
+        "city": "Kansas City",
+        "state": "MO",
+        "type": "Industrial",
+        "estimatedValue": 13930000,
+        "lat": 39.0997,
+        "lon": -94.5786,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 863,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P047",
+        "name": "Bay Area Life Science Center",
+        "city": "San Jose",
+        "state": "CA",
+        "type": "Office",
+        "estimatedValue": 13680000,
+        "lat": 37.3382,
+        "lon": -121.8863,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 2249,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P056",
+        "name": "Birmingham Multifamily Reserve",
+        "city": "Birmingham",
+        "state": "AL",
+        "type": "Multifamily",
+        "estimatedValue": 13070000,
+        "lat": 33.5186,
+        "lon": -86.8104,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 291,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P058",
+        "name": "Mobile Retail Center",
+        "city": "Mobile",
+        "state": "AL",
+        "type": "Retail",
+        "estimatedValue": 12510000,
+        "lat": 30.6954,
+        "lon": -88.0399,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 271,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P052",
+        "name": "Boise Retail Commons",
+        "city": "Boise",
+        "state": "ID",
+        "type": "Retail",
+        "estimatedValue": 11940000,
+        "lat": 43.615,
+        "lon": -116.2023,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 2013,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P036",
+        "name": "Dallas Distribution Campus",
+        "city": "Dallas",
+        "state": "TX",
+        "type": "Industrial",
+        "estimatedValue": 11880000,
+        "lat": 32.7767,
+        "lon": -96.797,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 805,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P043",
+        "name": "Las Vegas Hospitality Center",
+        "city": "Las Vegas",
+        "state": "NV",
+        "type": "Hospitality",
+        "estimatedValue": 11340000,
+        "lat": 36.1699,
+        "lon": -115.1398,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 1871,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P049",
+        "name": "Portland Logistics Yard",
+        "city": "Portland",
+        "state": "OR",
+        "type": "Industrial",
+        "estimatedValue": 11210000,
+        "lat": 45.5152,
+        "lon": -122.6784,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 2347,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P057",
+        "name": "New Orleans Hospitality Asset",
+        "city": "New Orleans",
+        "state": "LA",
+        "type": "Hospitality",
+        "estimatedValue": 11170000,
+        "lat": 29.9511,
+        "lon": -90.0715,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 373,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P032",
+        "name": "Milwaukee Office Center",
+        "city": "Milwaukee",
+        "state": "WI",
+        "type": "Office",
+        "estimatedValue": 9910000,
+        "lat": 43.0389,
+        "lon": -87.9065,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 632,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P039",
+        "name": "San Antonio Retail Center",
+        "city": "San Antonio",
+        "state": "TX",
+        "type": "Retail",
+        "estimatedValue": 9220000,
+        "lat": 29.4241,
+        "lon": -98.4936,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 856,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P038",
+        "name": "Austin Office Commons",
+        "city": "Austin",
+        "state": "TX",
+        "type": "Office",
+        "estimatedValue": 8430000,
+        "lat": 30.2672,
+        "lon": -97.7431,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 822,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P037",
+        "name": "Houston Hospitality Center",
+        "city": "Houston",
+        "state": "TX",
+        "type": "Hospitality",
+        "estimatedValue": 6970000,
+        "lat": 29.7604,
+        "lon": -95.3698,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 676,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P031",
+        "name": "Chicago Logistics Center",
+        "city": "Chicago",
+        "state": "IL",
+        "type": "Industrial",
+        "estimatedValue": 6790000,
+        "lat": 41.8781,
+        "lon": -87.6298,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 594,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P030",
+        "name": "Detroit Industrial Campus",
+        "city": "Detroit",
+        "state": "MI",
+        "type": "Industrial",
+        "estimatedValue": 6120000,
+        "lat": 42.3314,
+        "lon": -83.0458,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 383,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P027",
+        "name": "Nashville Retail Commons",
+        "city": "Nashville",
+        "state": "TN",
+        "type": "Retail",
+        "estimatedValue": 4910000,
+        "lat": 36.1627,
+        "lon": -86.7816,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 411,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P002",
+        "name": "Harborview Multifamily",
+        "city": "Fort Lauderdale",
+        "state": "FL",
+        "type": "Multifamily",
+        "estimatedValue": 4510000,
+        "lat": 26.1224,
+        "lon": -80.1373,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 286,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P042",
+        "name": "Phoenix Retail Commons",
+        "city": "Phoenix",
+        "state": "AZ",
+        "type": "Retail",
+        "estimatedValue": 3380000,
+        "lat": 33.4484,
+        "lon": -112.074,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 1686,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P041",
+        "name": "Salt Lake Industrial Park",
+        "city": "Salt Lake City",
+        "state": "UT",
+        "type": "Industrial",
+        "estimatedValue": 3150000,
+        "lat": 40.7608,
+        "lon": -111.891,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 1754,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P060",
+        "name": "Orlando Multifamily Asset",
+        "city": "Orlando",
+        "state": "FL",
+        "type": "Multifamily",
+        "estimatedValue": 2830000,
+        "lat": 28.5383,
+        "lon": -81.3792,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 156,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P001",
+        "name": "Atlantic Gateway Offices",
+        "city": "Miami",
+        "state": "FL",
+        "type": "Office",
+        "estimatedValue": 2810000,
+        "lat": 25.7617,
+        "lon": -80.1918,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 292,
+        "status": "Not affected in scenario"
+      },
+      {
+        "id": "P048",
+        "name": "Sacramento Retail Center",
+        "city": "Sacramento",
+        "state": "CA",
+        "type": "Retail",
+        "estimatedValue": 2720000,
+        "lat": 38.5816,
+        "lon": -121.4944,
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 2232,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P034",
@@ -9761,9 +9753,9 @@
         "estimatedValue": 1490000,
         "lat": 38.627,
         "lon": -90.1994,
-        "exposureTier": "Outside",
+        "exposureTier": "Outside exposure area",
         "distanceToPathMiles": 662,
-        "status": "No current action"
+        "status": "Not affected in scenario"
       },
       {
         "id": "P004",
@@ -9774,9 +9766,9 @@
         "estimatedValue": 1360000,
         "lat": 28.0836,
         "lon": -80.6081,
-        "exposureTier": "Outside",
+        "exposureTier": "Outside exposure area",
         "distanceToPathMiles": 210,
-        "status": "No current action"
+        "status": "Not affected in scenario"
       }
     ]
   }

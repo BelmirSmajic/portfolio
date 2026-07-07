@@ -59,57 +59,20 @@
               <a class="button primary" href="#projects">View Projects</a>
               <a class="button" href="https://github.com/BelmirSmajic" target="_blank" rel="noopener noreferrer">GitHub</a>
               <a class="button" href="https://github.com/BelmirSmajic/portfolio" target="_blank" rel="noopener noreferrer">Portfolio Repository</a>
-            </div>
-          </section>
-
-          <section class="impact" aria-labelledby="impact-title">
-            <div class="section-heading compact">
-              <p class="eyebrow">Impact Summary</p>
-              <h2 id="impact-title">Impact at a Glance</h2>
-            </div>
-            <div class="impact-grid">
-              <article>
-                <h3>Provider Cost Outlier Analysis</h3>
-                <strong>More than $500,000</strong>
-                <p>Documented annual cost reductions for a regional Medicaid health plan through normalized provider cost review.</p>
-              </article>
-              <article>
-                <h3>Preferred Provider Contract Scenario Model</h3>
-                <strong>Preferred provider decision</strong>
-                <p>Modeled reimbursement and volume shift for a specific DME provider arrangement, then compared projected savings with actual performance.</p>
-              </article>
-              <article>
-                <h3>Acquisition Product Matching</h3>
-                <strong>1.4 million compared with 4 million</strong>
-                <p>Compared an acquired product catalog with the existing enterprise product master and saved hundreds of manual work hours.</p>
-              </article>
-              <article>
-                <h3>Hurricane Exposure and Portfolio Risk Analysis</h3>
-                <strong>Board ready hurricane exposure view</strong>
-                <p>Mapped Hurricane Debby 2024 scenario exposure across a 16 billion dollar state pension fund real estate portfolio to identify affected properties, estimate exposed value, and support Chief Investment Officer and board level reporting.</p>
-              </article>
-              <article>
-                <h3>World Cup Weakest Link Analysis</h3>
-                <strong>Lineup floor was the stronger signal</strong>
-                <p>The weakest regular starters were more strongly associated with group stage performance and advancement than total team value or star power among the tested measures, supported by a 0.77 Spearman relationship.</p>
-              </article>
-            </div>
-          </section>
-
-          <section id="projects" class="project-index" aria-labelledby="project-index-title">
+            </div>          <section id="projects" class="project-index" aria-labelledby="project-index-title">
             <div class="section-heading compact">
               <p class="eyebrow">Project Index</p>
               <h2 id="project-index-title">Five selected projects</h2>
+              <p>Impact at a Glance</p>
             </div>
-            <ol>
-              <li><a href="#provider">Provider Cost Outlier Analysis</a><p>Normalized provider cost within peer groups to identify actionable outliers and support more than $500,000 in documented annual reductions.</p></li>
-              <li><a href="#contract">Preferred Provider Contract Scenario Model</a><p>Modeled reimbursement and volume shift for a specific DME arrangement and compared projected savings with actual performance.</p></li>
-              <li><a href="#acquisition">Acquisition Product Matching</a><p>Compared approximately 1.4 million acquired products with roughly 4 million existing products while saving hundreds of manual work hours.</p></li>
-              <li><a href="#hurricane">Hurricane Exposure and Portfolio Risk Analysis</a><p>Mapped Hurricane Debby 2024 scenario exposure across a 16 billion dollar state pension fund real estate portfolio to identify affected properties, estimate exposed value, and support Chief Investment Officer and board level reporting.</p></li>
-              <li><a href="#worldcup">World Cup Weakest Link Analysis</a><p>Tested whether the weakest regular starters were more informative about group stage performance and advancement than total value or star power.</p></li>
-            </ol>
+            <div class="project-card-grid">
+              <article><h3><a href="#provider">Provider Cost Outlier Analysis</a></h3><p>Business context: contracting analytics for a regional Medicaid health plan.</p><p>Decision signal: cost per active member month normalized provider spend against peer medians.</p><p>Tools: SQL and Tableau.</p></article>
+              <article><h3><a href="#contract">Preferred Provider Contract Scenario Model</a></h3><p>Business context: preferred DME supplier scenario for a regional Medicaid health plan.</p><p>Decision signal: benchmark rate logic, volume shift, projected savings, and post implementation validation.</p><p>Tools: SQL and Excel.</p></article>
+              <article><h3><a href="#acquisition">Acquisition Product Matching</a></h3><p>Business context: Fortune 500 food distribution catalog integration.</p><p>Decision signal: 1.4 million acquired products compared with roughly 4 million existing products and hundreds of manual work hours saved.</p><p>Tools: Python and Excel.</p></article>
+              <article><h3><a href="#hurricane">Hurricane Exposure and Portfolio Risk Analysis</a></h3><p>Business context: national real estate portfolio monitoring for a 16 billion dollar state pension fund.</p><p>Decision signal: Hurricane Debby 2024 exposure view for Chief Investment Officer and board level reporting.</p><p>Tools: SQL, Tableau, and geospatial data.</p></article>
+              <article><h3><a href="#worldcup">World Cup Weakest Link Analysis</a></h3><p>Research context: independent public football analytics.</p><p>Decision signal: lineup floor was stronger than total team value or star power, supported by a 0.77 Spearman relationship.</p><p>Tools: Python, HTML, CSS, JavaScript, and GitHub Pages.</p></article>
+            </div>
           </section>
-
           <section class="data-note" aria-labelledby="data-note-title">
             <h2 id="data-note-title">Data note</h2>
             <p>Professional project visuals use synthetic data created to demonstrate the original analytical workflows. No employer, member, provider, contract, supplier, property, or product data is displayed. The World Cup analysis uses public data.</p>
@@ -145,34 +108,24 @@
               </article>
             </div>
             <div class="visual-grid">
+            </div>
+                        <div class="visual-grid">
               <article class="visual-panel">
                 <div class="panel-head">
                   <div>
                     <h3>Provider Review Workspace</h3>
-                    <p>Six examples show which providers were materially above the peer median after normalizing by active member exposure.</p>
+                    <p>Six examples show Cost per active member month, peer median, above median amount, ratio, review status, and active member volume.</p>
                   </div>
                   <button type="button" data-expand="provider-workspace">Expand</button>
                 </div>
                 <div id="provider-workspace" class="workspace-visual"></div>
                 <small>Example data: provider peer review dataset</small>
               </article>
-              <article class="visual-panel">
-                <div class="panel-head">
-                  <div>
-                    <h3>Peer Median Comparison</h3>
-                    <p>Each bar compares provider cost per active member month with the expected peer level.</p>
-                  </div>
-                  <button type="button" data-expand="provider-comparison">Expand</button>
-                </div>
-                <div id="provider-comparison" class="chart-area"></div>
-                <small>Example data: provider peer review dataset</small>
-              </article>
-            </div>
-            <div class="methods">
+            </div>            <div class="methods">
               <h3>Tools and Methods</h3>
               <dl>
                 <dt>Tools</dt><dd>SQL, Tableau</dd>
-                <dt>Methods</dt><dd>Claims analysis, provider peer grouping, cost per active member month, peer ranking, root cause analysis, business validation</dd>
+                <dt>Methods</dt><dd>Claims to provider joins, member provider grain aggregation, provider level rollup, Cost per active member month, Peer group comparison, Provider outlier ranking, Contracting analytics review</dd>
               </dl>
             </div>
           </section>
@@ -189,9 +142,9 @@
               <dl>
                 <dt>Industry and setting</dt><dd>Regional Medicaid health plan and durable medical equipment contracting.</dd>
                 <dt>Who the work supported</dt><dd>Finance, Provider Contracting, and operational stakeholders evaluating a proposed preferred provider arrangement.</dd>
-                <dt>Business problem</dt><dd>Stakeholders needed to know whether shifting eligible durable medical equipment volume to a preferred DME supplier at 80% of benchmark rates would generate savings.</dd>
+                <dt>Business problem</dt><dd>Stakeholders needed to know whether shifting eligible durable medical equipment volume to a preferred DME supplier at 80 percent of benchmark rates would generate savings.</dd>
                 <dt>Why it was useful</dt><dd>The model tested whether the specific provider arrangement was financially attractive and showed whether projected savings materialized after implementation.</dd>
-                <dt>Key Impact</dt><dd>Supported a preferred provider contract decision by testing reimbursement at 80% of benchmark rates, eligible services, utilization, and expected volume shift assumptions.</dd>
+                <dt>Key Impact</dt><dd>Supported a preferred provider contract decision by testing reimbursement at 80 percent of benchmark rates, eligible services, utilization, and expected volume shift assumptions.</dd>
                 <dt>Tools</dt><dd>SQL and Excel.</dd>
               </dl>
             </div>
@@ -207,30 +160,20 @@
               </article>
             </div>
             <div class="visual-grid">
+            </div>
+                        <div class="visual-grid">
               <article class="visual-panel">
                 <div class="panel-head">
                   <div>
                     <h3>Preferred DME Supplier Scenario</h3>
-                    <p>Adjust volume shift and 80% benchmark rate assumptions to see whether savings depend on actual eligible DME volume moving to the preferred provider.</p>
+                    <p>Adjust volume shift and 80 percent DMAS benchmark rate assumptions to test current network baseline, preferred supplier scenario, projected savings, and decision signal.</p>
                   </div>
                   <button type="button" data-expand="contract-scenario">Expand</button>
                 </div>
                 <div id="contract-scenario" class="workspace-visual"></div>
                 <small>Example data: DME contract scenario output</small>
               </article>
-              <article class="visual-panel">
-                <div class="panel-head">
-                  <div>
-                    <h3>Savings Variance Bridge</h3>
-                    <p>The bridge shows why savings depend on actual volume moving to the preferred DME supplier, not just a lower 80% benchmark rate existing.</p>
-                  </div>
-                  <button type="button" data-expand="contract-bridge">Expand</button>
-                </div>
-                <div id="contract-bridge" class="chart-area"></div>
-                <small>Example data: DME contract scenario output</small>
-              </article>
-            </div>
-            <div class="methods">
+            </div>            <div class="methods">
               <h3>Tools and Methods</h3>
               <dl>
                 <dt>Tools</dt><dd>SQL, Excel</dd>
@@ -269,17 +212,6 @@
               </article>
             </div>
             <div class="visual-grid">
-              <article class="visual-panel">
-                <div class="panel-head">
-                  <div>
-                    <h3>Matching Funnel</h3>
-                    <p>The summary shows strong matches resolved automatically and uncertain records reserved for review.</p>
-                  </div>
-                  <button type="button" data-expand="acquisition-funnel">Expand</button>
-                </div>
-                <div id="acquisition-funnel" class="chart-area"></div>
-                <small>Example data: product matching workflow</small>
-              </article>
               <article class="visual-panel">
                 <div class="panel-head">
                   <div>
@@ -331,30 +263,19 @@
               </article>
             </div>
             <div class="visual-grid hurricane-visual-stack">
-              <article class="visual-panel">
+              <article class="visual-panel hurricane-exposure-panel">
                 <div class="panel-head">
                   <div>
-                    <h3>Interactive Hurricane Exposure Map</h3>
-                    <p>Property markers show exposure tiers for the Hurricane Debby 2024 Scenario.</p>
+                    <h3>National Hurricane Exposure Map</h3>
+                    <p>Full USA portfolio map with Hurricane Debby 2024 scenario overlay, highlighted high exposure properties, and ranked affected properties below.</p>
                   </div>
                   <button type="button" data-expand="hurricane-map">Expand</button>
                 </div>
                 <div id="hurricane-map" class="workspace-visual hurricane-map-visual"></div>
+                <div id="hurricane-table" class="workspace-visual hurricane-table-visual"></div>
                 <small>Example data: state pension fund real estate exposure workflow</small>
               </article>
-              <article class="visual-panel">
-                <div class="panel-head">
-                  <div>
-                    <h3>Potentially Affected Properties Table</h3>
-                    <p>High and Moderate exposure properties are ranked by estimated property value for the Hurricane Debby 2024 Scenario.</p>
-                  </div>
-                  <button type="button" data-expand="hurricane-table">Expand</button>
-                </div>
-                <div id="hurricane-table" class="workspace-visual"></div>
-                <small>Example data: state pension fund real estate exposure workflow</small>
-              </article>
-            </div>
-            <div class="methods">
+            </div>            <div class="methods">
               <h3>Tools and Methods</h3>
               <dl>
                 <dt>Tools</dt><dd>SQL, Tableau, geospatial shapefiles, government storm or hurricane data APIs</dd>
@@ -460,4 +381,14 @@
     <script src="app.js"></script>
   </body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
