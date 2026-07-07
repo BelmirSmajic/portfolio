@@ -66,11 +66,11 @@
               <p>Impact at a Glance</p>
             </div>
             <div class="project-card-grid">
-              <article><h3><a href="#provider">Provider Cost Outlier Analysis</a></h3><p>Business context: contracting analytics for a regional Medicaid health plan.</p><p>Decision signal: cost per active member month normalized provider spend against peer medians.</p><p>Tools: SQL and Tableau.</p></article>
-              <article><h3><a href="#contract">Preferred Provider Contract Scenario Model</a></h3><p>Business context: preferred DME supplier scenario for a regional Medicaid health plan.</p><p>Decision signal: benchmark rate logic, volume shift, projected savings, and post implementation validation.</p><p>Tools: SQL and Excel.</p></article>
-              <article><h3><a href="#acquisition">Acquisition Product Matching</a></h3><p>Business context: Fortune 500 food distribution catalog integration.</p><p>Decision signal: 1.4 million acquired products compared with roughly 4 million existing products and hundreds of manual work hours saved.</p><p>Tools: Python and Excel.</p></article>
-              <article><h3><a href="#hurricane">Hurricane Exposure and Portfolio Risk Analysis</a></h3><p>Business context: national real estate portfolio monitoring for a 16 billion dollar state pension fund.</p><p>Decision signal: Hurricane Debby 2024 exposure view for Chief Investment Officer and board level reporting.</p><p>Tools: SQL, Tableau, and geospatial data.</p></article>
-              <article><h3><a href="#worldcup">World Cup Weakest Link Analysis</a></h3><p>Research context: independent public football analytics.</p><p>Decision signal: lineup floor was stronger than total team value or star power, supported by a 0.77 Spearman relationship.</p><p>Tools: Python, HTML, CSS, JavaScript, and GitHub Pages.</p></article>
+              <article><h3><a href="#provider">Provider Cost Outlier Analysis</a></h3><p>Identified high-cost provider outliers for a regional Medicaid health plan by joining claims and provider data, calculating cost per active member month within peer groups, and surfacing abnormal cost patterns for Finance and Provider Contracting review.</p><div class="tool-chips"><span>SQL</span><span>Tableau</span></div></article>
+              <article><h3><a href="#contract">Preferred Provider Contract Scenario Model</a></h3><p>Modeled a preferred DME supplier scenario for a regional Medicaid health plan by comparing claims, benchmark rates, reimbursement, and expected volume shift to support contract negotiation and projected savings review.</p><div class="tool-chips"><span>SQL</span><span>Excel</span></div></article>
+              <article><h3><a href="#acquisition">Acquisition Product Matching</a></h3><p>Accelerated acquisition integration for a Fortune 500 food distributor by using Python matching logic to compare 1.4M acquired products against roughly 4M existing records and create a structured manual review workflow.</p><div class="tool-chips"><span>Python</span><span>Excel</span></div></article>
+              <article><h3><a href="#hurricane">Hurricane Exposure and Portfolio Risk Analysis</a></h3><p>Improved executive storm exposure planning for a 16 billion dollar real estate portfolio by joining property values, locations, and hurricane exposure data into a full USA map with affected assets prioritized for CIO and board review.</p><div class="tool-chips"><span>SQL</span><span>Tableau</span><span>Geospatial data</span></div></article>
+              <article><h3><a href="#worldcup">World Cup Weakest Link Analysis</a></h3><p>Tested whether lineup floor explained World Cup group stage performance better than total team value or star power by comparing the bottom three players in each usage based Core XI against team outcomes.</p><div class="tool-chips"><span>Python</span><span>pandas</span><span>Public football data</span></div></article>
             </div>
           </section>
           <section class="data-note" aria-labelledby="data-note-title">
@@ -84,7 +84,7 @@
               <span>Healthcare Analytics</span>
             </div>
             <h2>Provider Cost Outlier Analysis</h2>
-            <p class="overview">Normalized provider cost per active member month within peer groups for a regional Medicaid health plan, helping Finance and Provider Contracting focus on materially abnormal cost patterns.</p>
+            <p class="overview">Supported contracting analytics for a regional Medicaid health plan by joining claims and provider data, calculating cost per active member month within peer groups, and ranking providers with materially abnormal spend for Finance and Provider Contracting review.</p>
             <div class="glance">
               <h3>Business at a Glance</h3>
               <dl>
@@ -136,7 +136,7 @@
               <span>Healthcare Product and Contract Strategy</span>
             </div>
             <h2>Preferred Provider Contract Scenario Model</h2>
-            <p class="overview">Modeled a preferred DME supplier migration for a regional Medicaid health plan, then compared projected savings with post implementation performance.</p>
+            <p class="overview">Supported a preferred DME supplier negotiation for a regional Medicaid health plan by modeling claims, benchmark rates, reimbursement, and expected volume shift to evaluate projected savings and post implementation performance.</p>
             <div class="glance">
               <h3>Business at a Glance</h3>
               <dl>
@@ -188,7 +188,7 @@
               <span>Data Integration and Product Analytics</span>
             </div>
             <h2>Acquisition Product Matching</h2>
-            <p class="overview">Designed matching logic and exception workflow for a Fortune 500 food distribution company comparing approximately 1.4 million acquired products with roughly 4 million existing products.</p>
+            <p class="overview">Accelerated acquisition integration for a Fortune 500 food distribution company by using Python matching logic to compare approximately 1.4 million acquired products with roughly 4 million existing records and route uncertain matches into structured review.</p>
             <div class="glance">
               <h3>Business at a Glance</h3>
               <dl>
@@ -239,7 +239,7 @@
               <span>Real Estate Risk and Exposure Analytics</span>
             </div>
             <h2>Hurricane Exposure and Portfolio Risk Analysis</h2>
-            <p class="overview">Mapped Hurricane Debby 2024 scenario exposure across a 16 billion dollar state pension fund real estate portfolio to support monitoring, prioritization, Chief Investment Officer briefings, and board level reporting.</p>
+            <p class="overview">Supported storm exposure planning for a 16 billion dollar state pension fund real estate portfolio by joining property values, locations, and Hurricane Debby 2024 exposure data into a full USA monitoring view for CIO briefings and board level reporting.</p>
             <div class="glance">
               <h3>Business at a Glance</h3>
               <dl>
@@ -290,7 +290,7 @@
               <span>Independent Football Analytics Research</span>
             </div>
             <h2>World Cup Weakest Link Analysis</h2>
-            <p class="overview">Tested whether a team&rsquo;s weakest regular starters were more informative about group stage performance and advancement than total team value or star power among the tested value measures.</p>
+            <p class="overview">Tested a public football analytics hypothesis by constructing usage based Core XI lineups from group stage starts, minutes, and appearances, then comparing each team&rsquo;s lineup floor against total value, star power, points, and advancement.</p>
             <div class="glance">
               <h3>Research at a Glance</h3>
               <dl>
@@ -314,8 +314,8 @@
                 <p>The Core XI is retrospective, based on group stage minutes, starts, and appearances. The bottom three are the three lowest valued players within that Core XI, not the full squad and not every player who appeared.</p>
               </article>
             </div>
-            <div class="visual-grid">
-              <article class="visual-panel">
+            <div class="visual-grid worldcup-visual-stack">
+              <article class="visual-panel full-width-workspace">
                 <div class="panel-head">
                   <div>
                     <h3>Mexico and Uruguay Comparison</h3>
@@ -326,16 +326,16 @@
                 <div id="worldcup-comparison" class="chart-area"></div>
                 <small>Source: public World Cup analysis data</small>
               </article>
-              <article class="visual-panel">
+              <article class="visual-panel full-width-workspace">
                 <div class="panel-head">
                   <div>
-                    <h3>Value Rank Versus Lineup Floor Rank</h3>
-                    <p>Selected rank gaps show where headline team value and lineup floor produced different expectations.</p>
+                    <h3>Lineup Floor Evidence Panel</h3>
+                    <p>Four headline metrics summarize why the portfolio preview points to the full public analysis.</p>
                   </div>
-                  <button type="button" data-expand="worldcup-rank-gap">Expand</button>
+                  <button type="button" data-expand="worldcup-evidence">Expand</button>
                 </div>
-                <div id="worldcup-rank-gap" class="workspace-visual"></div>
-                <small>Source: public World Cup team ranking data</small>
+                <div id="worldcup-evidence" class="workspace-visual"></div>
+                <small>Source: public World Cup analysis metrics</small>
               </article>
             </div>
             <div class="methods">

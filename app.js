@@ -306,6 +306,46 @@ function corridorPolygon(points, factor) {
   return left.concat(right).join(" ");
 }
 
+function smoothClosedPath(points) {
+  if (!points.length) return "";
+  const rounded = points.map((point) => ({
+    x: Number(point.x),
+    y: Number(point.y)
+  }));
+  let path = `M ${rounded[0].x.toFixed(1)} ${rounded[0].y.toFixed(1)}`;
+  rounded.forEach((point, index) => {
+    const next = rounded[(index + 1) % rounded.length];
+    const midX = (point.x + next.x) / 2;
+    const midY = (point.y + next.y) / 2;
+    path += ` Q ${point.x.toFixed(1)} ${point.y.toFixed(1)} ${midX.toFixed(1)} ${midY.toFixed(1)}`;
+  });
+  return `${path} Z`;
+}
+
+function corridorPath(points, factor) {
+  const left = [];
+  const right = [];
+  points.forEach((point, index) => {
+    const previous = points[Math.max(0, index - 1)];
+    const next = points[Math.min(points.length - 1, index + 1)];
+    const p = projectUsPoint(point.lat, point.lon);
+    const a = projectUsPoint(previous.lat, previous.lon);
+    const b = projectUsPoint(next.lat, next.lon);
+    const dx = b.x - a.x || 1;
+    const dy = b.y - a.y || 1;
+    const length = Math.sqrt(dx * dx + dy * dy) || 1;
+    const nx = -dy / length;
+    const ny = dx / length;
+    const progress = points.length <= 1 ? 1 : index / (points.length - 1);
+    const taper = 0.74 + progress * 0.34;
+    const width = Math.max(12, point.radius * factor * taper);
+    const coastalBias = 0.92 + Math.min(progress, 0.72) * 0.12;
+    left.push({ x: p.x + nx * width * coastalBias, y: p.y + ny * width });
+    right.unshift({ x: p.x - nx * width * coastalBias, y: p.y - ny * width });
+  });
+  return smoothClosedPath(left.concat(right));
+}
+
 function hurricaneForecastLabel(point, index) {
   const projected = projectUsPoint(point.lat, point.lon);
   const label = nationalForecastLabels[index] || { day: point.label, wind: "", dx: 16, dy: 16 };
@@ -361,9 +401,9 @@ function renderHurricaneMap(data, target) {
       <path d="M164 34 V526 M384 34 V526 M604 34 V526 M824 34 V526"></path>
     </g>
     <g class="state-layer">${statePaths}</g>
-    <polygon class="forecast-cone forecast-cone-outer" points="${corridorPolygon(scenario.stormPath, 1.15)}"></polygon>
-    <polygon class="forecast-cone-mid" points="${corridorPolygon(scenario.stormPath, 0.78)}"></polygon>
-    <polygon class="forecast-cone-core" points="${corridorPolygon(scenario.stormPath, 0.42)}"></polygon>
+    <path class="forecast-cone forecast-cone-outer" d="${corridorPath(scenario.stormPath, 1.03)}"></path>
+    <path class="forecast-cone-mid" d="${corridorPath(scenario.stormPath, 0.68)}"></path>
+    <path class="forecast-cone-core" d="${corridorPath(scenario.stormPath, 0.34)}"></path>
     <g class="property-layer"></g>
     <g class="city-layer">${nationalCityLabels.map(hurricaneCityLabel).join("")}</g>
     <polyline class="storm-track" points="${line}"></polyline>
@@ -551,7 +591,7 @@ function renderContractScenario(data, target) {
 
     summary.innerHTML = `<div class="contract-state current"><span>Current network baseline</span><strong>${money(data.summary.baseline_spend || 0)}</strong><p>Eligible DME service categories priced through current network rates.</p></div>
       <div class="contract-state preferred"><span>Preferred provider scenario</span><strong>${money(projectedSpend)}</strong><p>${steer.input.value} percent expected eligible DME volume moving to the preferred supplier at ${rate.input.value} percent of benchmark.</p></div>
-      <div class="contract-impact"><span>Projected savings</span><strong>${money(estimate)}</strong><p>Decision signal: savings depend on actual volume moving to the preferred DME supplier, not just the 80 percent benchmark rate existing.</p></div>`;
+      <div class="contract-impact"><span>Projected savings</span><strong>${money(estimate)}</strong><p>Savings depend on actual volume moving to the preferred DME supplier, not just the 80 percent benchmark rate existing.</p></div>`;
   }
 
   [steer.input, rate.input].forEach((input) => input.addEventListener("input", update));
@@ -559,31 +599,33 @@ function renderContractScenario(data, target) {
 }
 
 
-function renderWorldcupRankGap(data, target) {
+function renderWorldcupEvidence(data, target) {
   target.innerHTML = "";
-  const table = el("table");
-  table.innerHTML = `<thead><tr><th>Team</th><th>Total value rank</th><th>Top three rank</th><th>Lineup floor rank</th><th>Rank gap</th><th>Points</th><th>Outcome</th></tr></thead>`;
-  const body = el("tbody");
-  data.rankGaps.forEach((row) => {
-    const tr = el("tr");
-    tr.innerHTML = `<td>${cleanText(row.team)}</td><td>${row.totalRank}</td><td>${row.topThreeRank}</td><td>${row.floorRank}</td><td>${signed(row.rankGap)}</td><td>${row.points}</td><td><span class="outcome-pill ${row.advanced ? "advanced" : "eliminated"}">${row.advanced ? "Advanced" : "Eliminated"}</span></td>`;
-    body.appendChild(tr);
-  });
-  table.appendChild(body);
-  target.classList.add("rank-gap-table");
-  target.appendChild(table);
-  target.appendChild(el("p", "chart-note", "Positive gaps mean lineup floor ranked stronger than total team value. Negative gaps mean headline value ranked stronger than lineup floor."));
+  target.classList.add("worldcup-evidence-panel");
+  const metrics = [
+    ["0.77", "relationship with points"],
+    ["92%", "strongest-quartile advancement"],
+    ["17%", "weakest-quartile advancement"],
+    ["528", "players across 48 teams"]
+  ];
+  const grid = el("div", "worldcup-evidence-grid");
+  grid.innerHTML = metrics.map(([value, label]) => `<div><strong>${value}</strong><span>${label}</span></div>`).join("");
+  target.appendChild(grid);
+  target.appendChild(el("p", "chart-note", "Lineup floor means the bottom three players inside each usage based Core XI. The Core XI was selected retrospectively from group stage starts, minutes, and appearances, so this is group stage analysis rather than a prediction model."));
 }
 
 function renderWorldcupComparison(data, target) {
   target.innerHTML = "";
   const rows = data.comparison;
   rows.forEach((row) => {
-    const block = el("div", "record-detail");
-    block.innerHTML = `<h4>${cleanText(row.team)}</h4><p><span class="outcome-pill ${row.advanced ? "advanced" : "eliminated"}">${row.advanced ? "Advanced" : "Eliminated"}</span> ${row.points} points. Goal difference ${signed(row.goalDifference)}.</p><div class="metric-grid"><div class="metric-box"><span>Total team value</span><strong>${compactMoney(row.totalValue)}</strong><span>Rank ${row.totalRank}</span></div><div class="metric-box"><span>Top three average</span><strong>${compactMoney(row.topThree)}</strong><span>Rank ${row.topThreeRank}</span></div><div class="metric-box"><span>Lineup floor value</span><strong>${compactMoney(row.floor)}</strong><span>Rank ${row.floorRank}</span></div></div>`;
+    const block = el("div", "record-detail worldcup-team-card");
+    const note = row.team === "Mexico"
+      ? "Looked weaker by headline value and star power, but had the stronger lineup floor and advanced."
+      : "Looked stronger by headline value and star power, but had the weaker lineup floor and was eliminated.";
+    block.innerHTML = `<h4>${cleanText(row.team)}</h4><p><span class="outcome-pill ${row.advanced ? "advanced" : "eliminated"}">${row.advanced ? "Advanced" : "Eliminated"}</span> ${row.points} points. Goal difference ${signed(row.goalDifference)}. ${cleanText(note)}</p><div class="metric-grid"><div class="metric-box"><span>Total team value</span><strong>${compactMoney(row.totalValue)}</strong><span>Rank ${row.totalRank}</span></div><div class="metric-box"><span>Top three average</span><strong>${compactMoney(row.topThree)}</strong><span>Rank ${row.topThreeRank}</span></div><div class="metric-box"><span>Lineup floor value</span><strong>${compactMoney(row.floor)}</strong><span>Rank ${row.floorRank}</span></div></div>`;
     target.appendChild(block);
   });
-  target.appendChild(el("p", "chart-note", "Mexico had weaker headline value ranks but a stronger lineup floor rank and advanced as group winner. Uruguay had stronger headline value ranks, a weaker lineup floor rank, and was eliminated."));
+  target.appendChild(el("p", "chart-note", "Mexico and Uruguay remain the gateway example: total value and star power pointed one way, while lineup floor better matched the group stage outcome."));
 }
 
 function renderExpandedVisual(sourceId, destination) {
@@ -592,7 +634,7 @@ function renderExpandedVisual(sourceId, destination) {
   const map = {
     "provider-workspace": () => renderProviderWorkspace(data.provider, destination),    "contract-scenario": () => renderContractScenario(data.preferred, destination),    "acquisition-review": () => renderAcquisitionReview(data.acquisition, destination),
     "hurricane-map": () => renderHurricaneMap(data.hurricane, destination),    "worldcup-comparison": () => renderWorldcupComparison(data.worldcup, destination),
-    "worldcup-rank-gap": () => renderWorldcupRankGap(data.worldcup, destination)
+    "worldcup-evidence": () => renderWorldcupEvidence(data.worldcup, destination)
   };
   destination.className = document.getElementById(sourceId).className;
   if (map[sourceId]) map[sourceId]();
@@ -704,7 +746,7 @@ fetch("assets/portfolio-data.json")
     renderHurricaneMap(data.hurricane, document.getElementById("hurricane-map"));
     renderHurricaneTable(data.hurricane, document.getElementById("hurricane-table"));
     renderWorldcupComparison(data.worldcup, document.getElementById("worldcup-comparison"));
-    renderWorldcupRankGap(data.worldcup, document.getElementById("worldcup-rank-gap"));
+    renderWorldcupEvidence(data.worldcup, document.getElementById("worldcup-evidence"));
     wireExpanders();
     wireSectionNavigation();
     checkVisibleCopy();

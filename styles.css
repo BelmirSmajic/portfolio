@@ -325,22 +325,42 @@ button.primary {
 
 .project-card-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.8rem;
   list-style-position: inside;
   padding: 0;
+  width: min(1092px, calc(100vw - 2rem));
 }
 
 .project-card-grid article {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 0.9rem;
+  padding: 0.85rem;
 }
 
 .project-card-grid article p {
   color: var(--muted);
-  margin: 0.5rem 0 0;
+  margin: 0.45rem 0 0;
+  font-size: 0.94rem;
+  line-height: 1.42;
+}
+
+.tool-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.65rem;
+}
+
+.tool-chips span {
+  border: 1px solid rgba(31, 95, 122, 0.28);
+  border-radius: 999px;
+  color: var(--accent-dark);
+  background: var(--soft);
+  padding: 0.16rem 0.5rem;
+  font-size: 0.76rem;
+  font-weight: 750;
 }
 
 .project-kicker {
@@ -851,6 +871,54 @@ svg {
 
 .rank-gap-table table {
   min-width: 660px;
+}
+
+.worldcup-visual-stack {
+  grid-template-columns: 1fr;
+  width: min(1092px, calc(100vw - 2rem));
+}
+
+.worldcup-visual-stack .visual-panel {
+  min-height: auto;
+}
+
+#worldcup-comparison,
+#worldcup-evidence {
+  min-height: auto;
+}
+
+.worldcup-team-card {
+  margin-bottom: 0.75rem;
+}
+
+.worldcup-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.worldcup-evidence-grid div {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #ffffff;
+  padding: 1rem;
+}
+
+.worldcup-evidence-grid strong,
+.worldcup-evidence-grid span {
+  display: block;
+}
+
+.worldcup-evidence-grid strong {
+  color: var(--accent-dark);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1;
+}
+
+.worldcup-evidence-grid span {
+  color: var(--muted);
+  margin-top: 0.4rem;
+  font-weight: 750;
 }
 
 .contract-scenario-model {
@@ -1462,6 +1530,11 @@ footer a {
     width: 100%;
   }
 
+  .project-card-grid,
+  .worldcup-visual-stack {
+    width: 100%;
+  }
+
   .visual-grid {
     grid-template-columns: 1fr;
   }
@@ -1510,7 +1583,8 @@ footer a {
   .candidate-compare,
   .contract-scenario-model,
   .service-group-grid,
-  .provider-snapshot {
+  .provider-snapshot,
+  .worldcup-evidence-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1587,16 +1661,8 @@ footer a {
   }
 }
 
-.project-card-grid article {
-  grid-column: span 2;
-}
-
-.project-card-grid article:nth-last-child(2) {
-  grid-column: 2 / span 2;
-}
-
 .project-card-grid article:last-child {
-  grid-column: 4 / span 2;
+  grid-column: 1 / -1;
 }
 
 .usa-state {
@@ -1644,7 +1710,7 @@ footer a {
   color: #3f4b55;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1100px) and (min-width: 901px) {
   .project-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
