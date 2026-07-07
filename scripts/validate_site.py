@@ -214,6 +214,7 @@ def check_html():
         "moderate-band",
         "high-band",
         "corridorPolygon",
+        "Full USA",
     ]:
         if phrase not in js and phrase not in css and phrase not in html:
             fail(f"hurricane map visual contract missing: {phrase}")
@@ -227,7 +228,7 @@ def check_html():
             fail(f"forbidden hurricane claim or branding appears: {forbidden}")
 
     contract = section_html(html, "contract")
-    for phrase in ["Project 02", "SQL and Excel", "Specific DME Provider Scenario", "Savings Variance Bridge"]:
+    for phrase in ["Project 02", "SQL and Excel", "80%", "benchmark rates", "preferred provider", "Savings Variance Bridge"]:
         if phrase not in contract:
             fail(f"contract section missing: {phrase}")
     for phrase in [
@@ -236,14 +237,10 @@ def check_html():
         "Preferred provider scenario",
         "Projected savings",
         "Decision signal",
-        "waterfall-row",
-        "Projected",
-        "Rate variance",
-        "Utilization",
-        "Volume shift",
-        "Service mix",
-        "Leakage",
-        "Validated savings",
+        "savings-bridge",
+        "Preferred provider scenario",
+        "preferred DME supplier",
+        "80 percent benchmark rate",
     ]:
         if phrase not in "\n".join([js, css, html]):
             fail(f"contract visual contract missing: {phrase}")
@@ -264,7 +261,7 @@ def check_html():
         "review-adjudication",
         "Selected acquired product",
         "Primary recommended match",
-        "Second closest match",
+        "Second closest candidate",
         "Confidence",
     ]:
         if phrase not in "\n".join([js, css, html]):
@@ -314,6 +311,13 @@ def check_data():
     for row in data["acquisition"]["review"]:
         if row["outcome"] == "Review" and not row.get("secondBest"):
             fail("acquisition review case lacks second closest candidate")
+        if row.get("secondBest") and row.get("secondBest") not in {"No second candidate", "No close second candidate"}:
+            if row.get("recommended") == row.get("secondBest"):
+                fail("acquisition primary match duplicates second closest match text")
+            if row.get("primaryId") and row.get("secondId") and row.get("primaryId") == row.get("secondId"):
+                fail("acquisition primary match duplicates second closest match ID")
+            if float(row.get("score") or 0) == float(row.get("secondScore") or 0):
+                fail("acquisition primary match duplicates second closest score")
     if not any(row["outcome"] == "Auto Match" for row in data["acquisition"]["review"]):
         fail("acquisition examples do not include auto match cases")
     if not any(row["outcome"] == "Review" for row in data["acquisition"]["review"]):

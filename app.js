@@ -1,4 +1,4 @@
-const state = {};
+﻿const state = {};
 
 const fmtMoney = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -21,7 +21,7 @@ const exposureColors = {
   Outside: "#73808a"
 };
 
-const hurricaneCityLabels = [
+const legacyHurricaneCityLabels = [
   { name: "Tampa", lat: 27.9506, lon: -82.4572, dx: -62, dy: 16 },
   { name: "Tallahassee", lat: 30.4383, lon: -84.2807, dx: -120, dy: 62 },
   { name: "Gainesville", lat: 29.6516, lon: -82.3248, dx: -76, dy: 20 },
@@ -98,6 +98,71 @@ const hurricaneStateLabels = [
   { code: "PA", lat: 40.55, lon: -77.9 },
   { code: "NJ", lat: 40.05, lon: -74.65 }
 ];
+
+const usLandShape = [
+  [48.8, -124.8], [46.3, -124.1], [43.8, -124.1], [41.9, -124.2], [40.2, -123.9],
+  [38.7, -123.0], [37.4, -122.4], [35.6, -121.0], [34.0, -119.0], [32.7, -117.2],
+  [32.5, -114.8], [31.8, -111.1], [31.4, -108.2], [31.8, -106.4], [30.2, -104.7],
+  [29.3, -102.2], [28.8, -100.1], [27.7, -99.1], [26.2, -97.3], [25.8, -96.0],
+  [28.7, -95.0], [29.3, -93.5], [29.1, -91.0], [29.5, -89.2], [30.2, -87.8],
+  [30.3, -85.4], [29.6, -83.7], [28.5, -82.8], [27.2, -82.5], [25.2, -81.2],
+  [25.1, -80.0], [26.2, -80.0], [28.5, -80.5], [30.7, -81.4], [31.9, -80.9],
+  [33.0, -79.5], [34.6, -77.7], [35.3, -76.0], [36.6, -75.5], [38.0, -75.1],
+  [39.3, -74.6], [40.5, -73.9], [41.2, -72.3], [41.7, -70.2], [42.5, -70.7],
+  [43.2, -69.8], [44.5, -67.2], [47.2, -68.8], [45.0, -74.0], [44.4, -76.0],
+  [43.2, -79.0], [42.7, -82.6], [45.2, -83.5], [46.1, -84.8], [48.8, -89.0],
+  [49.0, -95.0], [49.0, -110.0], [48.8, -124.8]
+];
+
+const usStateBoundaryLines = [
+  [[49, -120], [42, -120], [35, -120]], [[42, -124], [42, -114]], [[37, -122], [37, -114]],
+  [[49, -111], [31.5, -111]], [[49, -104], [31.8, -104]], [[49, -97], [26.5, -97]],
+  [[45, -95], [36, -95], [29.5, -95]], [[47, -90], [40, -90], [30, -90]], [[45, -85], [38, -85], [30, -85]],
+  [[42, -80], [35, -80], [26, -80]], [[35, -114], [35, -80]], [[32, -117], [32, -81]],
+  [[40, -124], [40, -73]], [[45, -124], [45, -67]], [[30.7, -85], [30.7, -81.5]],
+  [[35, -85], [35, -78]], [[36.5, -83], [36.5, -75.8]]
+];
+
+const nationalCityLabels = [
+  { name: "Seattle", lat: 47.6062, lon: -122.3321, dx: 10, dy: 0 },
+  { name: "San Francisco", lat: 37.7749, lon: -122.4194, dx: 8, dy: 14 },
+  { name: "Los Angeles", lat: 34.0522, lon: -118.2437, dx: 8, dy: 12 },
+  { name: "Denver", lat: 39.7392, lon: -104.9903, dx: 8, dy: -8 },
+  { name: "Dallas", lat: 32.7767, lon: -96.7970, dx: 8, dy: 12 },
+  { name: "Chicago", lat: 41.8781, lon: -87.6298, dx: 8, dy: -8 },
+  { name: "Atlanta", lat: 33.7490, lon: -84.3880, dx: 8, dy: 14 },
+  { name: "Miami", lat: 25.7617, lon: -80.1918, dx: 8, dy: 14 },
+  { name: "Charleston", lat: 32.7765, lon: -79.9311, dx: 10, dy: -10 },
+  { name: "Raleigh", lat: 35.7796, lon: -78.6382, dx: 10, dy: -10 },
+  { name: "Washington", lat: 38.9072, lon: -77.0369, dx: 10, dy: -10 },
+  { name: "New York", lat: 40.7128, lon: -74.0060, dx: 10, dy: -8 }
+];
+
+const nationalForecastLabels = [
+  { day: "Mon 8 AM", wind: "65 mph", dx: -86, dy: 26 },
+  { day: "Mon 8 PM", wind: "80 mph", dx: -96, dy: -48 },
+  { day: "Tue 8 AM", wind: "55 mph", dx: -92, dy: 20 },
+  { day: "Tue 8 PM", wind: "45 mph", dx: 28, dy: 30 },
+  { day: "Wed 8 AM", wind: "40 mph", dx: 26, dy: -50 },
+  { day: "Wed 8 PM", wind: "35 mph", dx: 28, dy: 12 },
+  { day: "Thu 8 AM", wind: "30 mph", dx: 26, dy: -46 },
+  { day: "Thu 8 PM", wind: "25 mph", dx: 26, dy: -18 },
+  { day: "Fri 8 AM", wind: "20 mph", dx: -92, dy: -36 }
+];
+
+function usPoint(point) {
+  const projected = Array.isArray(point) ? projectUsPoint(point[0], point[1]) : projectUsPoint(point.lat, point.lon);
+  return `${projected.x.toFixed(1)},${projected.y.toFixed(1)}`;
+}
+
+function usLine(points) {
+  return points.map(usPoint).join(" ");
+}
+
+function usPolygon(points) {
+  return `M ${usLine(points)} Z`;
+}
+
 
 function cleanText(value) {
   return String(value ?? "").replace(/[-\u2013\u2014]/g, " ");
@@ -240,8 +305,8 @@ function corridorPolygon(points, factor) {
 }
 
 function hurricaneForecastLabel(point, index) {
-  const projected = projectHurricanePoint(point.lat, point.lon);
-  const label = hurricaneForecastLabels[index] || { day: point.label, wind: "", dx: 16, dy: 16 };
+  const projected = projectUsPoint(point.lat, point.lon);
+  const label = nationalForecastLabels[index] || { day: point.label, wind: "", dx: 16, dy: 16 };
   const x = projected.x + label.dx;
   const y = projected.y + label.dy;
   const anchorX = x + (label.dx < 0 ? 88 : 0);
@@ -249,7 +314,7 @@ function hurricaneForecastLabel(point, index) {
 }
 
 function hurricaneCityLabel(city) {
-  const point = projectHurricanePoint(city.lat, city.lon);
+  const point = projectUsPoint(city.lat, city.lon);
   return `<g class="city-label"><circle cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="2.8"></circle><text x="${(point.x + city.dx).toFixed(1)}" y="${(point.y + city.dy).toFixed(1)}">${cleanText(city.name)}</text></g>`;
 }
 
@@ -268,11 +333,11 @@ function showHurricaneDetail(row, target) {
 function renderHurricaneMap(data, target) {
   target.innerHTML = "";
   const scenario = data.scenario;
-  const pathPoints = scenario.stormPath.map((point) => projectHurricanePoint(point.lat, point.lon));
+  const pathPoints = scenario.stormPath.map((point) => projectUsPoint(point.lat, point.lon));
   const line = pathPoints.map((point) => `${point.x},${point.y}`).join(" ");
   const summary = el("div", "narrative-box", `${scenario.name}. ${scenario.affectedCount} potentially affected properties. Total potentially exposed value is ${money(scenario.totalPotentialExposure)}. Highest exposure state is ${scenario.highestExposureState}. Synthetic exposure demo based on a named storm scenario.`);
   const mapWrap = el("div", "hurricane-map-frame");
-  mapWrap.innerHTML = `<svg class="weather-map" viewBox="0 0 960 560" role="img" aria-label="Broadcast style Southeast and East Coast hurricane forecast and property exposure map">
+  mapWrap.innerHTML = `<svg class="weather-map" viewBox="0 0 960 560" role="img" aria-label="Full USA hurricane forecast and property exposure map">
     <defs>
       <linearGradient id="oceanGradient" x1="0" y1="0" x2="1" y2="1">
         <stop offset="0%" stop-color="#b8ddea"></stop>
@@ -292,20 +357,16 @@ function renderHurricaneMap(data, target) {
       <path d="M54 115 H906 M54 251 H906 M54 387 H906"></path>
       <path d="M164 34 V526 M384 34 V526 M604 34 V526 M824 34 V526"></path>
     </g>
-    <path class="regional-land" d="${hurricanePolygonPath(hurricaneLandShape)}"></path>
-    <path class="coastline" d="M ${hurricanePolyline(hurricaneCoastline)}"></path>
+    <path class="usa-land" d="${usPolygon(usLandShape)}"></path>
+    <path class="coastline" d="M ${usLine(usLandShape.slice(0, 45))}"></path>
     <g class="state-layer">
-      ${hurricaneStateBoundaryLines.map((linePoints) => `<polyline class="state-boundary" points="${hurricanePolyline(linePoints)}"></polyline>`).join("")}
+      ${usStateBoundaryLines.map((linePoints) => `<polyline class="state-boundary" points="${usLine(linePoints)}"></polyline>`).join("")}
     </g>
-    <g class="state-label-layer">
-      ${hurricaneStateLabels.map((label) => {
-        const p = projectHurricanePoint(label.lat, label.lon);
-        return `<text class="state-label" x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}">${cleanText(label.code)}</text>`;
-      }).join("")}
-    </g>
-    <path class="forecast-cone" d="${forecastConePath(scenario.stormPath)}"></path>
+    <polygon class="forecast-cone" points="${corridorPolygon(scenario.stormPath, 1.1)}"></polygon>
+    <polygon class="storm-band watch-band" points="${corridorPolygon(scenario.stormPath, 0.78)}"></polygon>
+    <polygon class="storm-band high-band" points="${corridorPolygon(scenario.stormPath, 0.46)}"></polygon>
     <g class="property-layer"></g>
-    <g class="city-layer">${hurricaneCityLabels.map(hurricaneCityLabel).join("")}</g>
+    <g class="city-layer">${nationalCityLabels.map(hurricaneCityLabel).join("")}</g>
     <polyline class="storm-track" points="${line}"></polyline>
     ${scenario.stormPath.map((point, index) => {
       const projected = pathPoints[index];
@@ -334,8 +395,7 @@ function renderHurricaneMap(data, target) {
     insetLegend.appendChild(group);
   });
   data.properties.forEach((row) => {
-    if (row.lon < hurricaneMapBounds.lonMin || row.lon > hurricaneMapBounds.lonMax || row.lat < hurricaneMapBounds.latMin || row.lat > hurricaneMapBounds.latMax) return;
-    const point = projectHurricanePoint(row.lat, row.lon);
+    const point = projectUsPoint(row.lat, row.lon);
     const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     dot.setAttribute("cx", point.x);
     dot.setAttribute("cy", point.y);
@@ -400,8 +460,9 @@ function renderProviderWorkspace(data, target) {
   controls.append(type.wrap, specialty.wrap, minimum.wrap, review.wrap);
 
   const narrative = el("div", "narrative-box");
+  const snapshot = el("div", "provider-snapshot");
   const tableWrap = el("div", "table-wrap");
-  target.append(controls, narrative, tableWrap);
+  target.append(controls, narrative, snapshot, tableWrap);
 
   function update() {
     let current = rows.filter((row) => row.type === type.input.value);
@@ -411,13 +472,20 @@ function renderProviderWorkspace(data, target) {
     current = current.sort((a, b) => b.ratio - a.ratio).slice(0, 6);
 
     narrative.textContent = cleanText(`${current.length} examples shown. Providers materially above the peer median are the clearest outliers for review.`);
+    const selected = current[0];
+    snapshot.innerHTML = selected ? `
+      <div class="snapshot-card featured"><span>Highest risk provider</span><strong>${cleanText(selected.provider)}</strong><small>${cleanText(selected.specialty)}</small></div>
+      <div class="snapshot-card"><span>Cost per active member month</span><strong>${money(selected.cost)}</strong><small>Peer median ${money(selected.peerMedian)}</small></div>
+      <div class="snapshot-card variance"><span>Above peer median</span><strong>${money(Math.max(0, selected.variance))}</strong><small>${selected.ratio.toFixed(1)}x peer median</small></div>
+      <div class="snapshot-card"><span>Review status</span><strong><span class="status ${statusKey(selected.status)}">${cleanText(selected.status)}</span></strong><small>Ranked by ratio to median</small></div>
+    ` : "";
     tableWrap.innerHTML = "";
     const table = el("table");
-    table.innerHTML = `<thead><tr><th>Provider</th><th>Specialty</th><th>Cost per active member month</th><th>Peer median</th><th>Amount above or below median</th><th>Ratio to peer median</th><th>Review status</th></tr></thead>`;
+    table.innerHTML = `<thead><tr><th>Provider</th><th>Cost per active member month</th><th>Peer median</th><th>Above median amount</th><th>Ratio to peer median</th><th>Review status</th><th>Specialty</th></tr></thead>`;
     const body = el("tbody");
     current.forEach((row) => {
       const tr = el("tr", statusKey(row.status));
-      tr.innerHTML = `<td>${cleanText(row.provider)}</td><td>${cleanText(row.specialty)}</td><td>${money(row.cost)}</td><td>${money(row.peerMedian)}</td><td>${money(row.variance)}</td><td>${row.ratio.toFixed(2)}</td><td><span class="status ${statusKey(row.status)}">${cleanText(row.status)}</span></td>`;
+      tr.innerHTML = `<td>${cleanText(row.provider)}</td><td>${money(row.cost)}</td><td>${money(row.peerMedian)}</td><td class="variance-cell">${money(Math.max(0, row.variance))}</td><td class="ratio-cell">${row.ratio.toFixed(1)}x</td><td><span class="status ${statusKey(row.status)}">${cleanText(row.status)}</span></td><td>${cleanText(row.specialty)}</td>`;
       body.appendChild(tr);
     });
     table.appendChild(body);
@@ -478,10 +546,14 @@ function renderAcquisitionReview(data, target) {
     const reviewControl = row.outcome === "Review"
       ? `<label>Review decision<select><option>Approve primary match</option><option>Choose second closest match</option><option>Send for stewardship review</option></select></label>`
       : `<p><strong>Decision:</strong> ${cleanText(row.decision)}</p>`;
+    const hasSecond = row.secondBest && row.secondBest !== "No second candidate" && row.secondBest !== "No close second candidate";
+    const secondTitle = hasSecond ? row.secondBest : "No close second candidate";
+    const secondScore = hasSecond ? row.secondScore : "0.0";
+    const secondEvidence = hasSecond ? row.secondEvidence || "Plausible alternate candidate with lower confidence than the primary recommendation" : "No materially distinct candidate was close enough to display.";
     detail.innerHTML = `<div class="selected-product-card"><span>Selected acquired product</span><h4>${cleanText(row.acquired)}</h4><dl><dt>Confidence</dt><dd>${cleanText(row.confidence)}</dd><dt>Method</dt><dd>${cleanText(row.method)}</dd><dt>Decision status</dt><dd>${cleanText(row.decision)}</dd></dl></div>
       <div class="candidate-compare">
-        <article><span>Primary recommended match</span><h4>${cleanText(row.recommended)}</h4><strong>${row.score}</strong><p>${cleanText(row.evidence)}</p></article>
-        <article><span>Second closest match</span><h4>${cleanText(row.secondBest)}</h4><strong>${row.secondScore}</strong><p>Compare score, description, pack size, brand and evidence before approval.</p></article>
+        <article><span>Primary recommended match</span><h4>${cleanText(row.recommended)}</h4><strong>${row.score}</strong><p>${cleanText(row.evidence)}</p><small>Primary ID: ${cleanText(row.primaryId || "recommended")}</small></article>
+        <article><span>Second closest candidate</span><h4>${cleanText(secondTitle)}</h4><strong>${secondScore}</strong><p>${cleanText(secondEvidence)}</p><small>Second ID: ${cleanText(hasSecond ? row.secondId || "alternate" : "none")}</small></article>
       </div>
       ${reviewControl}`;
   }
@@ -513,8 +585,8 @@ function renderContractScenario(data, target) {
     const projectedSpend = Math.max(0, Number(data.summary.baseline_spend || 0) - estimate);
     const topRows = data.scenario.slice(0, 4);
     summary.innerHTML = `<div class="contract-state current"><span>Current network baseline</span><strong>${money(data.summary.baseline_spend || 0)}</strong><p>Eligible DME service categories priced through current network rates.</p></div>
-      <div class="contract-state preferred"><span>Preferred provider scenario</span><strong>${money(projectedSpend)}</strong><p>${steer.input.value} percent expected volume shift at ${rate.input.value} percent of benchmark.</p></div>
-      <div class="contract-impact"><span>Projected savings</span><strong>${money(estimate)}</strong><p>Decision signal: continue contracting review if access, capacity and service scope remain acceptable.</p></div>
+      <div class="contract-state preferred"><span>Preferred provider scenario</span><strong>${money(projectedSpend)}</strong><p>${steer.input.value} percent expected eligible DME volume moving to the preferred supplier at ${rate.input.value} percent of benchmark.</p></div>
+      <div class="contract-impact"><span>Projected savings</span><strong>${money(estimate)}</strong><p>Decision signal: savings depend on actual volume moving to the preferred DME supplier, not just the 80 percent benchmark rate existing.</p></div>
       <div class="service-group-grid">${topRows.map((row) => `<div><span>${cleanText(row.code)} ${cleanText(row.category)}</span><strong>${money(row.projectedSavings * steerFactor * rateFactor)}</strong><small>${cleanText(row.description)}</small></div>`).join("")}</div>`;
   }
 
@@ -524,33 +596,25 @@ function renderContractScenario(data, target) {
 
 function renderContractBridge(data, target) {
   target.innerHTML = "";
-  const lookup = Object.fromEntries(data.bridge.map((row) => [row.label, row.value]));
-  const steps = [
-    { label: "Projected", value: lookup.projected_savings, endpoint: true },
-    { label: "Rate variance", value: (lookup.preferred_rate_savings_effect || 0) + (lookup.residual_rate_savings_effect || 0) },
-    { label: "Utilization", value: lookup.utilization_forecast_error || 0 },
-    { label: "Volume shift", value: lookup.missed_steerage_savings_effect || 0 },
-    { label: "Service mix", value: lookup.service_mix_forecast_error || 0 },
-    { label: "Leakage", value: lookup.residual_rate_savings_effect || 0 },
-    { label: "Validated savings", value: lookup.actual_savings, endpoint: true }
+  const totals = data.summary.savings_bridge_totals || data.summary.bridge_totals || {};
+  const rows = [
+    ["Utilization forecast error", totals.utilization_forecast_error || 0, "Actual DME volume differed from the projection"],
+    ["Service mix forecast error", totals.service_mix_forecast_error || 0, "Codes shifted away from the modeled mix"],
+    ["Missed preferred supplier steerage", totals.missed_steerage_savings_effect || 0, "Savings changed when eligible volume did not fully move to the preferred DME supplier"],
+    ["Preferred rate effect", totals.preferred_rate_savings_effect || 0, "Negotiated 80 percent benchmark rate benefit"],
+    ["Residual supplier rate effect", totals.residual_rate_savings_effect || 0, "Remaining non preferred supplier pricing effect"]
   ];
-  let running = steps[0].value;
-  const display = steps.map((step, index) => {
-    if (index === 0 || step.endpoint) return { ...step, start: 0, end: step.value, shown: step.value };
-    const start = running;
-    running += step.value;
-    return { ...step, start, end: running, shown: step.value };
-  });
-  const max = Math.max(...display.flatMap((step) => [step.start, step.end, 0]), 1);
-  const waterfall = el("div", "waterfall");
-  waterfall.innerHTML = display.map((step) => {
-    const left = Math.min(step.start, step.end) / max * 100;
-    const width = Math.max(2, Math.abs(step.end - step.start) / max * 100);
-    const cls = step.endpoint ? "endpoint" : step.shown < 0 ? "unfavorable" : "favorable";
-    const value = step.endpoint ? money(step.end) : `${step.shown < 0 ? "minus " : "plus "}${money(Math.abs(step.shown))}`;
-    return `<div class="waterfall-row"><span>${cleanText(step.label)}</span><div class="waterfall-track"><div class="waterfall-bar ${cls}" style="--left:${left}%;--width:${width}%"></div></div><strong>${cleanText(value)}</strong></div>`;
-  }).join("");
-  target.appendChild(waterfall);
+  const max = Math.max(...rows.map((row) => Math.abs(Number(row[1] || 0))), 1);
+  const bridge = el("div", "savings-bridge");
+  bridge.innerHTML = `<div class="bridge-title"><span>Savings Variance Bridge</span><strong>Preferred provider savings bridge</strong><small>80% of benchmark is the rate assumption. The bridge separates actual volume movement to the preferred DME supplier from rate effects.</small></div>
+    ${rows.map(([label, value, note]) => {
+      const amount = Number(value || 0);
+      const width = Math.max(8, Math.abs(amount) / max * 100);
+      const direction = amount < 0 ? "negative" : "positive";
+      return `<div class="bridge-row ${direction}"><div><strong>${cleanText(label)}</strong><small>${cleanText(note)}</small></div><div class="bridge-track"><span style="width:${width.toFixed(1)}%"></span></div><b>${money(amount)}</b></div>`;
+    }).join("")}
+    <p class="sensitivity-note">Decision signal: the preferred provider migration creates savings only when eligible volume actually moves to the preferred DME supplier while access, capacity, and exception handling remain acceptable.</p>`;
+  target.appendChild(bridge);
 }
 
 function renderWorldcupRankGap(data, target) {
@@ -718,3 +782,4 @@ fetch("assets/portfolio-data.json")
   .catch((error) => {
     console.error("Portfolio data failed to load", error);
   });
+

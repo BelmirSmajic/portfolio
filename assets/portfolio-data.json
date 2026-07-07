@@ -7721,7 +7721,10 @@
         "confidence": "High",
         "method": "Exact Identifier Match",
         "evidence": "exact manufacturer item, category compatible. review triggered by identifier conflict",
-        "decision": "Auto resolved"
+        "decision": "Auto resolved",
+        "secondId": "SECOND-001",
+        "secondEvidence": "Plausible alternate candidate with lower confidence than the primary recommendation",
+        "primaryId": "PRIMARY-001"
       },
       {
         "acquired": "Romaine Lettuce Harvest Farm IQF 1 x 24 COUNT",
@@ -7733,43 +7736,55 @@
         "confidence": "High",
         "method": "Exact Identifier Match",
         "evidence": "exact manufacturer item, category compatible. review triggered by identifier conflict",
-        "decision": "Auto resolved"
+        "decision": "Auto resolved",
+        "secondId": "SECOND-001",
+        "secondEvidence": "Plausible alternate candidate with lower confidence than the primary recommendation",
+        "primaryId": "PRIMARY-002"
       },
       {
         "acquired": "Ecolab Diced Floor Cleaner 6/100 COUNT",
         "outcome": "Review",
         "recommended": "Ecolab Diced Floor Cleaner 6/100 COUNT",
         "score": 65.0,
-        "secondBest": "Ecolab Diced Floor Cleaner 6/100 COUNT",
-        "secondScore": 65.0,
+        "secondBest": "Ecolab Concentrated Floor Cleaner Citrus 4/1 GAL",
+        "secondScore": 52.4,
         "confidence": "Medium",
         "method": "Exact Brand Description Pack",
         "evidence": "category compatible, size compatible. review triggered by identifier conflict",
-        "decision": "Needs business review"
+        "decision": "Needs business review",
+        "secondId": "ENT-ALT-ECOLAB-01",
+        "secondEvidence": "same brand and category, different product form and pack size",
+        "primaryId": "PRIMARY-003"
       },
       {
         "acquired": "PURECLEAN FRZ PAPER TOWEL GARLIC USDA 12/32 FL OZ",
         "outcome": "Review",
         "recommended": "PureClean Frozen Paper Towel Garlic 12/32 FL OZ",
         "score": 61.5,
-        "secondBest": "PureClean Frozen Paper Towel Garlic 12/32 FL OZ",
-        "secondScore": 61.5,
+        "secondBest": "PureClean Frozen Garlic Towel Roll 6/24 FL OZ",
+        "secondScore": 47.8,
         "confidence": "Medium",
         "method": "Blocked Fuzzy",
         "evidence": "category compatible, size compatible. review triggered by identifier conflict",
-        "decision": "Needs business review"
+        "decision": "Needs business review",
+        "secondId": "ENT-ALT-PURE-01",
+        "secondEvidence": "same brand and garlic signal, weaker pack and description fit",
+        "primaryId": "PRIMARY-004"
       },
       {
         "acquired": "Goya Gluten Free Bread Crumb Garlic 12/16 O",
         "outcome": "Review",
         "recommended": "Goya Gluten Free Bread Crumb Garlic 12/16 OZ",
         "score": 61.1,
-        "secondBest": "Goya Gluten Free Bread Crumb Garlic 12/16 OZ",
-        "secondScore": 61.1,
+        "secondBest": "Goya Plain Bread Crumb Original 12/16 OZ",
+        "secondScore": 49.6,
         "confidence": "Medium",
         "method": "Blocked Fuzzy",
         "evidence": "category compatible, size compatible. review triggered by identifier conflict",
-        "decision": "Needs business review"
+        "decision": "Needs business review",
+        "secondId": "ENT-ALT-GOYA-01",
+        "secondEvidence": "same brand and pack, missing gluten free and garlic attributes",
+        "primaryId": "PRIMARY-005"
       },
       {
         "acquired": "Goya Organic Long Grain Rice Garlic 12/16 OZ",
@@ -7777,11 +7792,14 @@
         "recommended": "Goya Gluten Free Long Grain Rice Garlic 12/16 OZ",
         "score": 59.5,
         "secondBest": "Goya Sliced Long Grain Rice Garlic USDA 12/16 OZ",
-        "secondScore": 59.5,
+        "secondScore": 52.0,
         "confidence": "Medium",
         "method": "Blocked Fuzzy",
         "evidence": "category compatible, size compatible. review triggered by identifier conflict",
-        "decision": "Needs business review"
+        "decision": "Needs business review",
+        "secondId": "SECOND-004",
+        "secondEvidence": "Plausible alternate candidate with lower confidence than the primary recommendation",
+        "primaryId": "PRIMARY-006"
       },
       {
         "acquired": "Classic Fresh Mixed Vegetable Plain USDA 12/16 OZ",
@@ -7793,7 +7811,10 @@
         "confidence": "Low",
         "method": "Blocked Fuzzy",
         "evidence": "category compatible, size variance. review triggered by size variance, identifier conflict",
-        "decision": "No confident match"
+        "decision": "No confident match",
+        "secondId": "SECOND-004",
+        "secondEvidence": "Plausible alternate candidate with lower confidence than the primary recommendation",
+        "primaryId": "PRIMARY-007"
       },
       {
         "acquired": "La Brea Gluten Free Hamburger Bun Buffalo Choice 8/12 COUNT",
@@ -7805,7 +7826,10 @@
         "confidence": "Low",
         "method": "Blocked Fuzzy",
         "evidence": "category compatible, identifier conflict. review triggered by identifier conflict",
-        "decision": "No confident match"
+        "decision": "No confident match",
+        "secondId": "SECOND-004",
+        "secondEvidence": "Plausible alternate candidate with lower confidence than the primary recommendation",
+        "primaryId": "PRIMARY-008"
       }
     ]
   },
