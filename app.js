@@ -22,27 +22,81 @@ const exposureColors = {
 };
 
 const hurricaneCityLabels = [
-  { name: "Tampa", lat: 27.9506, lon: -82.4572 },
-  { name: "Gainesville", lat: 29.6516, lon: -82.3248 },
-  { name: "Jacksonville", lat: 30.3322, lon: -81.6557 },
-  { name: "Savannah", lat: 32.0809, lon: -81.0912 },
-  { name: "Charleston", lat: 32.7765, lon: -79.9311 },
-  { name: "Raleigh", lat: 35.7796, lon: -78.6382 },
-  { name: "Richmond", lat: 37.5407, lon: -77.4360 },
-  { name: "Washington", lat: 38.9072, lon: -77.0369 },
-  { name: "Philadelphia", lat: 39.9526, lon: -75.1652 }
+  { name: "Tampa", lat: 27.9506, lon: -82.4572, dx: -62, dy: 16 },
+  { name: "Tallahassee", lat: 30.4383, lon: -84.2807, dx: -120, dy: 62 },
+  { name: "Gainesville", lat: 29.6516, lon: -82.3248, dx: -76, dy: 20 },
+  { name: "Jacksonville", lat: 30.3322, lon: -81.6557, dx: 10, dy: -10 },
+  { name: "Savannah", lat: 32.0809, lon: -81.0912, dx: -92, dy: -12 },
+  { name: "Charleston", lat: 32.7765, lon: -79.9311, dx: 12, dy: 4 },
+  { name: "Wilmington", lat: 34.2104, lon: -77.8868, dx: 12, dy: -24 },
+  { name: "Raleigh", lat: 35.7796, lon: -78.6382, dx: -74, dy: -16 },
+  { name: "Norfolk", lat: 36.8508, lon: -76.2859, dx: 12, dy: 14 },
+  { name: "Richmond", lat: 37.5407, lon: -77.4360, dx: -72, dy: -10 },
+  { name: "Washington", lat: 38.9072, lon: -77.0369, dx: -96, dy: -8 },
+  { name: "Philadelphia", lat: 39.9526, lon: -75.1652, dx: 12, dy: 32 },
+  { name: "New York", lat: 40.7128, lon: -74.0060, dx: 14, dy: 18 }
 ];
 
 const hurricaneForecastLabels = [
-  { day: "Mon AM", wind: "65 mph" },
-  { day: "Mon PM", wind: "80 mph" },
-  { day: "Tue AM", wind: "55 mph" },
-  { day: "Tue PM", wind: "45 mph" },
-  { day: "Wed AM", wind: "40 mph" },
-  { day: "Wed PM", wind: "35 mph" },
-  { day: "Thu AM", wind: "30 mph" },
-  { day: "Thu PM", wind: "25 mph" },
-  { day: "Fri AM", wind: "20 mph" }
+  { day: "Mon 8 AM", wind: "65 mph", dx: -116, dy: 26 },
+  { day: "Mon 8 PM", wind: "80 mph", dx: -142, dy: -82 },
+  { day: "Tue 8 AM", wind: "55 mph", dx: -124, dy: 16 },
+  { day: "Tue 8 PM", wind: "45 mph", dx: 34, dy: 42 },
+  { day: "Wed 8 AM", wind: "40 mph", dx: 42, dy: -58 },
+  { day: "Wed 8 PM", wind: "35 mph", dx: 56, dy: 10 },
+  { day: "Thu 8 AM", wind: "30 mph", dx: 42, dy: -48 },
+  { day: "Thu 8 PM", wind: "25 mph", dx: 42, dy: -20 },
+  { day: "Fri 8 AM", wind: "20 mph", dx: -116, dy: -36 }
+];
+
+const hurricaneMapBounds = {
+  lonMin: -86.8,
+  lonMax: -70.2,
+  latMin: 24.7,
+  latMax: 42.8,
+  width: 960,
+  height: 560,
+  padX: 54,
+  padY: 34
+};
+
+const hurricaneConeWidths = [64, 78, 96, 114, 132, 146, 170, 194, 212];
+
+const hurricaneLandShape = [
+  [42.8, -88.4], [30.45, -88.4], [30.25, -85.2], [29.95, -84.2],
+  [29.45, -83.2], [28.45, -82.65], [27.45, -82.45], [26.2, -82.1],
+  [25.25, -81.1], [25.1, -80.25], [26.1, -80.05], [27.35, -80.25],
+  [28.7, -80.65], [30.15, -81.25], [31.0, -81.05], [31.8, -81.2],
+  [32.25, -80.85], [32.75, -79.95], [33.25, -79.3], [33.85, -78.65],
+  [34.55, -77.85], [35.25, -77.15], [36.05, -76.05], [36.85, -75.7],
+  [37.75, -75.45], [38.65, -75.05], [39.45, -74.65], [40.15, -74.05],
+  [40.7, -73.7], [41.15, -72.75], [41.65, -71.6], [42.35, -70.45],
+  [42.8, -70.2]
+];
+
+const hurricaneCoastline = hurricaneLandShape.slice(2, -1);
+
+const hurricaneStateBoundaryLines = [
+  [[30.72, -85.0], [30.72, -82.1], [30.7, -81.45]],
+  [[31.0, -85.0], [32.0, -85.05], [33.0, -85.05], [34.1, -85.05]],
+  [[35.0, -85.0], [35.0, -83.0], [35.05, -81.05], [34.6, -79.7], [33.85, -78.65]],
+  [[32.05, -81.1], [32.5, -81.05], [33.0, -80.45], [33.6, -79.9]],
+  [[35.0, -81.0], [35.3, -80.0], [35.7, -78.9], [36.05, -76.05]],
+  [[36.55, -83.7], [36.55, -81.8], [36.55, -79.2], [36.55, -75.9]],
+  [[37.9, -79.4], [37.6, -78.3], [37.25, -77.2], [37.05, -76.1]],
+  [[39.72, -79.5], [39.72, -77.9], [39.35, -76.8], [38.65, -75.05]],
+  [[40.1, -80.5], [40.25, -78.8], [40.4, -76.6], [40.15, -74.05]]
+];
+
+const hurricaneStateLabels = [
+  { code: "FL", lat: 28.3, lon: -82.9 },
+  { code: "GA", lat: 32.7, lon: -83.6 },
+  { code: "SC", lat: 33.8, lon: -80.7 },
+  { code: "NC", lat: 35.6, lon: -79.7 },
+  { code: "VA", lat: 37.5, lon: -78.6 },
+  { code: "MD", lat: 39.0, lon: -76.8 },
+  { code: "PA", lat: 40.55, lon: -77.9 },
+  { code: "NJ", lat: 40.05, lon: -74.65 }
 ];
 
 function cleanText(value) {
@@ -120,6 +174,49 @@ function projectUsPoint(lat, lon) {
   return { x, y };
 }
 
+function projectHurricanePoint(lat, lon) {
+  const bounds = hurricaneMapBounds;
+  const usableWidth = bounds.width - bounds.padX * 2;
+  const usableHeight = bounds.height - bounds.padY * 2;
+  const x = bounds.padX + ((lon - bounds.lonMin) / (bounds.lonMax - bounds.lonMin)) * usableWidth;
+  const y = bounds.padY + ((bounds.latMax - lat) / (bounds.latMax - bounds.latMin)) * usableHeight;
+  return { x, y };
+}
+
+function hurricanePointString(point) {
+  const projected = Array.isArray(point) ? projectHurricanePoint(point[0], point[1]) : projectHurricanePoint(point.lat, point.lon);
+  return `${projected.x.toFixed(1)},${projected.y.toFixed(1)}`;
+}
+
+function hurricanePolyline(points) {
+  return points.map(hurricanePointString).join(" ");
+}
+
+function hurricanePolygonPath(points) {
+  return `M ${hurricanePolyline(points)} Z`;
+}
+
+function forecastConePath(points, scale = 1) {
+  const left = [];
+  const right = [];
+  points.forEach((point, index) => {
+    const previous = points[Math.max(0, index - 1)];
+    const next = points[Math.min(points.length - 1, index + 1)];
+    const p = projectHurricanePoint(point.lat, point.lon);
+    const a = projectHurricanePoint(previous.lat, previous.lon);
+    const b = projectHurricanePoint(next.lat, next.lon);
+    const dx = b.x - a.x || 1;
+    const dy = b.y - a.y || 1;
+    const length = Math.sqrt(dx * dx + dy * dy) || 1;
+    const nx = -dy / length;
+    const ny = dx / length;
+    const width = hurricaneConeWidths[index] * scale;
+    left.push(`${(p.x + nx * width).toFixed(1)},${(p.y + ny * width).toFixed(1)}`);
+    right.unshift(`${(p.x - nx * width).toFixed(1)},${(p.y - ny * width).toFixed(1)}`);
+  });
+  return `M ${left.concat(right).join(" L ")} Z`;
+}
+
 function corridorPolygon(points, factor) {
   const left = [];
   const right = [];
@@ -143,16 +240,17 @@ function corridorPolygon(points, factor) {
 }
 
 function hurricaneForecastLabel(point, index) {
-  const projected = projectUsPoint(point.lat, point.lon);
-  const label = hurricaneForecastLabels[index] || { day: point.label, wind: "" };
-  const dx = index < 3 ? -76 : index < 6 ? 16 : 20;
-  const dy = index % 2 === 0 ? -18 : 28;
-  return `<g class="forecast-label" transform="translate(${projected.x + dx} ${projected.y + dy})"><rect x="0" y="-16" width="70" height="32" rx="4"></rect><text x="6" y="-3">${cleanText(label.day)}</text><text x="6" y="11">${cleanText(label.wind)}</text></g>`;
+  const projected = projectHurricanePoint(point.lat, point.lon);
+  const label = hurricaneForecastLabels[index] || { day: point.label, wind: "", dx: 16, dy: 16 };
+  const x = projected.x + label.dx;
+  const y = projected.y + label.dy;
+  const anchorX = x + (label.dx < 0 ? 88 : 0);
+  return `<g class="forecast-label"><path class="forecast-callout" d="M${projected.x.toFixed(1)} ${projected.y.toFixed(1)} L${anchorX.toFixed(1)} ${(y + 18).toFixed(1)}"></path><rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="88" height="38" rx="5"></rect><text x="${(x + 8).toFixed(1)}" y="${(y + 15).toFixed(1)}">${cleanText(label.day)}</text><text x="${(x + 8).toFixed(1)}" y="${(y + 30).toFixed(1)}">${cleanText(label.wind)}</text></g>`;
 }
 
 function hurricaneCityLabel(city) {
-  const point = projectUsPoint(city.lat, city.lon);
-  return `<g class="city-label" transform="translate(${point.x} ${point.y})"><circle r="2.6"></circle><text x="6" y="-5">${cleanText(city.name)}</text></g>`;
+  const point = projectHurricanePoint(city.lat, city.lon);
+  return `<g class="city-label"><circle cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="2.8"></circle><text x="${(point.x + city.dx).toFixed(1)}" y="${(point.y + city.dy).toFixed(1)}">${cleanText(city.name)}</text></g>`;
 }
 
 function showHurricaneDetail(row, target) {
@@ -170,28 +268,52 @@ function showHurricaneDetail(row, target) {
 function renderHurricaneMap(data, target) {
   target.innerHTML = "";
   const scenario = data.scenario;
-  const pathPoints = scenario.stormPath.map((point) => projectUsPoint(point.lat, point.lon));
+  const pathPoints = scenario.stormPath.map((point) => projectHurricanePoint(point.lat, point.lon));
   const line = pathPoints.map((point) => `${point.x},${point.y}`).join(" ");
   const summary = el("div", "narrative-box", `${scenario.name}. ${scenario.affectedCount} potentially affected properties. Total potentially exposed value is ${money(scenario.totalPotentialExposure)}. Highest exposure state is ${scenario.highestExposureState}. Synthetic exposure demo based on a named storm scenario.`);
   const mapWrap = el("div", "hurricane-map-frame");
-  mapWrap.innerHTML = `<svg viewBox="570 165 335 390" role="img" aria-label="Southeast and East Coast hurricane exposure map with state boundaries, forecast cone, storm markers, city labels, and property markers">
-    <rect x="560" y="150" width="370" height="430" fill="#dcecf1"></rect>
-    <g class="state-layer">
-      ${scenario.statePaths.map((statePath) => `<path class="state-boundary" d="${statePath.path}" aria-label="${cleanText(statePath.name)}"></path>`).join("")}
+  mapWrap.innerHTML = `<svg class="weather-map" viewBox="0 0 960 560" role="img" aria-label="Broadcast style Southeast and East Coast hurricane forecast and property exposure map">
+    <defs>
+      <linearGradient id="oceanGradient" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#b8ddea"></stop>
+        <stop offset="58%" stop-color="#7fb8cc"></stop>
+        <stop offset="100%" stop-color="#4f91ad"></stop>
+      </linearGradient>
+      <linearGradient id="landGradient" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#e4e0d1"></stop>
+        <stop offset="100%" stop-color="#c9d3be"></stop>
+      </linearGradient>
+      <filter id="mapSoftShadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#163444" flood-opacity="0.22"></feDropShadow>
+      </filter>
+    </defs>
+    <rect class="ocean-bg" x="0" y="0" width="960" height="560"></rect>
+    <g class="weather-grid">
+      <path d="M54 115 H906 M54 251 H906 M54 387 H906"></path>
+      <path d="M164 34 V526 M384 34 V526 M604 34 V526 M824 34 V526"></path>
     </g>
-    <polygon class="forecast-cone" points="${corridorPolygon(scenario.stormPath, 1.18)}"></polygon>
-    <polygon class="storm-band watch-band" points="${corridorPolygon(scenario.stormPath, 0.96)}"></polygon>
-    <polygon class="storm-band moderate-band" points="${corridorPolygon(scenario.stormPath, 0.62)}"></polygon>
-    <polygon class="storm-band high-band" points="${corridorPolygon(scenario.stormPath, 0.34)}"></polygon>
+    <path class="regional-land" d="${hurricanePolygonPath(hurricaneLandShape)}"></path>
+    <path class="coastline" d="M ${hurricanePolyline(hurricaneCoastline)}"></path>
+    <g class="state-layer">
+      ${hurricaneStateBoundaryLines.map((linePoints) => `<polyline class="state-boundary" points="${hurricanePolyline(linePoints)}"></polyline>`).join("")}
+    </g>
+    <g class="state-label-layer">
+      ${hurricaneStateLabels.map((label) => {
+        const p = projectHurricanePoint(label.lat, label.lon);
+        return `<text class="state-label" x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}">${cleanText(label.code)}</text>`;
+      }).join("")}
+    </g>
+    <path class="forecast-cone" d="${forecastConePath(scenario.stormPath)}"></path>
+    <g class="property-layer"></g>
     <g class="city-layer">${hurricaneCityLabels.map(hurricaneCityLabel).join("")}</g>
     <polyline class="storm-track" points="${line}"></polyline>
     ${scenario.stormPath.map((point, index) => {
       const projected = pathPoints[index];
-      return `<g class="storm-marker" transform="translate(${projected.x} ${projected.y})"><circle r="${index < 2 ? 8 : 6}"></circle><path d="M-4 0 C-1 -5 5 -5 6 0 C4 4 -2 5 -5 1"></path></g>`;
+      return `<g class="storm-marker" transform="translate(${projected.x.toFixed(1)} ${projected.y.toFixed(1)})"><circle r="${index < 2 ? 10 : 8}"></circle><path d="M-5 0 C-2 -6 6 -6 7 0 C5 5 -3 6 -6 1"></path></g>`;
     }).join("")}
     ${scenario.stormPath.map(hurricaneForecastLabel).join("")}
-    <g class="scenario-label"><rect x="590" y="184" width="202" height="48" rx="6"></rect><text x="604" y="205">${cleanText(scenario.name)}</text><text x="604" y="223">Synthetic executive exposure view</text></g>
-    <g class="property-layer"></g>
+    <g class="scenario-label"><rect x="28" y="24" width="292" height="62" rx="7"></rect><text x="44" y="48">${cleanText(scenario.name)}</text><text x="44" y="68">Executive exposure monitoring view</text></g>
+    <g class="map-legend"><rect x="724" y="386" width="206" height="136" rx="7"></rect><text x="740" y="412">Exposure legend</text><g transform="translate(742 432)"></g></g>
   </svg>`;
   const legend = el("div", "exposure-legend");
   Object.entries(exposureColors).forEach(([tier, color]) => {
@@ -204,12 +326,20 @@ function renderHurricaneMap(data, target) {
   target.append(summary, mapWrap, legend, detail);
 
   const layer = mapWrap.querySelector(".property-layer");
+  const insetLegend = mapWrap.querySelector(".map-legend g");
+  Object.entries(exposureColors).forEach(([tier, color], index) => {
+    const y = index * 22;
+    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    group.innerHTML = `<circle cx="0" cy="${y}" r="6" fill="${color}"></circle><text x="14" y="${y + 4}">${cleanText(tier)}</text>`;
+    insetLegend.appendChild(group);
+  });
   data.properties.forEach((row) => {
-    const point = projectUsPoint(row.lat, row.lon);
+    if (row.lon < hurricaneMapBounds.lonMin || row.lon > hurricaneMapBounds.lonMax || row.lat < hurricaneMapBounds.latMin || row.lat > hurricaneMapBounds.latMax) return;
+    const point = projectHurricanePoint(row.lat, row.lon);
     const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     dot.setAttribute("cx", point.x);
     dot.setAttribute("cy", point.y);
-    dot.setAttribute("r", row.exposureTier === "Outside" ? 5 : 7);
+    dot.setAttribute("r", row.exposureTier === "Outside" ? 4.5 : row.exposureTier === "High" ? 8 : 6.5);
     dot.setAttribute("fill", exposureColors[row.exposureTier]);
     dot.setAttribute("class", "hurricane-dot");
     dot.dataset.hurricaneProperty = row.id;
