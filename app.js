@@ -176,6 +176,10 @@ function compactMoney(value) {
   return fmtCompactMoney.format(Number(value || 0));
 }
 
+function integer(value) {
+  return fmtNum.format(Number(value || 0));
+}
+
 function signed(value) {
   const number = Number(value || 0);
   if (number < 0) return `minus ${Math.abs(number)}`;
@@ -456,7 +460,7 @@ function renderProviderWorkspace(data, target) {
 
   const narrative = el("div", "narrative-box");
   const snapshot = el("div", "provider-snapshot");
-  const tableWrap = el("div", "table-wrap");
+  const tableWrap = el("div", "table-wrap workspace-table-wrap provider-table-wrap");
   target.append(controls, narrative, snapshot, tableWrap);
 
   function update() {
@@ -475,12 +479,12 @@ function renderProviderWorkspace(data, target) {
       <div class="snapshot-card"><span>Review status</span><strong><span class="status ${statusKey(selected.status)}">${cleanText(selected.status)}</span></strong><small>Ranked by ratio to median</small></div>
     ` : "";
     tableWrap.innerHTML = "";
-    const table = el("table");
-    table.innerHTML = `<thead><tr><th>Provider</th><th>Cost per active member month</th><th>Peer median</th><th>Above median amount</th><th>Ratio to peer median</th><th>Review status</th><th>Specialty</th></tr></thead>`;
+    const table = el("table", "workspace-table provider-workspace-table");
+    table.innerHTML = `<thead><tr><th>Provider</th><th>Provider type</th><th>Specialty</th><th>Cost per active member month</th><th>Peer median</th><th>Above median amount</th><th>Ratio to peer median</th><th>Review status</th><th>Active members</th></tr></thead>`;
     const body = el("tbody");
     current.forEach((row) => {
       const tr = el("tr", statusKey(row.status));
-      tr.innerHTML = `<td>${cleanText(row.provider)}</td><td>${money(row.cost)}</td><td>${money(row.peerMedian)}</td><td class="variance-cell">${money(Math.max(0, row.variance))}</td><td class="ratio-cell">${row.ratio.toFixed(1)}x</td><td><span class="status ${statusKey(row.status)}">${cleanText(row.status)}</span></td><td>${cleanText(row.specialty)}</td>`;
+      tr.innerHTML = `<td>${cleanText(row.provider)}</td><td>${cleanText(row.type)}</td><td>${cleanText(row.specialty)}</td><td>${money(row.cost)}</td><td>${money(row.peerMedian)}</td><td class="variance-cell">${money(Math.max(0, row.variance))}</td><td class="ratio-cell">${row.ratio.toFixed(1)}x</td><td><span class="status ${statusKey(row.status)}">${cleanText(row.status)}</span></td><td>${integer(row.members)}</td>`;
       body.appendChild(tr);
     });
     table.appendChild(body);

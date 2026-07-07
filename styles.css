@@ -392,6 +392,14 @@ ul {
   min-width: 0;
 }
 
+.wide-workspace-grid {
+  width: min(1092px, calc(100vw - 2rem));
+}
+
+.full-width-workspace {
+  grid-column: 1 / -1;
+}
+
 .visual-panel {
   display: flex;
   flex-direction: column;
@@ -461,6 +469,56 @@ table {
   border-collapse: collapse;
   min-width: 760px;
   font-size: 0.86rem;
+}
+
+.workspace-table-wrap {
+  overflow-x: visible;
+}
+
+.workspace-table {
+  min-width: 0;
+  table-layout: fixed;
+}
+
+.workspace-table th,
+.workspace-table td {
+  overflow-wrap: anywhere;
+}
+
+.provider-workspace-table {
+  font-size: 0.82rem;
+}
+
+.provider-workspace-table th,
+.provider-workspace-table td {
+  padding: 0.42rem;
+}
+
+#provider-workspace,
+#contract-scenario {
+  overflow-x: visible;
+}
+
+#acquisition-review {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.75fr) minmax(0, 2.25fr);
+  gap: 0.9rem;
+  align-items: start;
+  overflow-x: visible;
+}
+
+#acquisition-review .review-queue {
+  max-height: 28rem;
+}
+
+#acquisition-review .review-adjudication {
+  min-width: 0;
+}
+
+#acquisition-review .candidate-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
 }
 
 th,
@@ -672,7 +730,7 @@ svg {
 .review-adjudication {
   display: grid;
   gap: 0.75rem;
-  margin-top: 0.8rem;
+  margin-top: 0;
 }
 
 .selected-product-card,
@@ -797,7 +855,7 @@ svg {
 
 .contract-scenario-model {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
 }
 
@@ -823,7 +881,7 @@ svg {
 }
 
 .contract-impact {
-  grid-column: 1 / -1;
+  grid-column: auto;
 }
 
 .service-group-grid {
@@ -1400,6 +1458,10 @@ footer a {
 }
 
 @media (max-width: 1320px) {
+  .wide-workspace-grid {
+    width: 100%;
+  }
+
   .visual-grid {
     grid-template-columns: 1fr;
   }
@@ -1466,6 +1528,15 @@ footer a {
 
   .pipeline-stage,
   .selected-product-card dl {
+    grid-template-columns: 1fr;
+  }
+
+  #acquisition-review {
+    grid-template-columns: 1fr;
+    overflow-x: auto;
+  }
+
+  #acquisition-review .candidate-compare {
     grid-template-columns: 1fr;
   }
 
