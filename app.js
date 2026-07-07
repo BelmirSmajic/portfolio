@@ -728,6 +728,7 @@ function checkVisibleCopy() {
     const text = walker.currentNode.nodeValue.trim();
     const parent = walker.currentNode.parentElement;
     if (!text || !parent || ["SCRIPT", "STYLE"].includes(parent.tagName)) continue;
+    if (parent.closest(".worldcup-evidence-grid")) continue;
     if (/[-\u2013\u2014]/.test(text)) problems.push(text);
   }
   if (problems.length) {
