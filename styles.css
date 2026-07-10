@@ -311,8 +311,8 @@ dialog::backdrop{background:rgba(20,40,48,.45);}
 .tab-row button:hover{color:var(--accent);}
 .tab-row button[aria-selected="true"]{background:var(--paper);border-color:var(--line);color:var(--accent-strong);position:relative;top:1px;}
 .tab-view{margin-top:var(--s3);}
-.tab-view>.visual-grid{margin-top:0;}
-.tab-view>.glance-details{margin-top:0;}
+.tab-view>*:first-child{margin-top:0;}
+.tab-view>.overview{margin-top:0;}
 
 /* Project header: section-break numeral, domain tag, evidence badge, question */
 .project-head{max-width:var(--reading);}

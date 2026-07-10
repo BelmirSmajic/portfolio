@@ -50,7 +50,7 @@ class Parser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         classes = attrs.get("class", "").split()
-        if tag in {"script", "style"}:
+        if tag in {"script", "style", "title"}:
             self.skip = True
         if tag == "section" and attrs.get("data-project"):
             self.current = attrs["data-project"]
@@ -63,7 +63,7 @@ class Parser(HTMLParser):
             self.methods[self.current] += 1
 
     def handle_endtag(self, tag):
-        if tag in {"script", "style"}:
+        if tag in {"script", "style", "title"}:
             self.skip = False
         if tag == "section":
             self.current = None
@@ -139,9 +139,9 @@ def main():
         if p.methods[k] != 1:
             fail(f"{k} methods count {p.methods[k]}")
 
-    # --- Hero leads with the portfolio; name stays secondary ---
+    # --- Portfolio-first identity; standalone name not visually central ---
     hero = hero_block(html)
-    for needed in ["Belmir Smajic", "<h1>Analytics Portfolio</h1>",
+    for needed in ["<h1>Analytics Portfolio</h1>",
                    "Data, business, and product analytics work",
                    "https://github.com/BelmirSmajic", "mailto:belmirsmajic@outlook.com",
                    "View Projects"]:
@@ -149,20 +149,24 @@ def main():
             fail(f"hero missing: {needed}")
     if "linkedin" in hero.lower():
         fail("hero must not contain a LinkedIn link")
-    if "<h1>Belmir Smajic</h1>" in hero:
-        fail("hero h1 must lead with the portfolio, not the standalone name")
+    if "Belmir Smajic" in visible:
+        fail("standalone name must not appear in the visible site body; keep it in metadata and link destinations only")
 
-    # --- Header brand text ---
-    if 'class="brand" href="#top">Belmir Smajic' not in html:
-        fail("header brand text is not 'Belmir Smajic'")
+    # --- Header brand leads with the portfolio, not the name ---
+    if 'class="brand" href="#top">Analytics Portfolio' not in html:
+        fail("header brand text must be 'Analytics Portfolio'")
 
-    # --- Title, meta, and og tags include the name ---
-    if "<title>Belmir Smajic — Analytics Portfolio</title>" not in html:
-        fail("title is not 'Belmir Smajic — Analytics Portfolio'")
-    for tag in ['name="description"', 'property="og:title"', 'property="og:description"']:
-        m = re.search(rf'<meta {tag} content="([^"]*)"', html)
-        if not m or "Belmir Smajic" not in m.group(1):
-            fail(f"meta {tag} does not include the name")
+    # --- Title and og tags: portfolio-first (the name may stay in metadata) ---
+    m = re.search(r"<title>([^<]*)</title>", html)
+    if not m or "Analytics Portfolio" not in m.group(1):
+        fail("title must lead with Analytics Portfolio")
+    og = re.search(r'<meta property="og:title" content="([^"]*)"', html)
+    if not og or og.group(1).strip() != "Analytics Portfolio":
+        fail("og:title must be 'Analytics Portfolio'")
+
+    # --- Contact links limited to GitHub and Email ---
+    if "https://github.com/BelmirSmajic" not in html or "mailto:belmirsmajic@outlook.com" not in html:
+        fail("GitHub and Email contact links must be present")
 
     # --- Medium write-up link inside #worldcup, alongside the public repo ---
     wc = worldcup_block(html)
