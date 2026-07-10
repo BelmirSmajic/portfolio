@@ -20,14 +20,14 @@ Work across healthcare cost, contract strategy, product integration, real estate
    Compared approximately 1.4 million acquired products with roughly 4 million existing products while saving hundreds of manual work hours.
 
 4. Hurricane Exposure and Portfolio Risk Analysis
-   Mapped a Hurricane Florence 2018 scenario exposure across a 16 billion dollar state pension fund real estate portfolio to identify affected properties, estimate exposed value, and support Chief Investment Officer and board level reporting.
+   Mapped a Hurricane Debby 2024 scenario exposure across a 16 billion dollar state pension fund real estate portfolio to identify affected properties, estimate exposed value, and support Chief Investment Officer and board level reporting.
 
 5. World Cup Weakest Link Analysis
    Independent public research testing whether lineup floor was more informative about group stage performance and advancement than total value or star power.
 
 ## Data Note
 
-Professional project visuals use synthetic data created to demonstrate the original analytical workflows. No employer, member, provider, contract, supplier, property, or product data is displayed. The World Cup analysis uses public data and links to its full public analysis. The hurricane visual overlays a real Hurricane Florence 2018 storm track and the National Hurricane Center 2018 forecast cone on synthetic portfolio data.
+Professional project visuals use synthetic data created to demonstrate the original analytical workflows. No employer, member, provider, contract, supplier, property, or product data is displayed. The World Cup analysis uses public data and links to its full public analysis. The hurricane visual overlays a real Hurricane Debby 2024 storm track and the National Hurricane Center 2024 forecast cone on synthetic portfolio data.
 
 ## Technology
 
