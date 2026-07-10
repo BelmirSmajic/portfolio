@@ -142,27 +142,45 @@ function arcSamples(circle, aStart, aEnd, through, steps) {
   }
   return out;
 }
+function shortArc(circle, aStart, aEnd, steps) {
+  const span = normAngle(aEnd - aStart);
+  const out = [];
+  for (let i = 1; i <= steps; i++) {
+    const a = aStart + (span * i) / steps;
+    out.push({ x: circle.x + circle.r * Math.cos(a), y: circle.y + circle.r * Math.sin(a) });
+  }
+  return out;
+}
 function stormConePath(circles) {
   const n = circles.length;
   if (n < 2) return "";
-  const left = [];
-  const right = [];
-  for (let i = 0; i < n - 1; i++) {
-    const l = externalTangent(circles[i], circles[i + 1], 1);
-    left.push(l.pA, l.pB);
-    const r = externalTangent(circles[i], circles[i + 1], -1);
-    right.push(r.pA, r.pB);
+  // One side of the hull: tangent segments joined by short arcs along each
+  // intermediate circle, so the edge bends smoothly like an NHC cone.
+  function sideChain(side) {
+    const segs = [];
+    for (let i = 0; i < n - 1; i++) segs.push(externalTangent(circles[i], circles[i + 1], side));
+    const pts = [segs[0].pA, segs[0].pB];
+    for (let i = 1; i < n - 1; i++) {
+      const c = circles[i];
+      const prev = segs[i - 1].pB;
+      const next = segs[i].pA;
+      pts.push(...shortArc(c, Math.atan2(prev.y - c.y, prev.x - c.x), Math.atan2(next.y - c.y, next.x - c.x), 6));
+      pts.push(segs[i].pB);
+    }
+    return pts;
   }
+  const left = sideChain(1);
+  const right = sideChain(-1);
   const first = circles[0];
   const last = circles[n - 1];
   const forward = Math.atan2(last.y - circles[n - 2].y, last.x - circles[n - 2].x);
   const backward = Math.atan2(first.y - circles[1].y, first.x - circles[1].x);
   const ll = left[left.length - 1];
   const rr = right[right.length - 1];
-  const termArc = arcSamples(last, Math.atan2(ll.y - last.y, ll.x - last.x), Math.atan2(rr.y - last.y, rr.x - last.x), forward, 16);
+  const termArc = arcSamples(last, Math.atan2(ll.y - last.y, ll.x - last.x), Math.atan2(rr.y - last.y, rr.x - last.x), forward, 24);
   const lf = left[0];
   const rf = right[0];
-  const startArc = arcSamples(first, Math.atan2(rf.y - first.y, rf.x - first.x), Math.atan2(lf.y - first.y, lf.x - first.x), backward, 8);
+  const startArc = arcSamples(first, Math.atan2(rf.y - first.y, rf.x - first.x), Math.atan2(lf.y - first.y, lf.x - first.x), backward, 10);
   const pts = [...left, ...termArc, ...right.slice().reverse(), ...startArc];
   return "M " + pts.map((p) => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" L ") + " Z";
 }
@@ -492,6 +510,22 @@ function wireExpanders() {
   });
 }
 
+function wireTabs() {
+  document.querySelectorAll('[role="tablist"]').forEach((list) => {
+    const tabs = [...list.querySelectorAll('[role="tab"]')];
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((other) => {
+          const selected = other === tab;
+          other.setAttribute("aria-selected", String(selected));
+          const panel = document.getElementById(other.getAttribute("aria-controls"));
+          if (panel) panel.hidden = !selected;
+        });
+      });
+    });
+  });
+}
+
 function wireSectionNavigation() {
   const links = [...document.querySelectorAll("[data-section-link]")];
   function setActive(id) {
@@ -579,6 +613,7 @@ fetch("assets/portfolio-data.json")
     renderWorldcupComparison(data.worldcup, document.getElementById("worldcup-comparison"));
     renderWorldcupEvidence(data.worldcup, document.getElementById("worldcup-evidence"));
     wireExpanders();
+    wireTabs();
     wireSectionNavigation();
     checkVisibleCopy();
   })

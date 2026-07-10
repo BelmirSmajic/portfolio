@@ -39,10 +39,9 @@
 
         <div class="page-content">
           <section id="top" class="hero">
-            <p class="eyebrow">Analytics Portfolio</p>
-            <h1>Belmir Smajic</h1>
-            <p class="hero-role">Data, Business, and Product Analytics</p>
-            <p class="hero-copy">Five projects across healthcare cost, contract strategy, product integration, real estate risk, and decision support, plus independent public research.</p>
+            <p class="eyebrow">Belmir Smajic</p>
+            <h1>Analytics Portfolio</h1>
+            <p class="hero-copy">Data, business, and product analytics work across healthcare, finance, operations, risk, and public research.</p>
             <div class="actions">
               <a class="button primary" href="#projects">View Projects</a>
             </div>
@@ -52,43 +51,35 @@
             </div>
           </section>
 
-          <div class="outcome-strip" aria-label="Headline outcomes">
-            <a href="#provider"><strong>$500,000</strong><span>documented cost reductions</span></a>
-            <a href="#acquisition"><strong>Hundreds</strong><span>of manual hours saved</span></a>
-            <a href="#hurricane"><strong>$16B</strong><span>real estate portfolio</span></a>
-            <a href="#worldcup"><strong>0.77</strong><span>floor to points link</span></a>
-          </div>
-
           <section id="projects" class="project-index" aria-labelledby="project-index-title">
             <div class="section-heading compact">
               <p class="eyebrow">Project Index</p>
               <h2 id="project-index-title">Five selected projects</h2>
-              <p>Impact at a Glance</p>
             </div>
             <div class="project-card-grid">
               <article>
                 <div class="card-top"><h3><a href="#provider">Provider Cost Outlier Analysis</a></h3><span class="evidence-badge confidential">Confidential work · synthetic demo</span></div>
-                <p>Flagged provider cost outliers for a regional Medicaid health plan by joining claims and provider data, calculating cost per active member month within peer groups, and surfacing abnormal spend for Finance and Provider Contracting review.</p>
+                <p>Peer group cost outliers for a regional Medicaid health plan, using cost per active member month to focus contracting review.</p>
                 <div class="tool-chips"><span>SQL</span><span>Tableau</span></div>
               </article>
               <article>
                 <div class="card-top"><h3><a href="#contract">Preferred Provider Contract Scenario Model</a></h3><span class="evidence-badge confidential">Confidential work · synthetic demo</span></div>
-                <p>Modeled a preferred DME supplier scenario for the same plan by comparing claims, benchmark rates, reimbursement, and expected volume shift to support contract negotiation and a projected savings review.</p>
+                <p>Modeled a preferred DME supplier at 80 percent of benchmark rates to test projected savings against expected volume shift.</p>
                 <div class="tool-chips"><span>SQL</span><span>Excel</span></div>
               </article>
               <article>
                 <div class="card-top"><h3><a href="#acquisition">Acquisition Product Matching</a></h3><span class="evidence-badge confidential">Confidential work · synthetic demo</span></div>
-                <p>Sped up acquisition integration for a Fortune 500 food distributor with Python matching logic that compared 1.4M acquired products against roughly 4M existing records and routed uncertain matches into structured review.</p>
+                <p>Python matching compared 1.4M acquired products with roughly 4M existing records, saving hundreds of manual work hours.</p>
                 <div class="tool-chips"><span>Python</span><span>Excel</span></div>
               </article>
               <article>
                 <div class="card-top"><h3><a href="#hurricane">Hurricane Exposure and Portfolio Risk Analysis</a></h3><span class="evidence-badge confidential">Confidential work · synthetic demo</span></div>
-                <p>Gave executives a storm exposure view for a 16 billion dollar real estate portfolio, joining property values, locations, and hurricane exposure data into a full USA map with affected assets prioritized for CIO and board review.</p>
+                <p>Joined property values and storm data into a full USA exposure map for a 16 billion dollar portfolio, for CIO and board review.</p>
                 <div class="tool-chips"><span>SQL</span><span>Tableau</span><span>Geospatial data</span></div>
               </article>
               <article>
                 <div class="card-top"><h3><a href="#worldcup">World Cup Weakest Link Analysis</a></h3><span class="evidence-badge public">Public · code and data inspectable</span></div>
-                <p>Tested whether lineup floor explained World Cup group stage results better than total team value or star power by comparing the bottom three players in each usage based Core XI against team outcomes.</p>
+                <p>Tested whether lineup floor tracks group stage results better than total team value or star power.</p>
                 <div class="tool-chips"><span>Python</span><span>pandas</span><span>Public football data</span></div>
               </article>
             </div>
@@ -112,51 +103,59 @@
             <div class="stat-callouts" aria-label="Key metrics">
               <div class="stat"><span class="stat-num">$500,000</span><span class="stat-label">in documented annual cost reductions supported</span></div>
             </div>
-            <details class="glance-details">
-              <summary>Business at a Glance</summary>
-              <div class="glance">
-                <dl>
-                  <dt>Industry and setting</dt><dd>Regional Medicaid health plan and healthcare payer analytics.</dd>
-                  <dt>Who the work supported</dt><dd>Finance, Provider Contracting, and business users reviewing provider cost variation.</dd>
-                  <dt>Business problem</dt><dd>Total provider spending alone did not show whether a provider was genuinely high cost, because providers differed in member volume, specialty, and active exposure.</dd>
-                  <dt>Why it was useful</dt><dd>The analysis gave business users a defensible way to focus investigation on providers materially above their peer median.</dd>
-                  <dt>Key Impact</dt><dd>Supported more than $500,000 in documented annual healthcare cost reductions through targeted provider and policy review.</dd>
-                  <dt>Tools</dt><dd>SQL and Tableau.</dd>
-                </dl>
-              </div>
-            </details>
-            <details class="owned-details">
-              <summary>What I Owned</summary>
-              <div class="project-grid single">
-                <article>
-                  <ul>
-                    <li>Gathered and translated business requirements</li>
-                    <li>Defined relevant provider peer groups</li>
-                    <li>Established the normalized cost methodology</li>
-                    <li>Investigated service and billing drivers behind flagged providers</li>
-                  </ul>
+            <div class="tab-row" role="tablist" aria-label="Provider Cost Outlier Analysis views">
+              <button type="button" role="tab" id="provider-tab-workspace" aria-selected="true" aria-controls="provider-view-workspace" data-tab>Workspace</button>
+              <button type="button" role="tab" id="provider-tab-overview" aria-selected="false" aria-controls="provider-view-overview" data-tab>Overview</button>
+            </div>
+            <div class="tab-view" id="provider-view-workspace" role="tabpanel" aria-labelledby="provider-tab-workspace">
+              <div class="visual-grid wide-workspace-grid">
+                <article class="visual-panel full-width-workspace">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Provider Review Workspace</h3>
+                      <p>Six examples show cost per active member month, peer median, ratio, review status, and provider detail.</p>
+                    </div>
+                    <button type="button" data-expand="provider-workspace">Expand</button>
+                  </div>
+                  <div id="provider-workspace" class="workspace-visual"></div>
+                  <small class="synthetic-caption">Synthetic data. Provider peer review example.</small>
                 </article>
               </div>
-            </details>
-            <div class="visual-grid wide-workspace-grid">
-              <article class="visual-panel full-width-workspace">
-                <div class="panel-head">
-                  <div>
-                    <h3>Provider Review Workspace</h3>
-                    <p>Six examples show cost per active member month, peer median, ratio, review status, and provider detail.</p>
-                  </div>
-                  <button type="button" data-expand="provider-workspace">Expand</button>
-                </div>
-                <div id="provider-workspace" class="workspace-visual"></div>
-                <small class="synthetic-caption">Synthetic data. Provider peer review example.</small>
-              </article>
             </div>
-            <div class="methods">
-              <h3>Tools and Methods</h3>
-              <dl>
-                <dt>Tools</dt><dd>SQL, Tableau</dd>
-                <dt>Methods</dt><dd>Claims to provider joins, member provider grain aggregation, provider level rollup, Cost per active member month, Peer group comparison, Provider outlier ranking, Contracting analytics review</dd>
-              </dl>
+            <div class="tab-view" id="provider-view-overview" role="tabpanel" aria-labelledby="provider-tab-overview" hidden>
+              <details class="glance-details">
+                <summary>Business at a Glance</summary>
+                <div class="glance">
+                  <dl>
+                    <dt>Industry and setting</dt><dd>Regional Medicaid health plan and healthcare payer analytics.</dd>
+                    <dt>Who the work supported</dt><dd>Finance, Provider Contracting, and business users reviewing provider cost variation.</dd>
+                    <dt>Business problem</dt><dd>Total provider spending alone did not show whether a provider was genuinely high cost, because providers differed in member volume, specialty, and active exposure.</dd>
+                    <dt>Why it was useful</dt><dd>The analysis gave business users a defensible way to focus investigation on providers materially above their peer median.</dd>
+                    <dt>Key Impact</dt><dd>Supported more than $500,000 in documented annual healthcare cost reductions through targeted provider and policy review.</dd>
+                    <dt>Tools</dt><dd>SQL and Tableau.</dd>
+                  </dl>
+                </div>
+              </details>
+              <details class="owned-details">
+                <summary>What I Owned</summary>
+                <div class="project-grid single">
+                  <article>
+                    <ul>
+                      <li>Gathered and translated business requirements</li>
+                      <li>Defined relevant provider peer groups</li>
+                      <li>Established the normalized cost methodology</li>
+                      <li>Investigated service and billing drivers behind flagged providers</li>
+                    </ul>
+                  </article>
+                </div>
+              </details>
+              <div class="methods">
+                <h3>Tools and Methods</h3>
+                <dl>
+                  <dt>Tools</dt><dd>SQL, Tableau</dd>
+                  <dt>Methods</dt><dd>Claims to provider joins, member provider grain aggregation, provider level rollup, Cost per active member month, Peer group comparison, Provider outlier ranking, Contracting analytics review</dd>
+                </dl>
+              </div>
             </div>
           </section>
 
@@ -174,51 +173,59 @@
             <div class="stat-callouts" aria-label="Key metrics">
               <div class="stat"><span class="stat-num">80%</span><span class="stat-label">of DMAS benchmark rate modeled, with projected savings tested against actual</span></div>
             </div>
-            <details class="glance-details">
-              <summary>Business at a Glance</summary>
-              <div class="glance">
-                <dl>
-                  <dt>Industry and setting</dt><dd>Regional Medicaid health plan and durable medical equipment contracting.</dd>
-                  <dt>Who the work supported</dt><dd>Finance, Provider Contracting, and operational stakeholders evaluating a proposed preferred provider arrangement.</dd>
-                  <dt>Business problem</dt><dd>Stakeholders needed to know whether shifting eligible durable medical equipment volume to a preferred DME supplier at 80 percent of benchmark rates would generate savings.</dd>
-                  <dt>Why it was useful</dt><dd>The model tested whether the specific provider arrangement was financially attractive and showed whether projected savings materialized after implementation.</dd>
-                  <dt>Key Impact</dt><dd>Supported a preferred provider contract decision by testing reimbursement at 80 percent of benchmark rates, eligible services, utilization, and expected volume shift assumptions.</dd>
-                  <dt>Tools</dt><dd>SQL and Excel.</dd>
-                </dl>
-              </div>
-            </details>
-            <details class="owned-details">
-              <summary>What I Owned</summary>
-              <div class="project-grid single">
-                <article>
-                  <ul>
-                    <li>Clarified eligible service and code scope</li>
-                    <li>Documented reimbursement and volume assumptions</li>
-                    <li>Modeled alternative rate and steerage scenarios</li>
-                    <li>Compared projected savings with actual results</li>
-                  </ul>
+            <div class="tab-row" role="tablist" aria-label="Preferred Provider Contract Scenario Model views">
+              <button type="button" role="tab" id="contract-tab-workspace" aria-selected="true" aria-controls="contract-view-workspace" data-tab>Workspace</button>
+              <button type="button" role="tab" id="contract-tab-overview" aria-selected="false" aria-controls="contract-view-overview" data-tab>Overview</button>
+            </div>
+            <div class="tab-view" id="contract-view-workspace" role="tabpanel" aria-labelledby="contract-tab-workspace">
+              <div class="visual-grid wide-workspace-grid">
+                <article class="visual-panel full-width-workspace">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Preferred DME Supplier Scenario</h3>
+                      <p>Adjust volume shift and 80 percent DMAS benchmark rate assumptions to test the current network baseline, preferred supplier scenario, projected savings, and decision signal.</p>
+                    </div>
+                    <button type="button" data-expand="contract-scenario">Expand</button>
+                  </div>
+                  <div id="contract-scenario" class="workspace-visual"></div>
+                  <small class="synthetic-caption">Synthetic data. DME contract scenario output.</small>
                 </article>
               </div>
-            </details>
-            <div class="visual-grid wide-workspace-grid">
-              <article class="visual-panel full-width-workspace">
-                <div class="panel-head">
-                  <div>
-                    <h3>Preferred DME Supplier Scenario</h3>
-                    <p>Adjust volume shift and 80 percent DMAS benchmark rate assumptions to test the current network baseline, preferred supplier scenario, projected savings, and decision signal.</p>
-                  </div>
-                  <button type="button" data-expand="contract-scenario">Expand</button>
-                </div>
-                <div id="contract-scenario" class="workspace-visual"></div>
-                <small class="synthetic-caption">Synthetic data. DME contract scenario output.</small>
-              </article>
             </div>
-            <div class="methods">
-              <h3>Tools and Methods</h3>
-              <dl>
-                <dt>Tools</dt><dd>SQL, Excel</dd>
-                <dt>Methods</dt><dd>Claims analysis, rate comparison, utilization modeling, scenario analysis, volume shift modeling, projected savings validation</dd>
-              </dl>
+            <div class="tab-view" id="contract-view-overview" role="tabpanel" aria-labelledby="contract-tab-overview" hidden>
+              <details class="glance-details">
+                <summary>Business at a Glance</summary>
+                <div class="glance">
+                  <dl>
+                    <dt>Industry and setting</dt><dd>Regional Medicaid health plan and durable medical equipment contracting.</dd>
+                    <dt>Who the work supported</dt><dd>Finance, Provider Contracting, and operational stakeholders evaluating a proposed preferred provider arrangement.</dd>
+                    <dt>Business problem</dt><dd>Stakeholders needed to know whether shifting eligible durable medical equipment volume to a preferred DME supplier at 80 percent of benchmark rates would generate savings.</dd>
+                    <dt>Why it was useful</dt><dd>The model tested whether the specific provider arrangement was financially attractive and showed whether projected savings materialized after implementation.</dd>
+                    <dt>Key Impact</dt><dd>Supported a preferred provider contract decision by testing reimbursement at 80 percent of benchmark rates, eligible services, utilization, and expected volume shift assumptions.</dd>
+                    <dt>Tools</dt><dd>SQL and Excel.</dd>
+                  </dl>
+                </div>
+              </details>
+              <details class="owned-details">
+                <summary>What I Owned</summary>
+                <div class="project-grid single">
+                  <article>
+                    <ul>
+                      <li>Clarified eligible service and code scope</li>
+                      <li>Documented reimbursement and volume assumptions</li>
+                      <li>Modeled alternative rate and steerage scenarios</li>
+                      <li>Compared projected savings with actual results</li>
+                    </ul>
+                  </article>
+                </div>
+              </details>
+              <div class="methods">
+                <h3>Tools and Methods</h3>
+                <dl>
+                  <dt>Tools</dt><dd>SQL, Excel</dd>
+                  <dt>Methods</dt><dd>Claims analysis, rate comparison, utilization modeling, scenario analysis, volume shift modeling, projected savings validation</dd>
+                </dl>
+              </div>
             </div>
           </section>
 
@@ -238,51 +245,59 @@
               <div class="stat"><span class="stat-num">4M records</span><span class="stat-label">existing product master</span></div>
               <div class="stat"><span class="stat-num">Hundreds</span><span class="stat-label">of manual work hours saved</span></div>
             </div>
-            <details class="glance-details">
-              <summary>Business at a Glance</summary>
-              <div class="glance">
-                <dl>
-                  <dt>Industry and setting</dt><dd>Fortune 500 food distribution company integrating a large acquired product catalog into an existing enterprise product master.</dd>
-                  <dt>Who the work supported</dt><dd>Product data, acquisition integration, operations, reporting, and business users responsible for resolving uncertain product matches.</dd>
-                  <dt>Business problem</dt><dd>People had to manually compare products across large Excel spreadsheets where descriptions, manufacturers, brands, package sizes, units, quantities, abbreviations, and identifiers did not always align.</dd>
-                  <dt>Why it was useful</dt><dd>The workflow surfaced likely matches, automatically resolved strong cases, preserved human review for uncertain records, and saved hundreds of manual work hours.</dd>
-                  <dt>Key Impact</dt><dd>Saved hundreds of manual work hours while preserving focused review for uncertain or high risk records.</dd>
-                  <dt>Tools</dt><dd>Python and Excel.</dd>
-                </dl>
-              </div>
-            </details>
-            <details class="owned-details">
-              <summary>What I Owned</summary>
-              <div class="project-grid single">
-                <article>
-                  <ul>
-                    <li>Translated the integration problem into matching requirements</li>
-                    <li>Defined exact and fuzzy matching rules</li>
-                    <li>Established confidence categories and review thresholds</li>
-                    <li>Tested false positive and false negative scenarios</li>
-                  </ul>
+            <div class="tab-row" role="tablist" aria-label="Acquisition Product Matching views">
+              <button type="button" role="tab" id="acquisition-tab-workspace" aria-selected="true" aria-controls="acquisition-view-workspace" data-tab>Workspace</button>
+              <button type="button" role="tab" id="acquisition-tab-overview" aria-selected="false" aria-controls="acquisition-view-overview" data-tab>Overview</button>
+            </div>
+            <div class="tab-view" id="acquisition-view-workspace" role="tabpanel" aria-labelledby="acquisition-tab-workspace">
+              <div class="visual-grid wide-workspace-grid">
+                <article class="visual-panel full-width-workspace">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Manual Review Workspace</h3>
+                      <p>Select a record to compare the primary match, second closest candidate, and review decision.</p>
+                    </div>
+                    <button type="button" data-expand="acquisition-review">Expand</button>
+                  </div>
+                  <div id="acquisition-review" class="workspace-visual"></div>
+                  <small class="synthetic-caption">Synthetic data. Product matching review queue.</small>
                 </article>
               </div>
-            </details>
-            <div class="visual-grid wide-workspace-grid">
-              <article class="visual-panel full-width-workspace">
-                <div class="panel-head">
-                  <div>
-                    <h3>Manual Review Workspace</h3>
-                    <p>Select a record to compare the primary match, second closest candidate, and review decision.</p>
-                  </div>
-                  <button type="button" data-expand="acquisition-review">Expand</button>
-                </div>
-                <div id="acquisition-review" class="workspace-visual"></div>
-                <small class="synthetic-caption">Synthetic data. Product matching review queue.</small>
-              </article>
             </div>
-            <div class="methods">
-              <h3>Tools and Methods</h3>
-              <dl>
-                <dt>Tools</dt><dd>Python, Excel</dd>
-                <dt>Methods</dt><dd>Data profiling, text normalization, exact matching, fuzzy matching, confidence scoring, exception handling, manual review design, false match validation, missed match validation</dd>
-              </dl>
+            <div class="tab-view" id="acquisition-view-overview" role="tabpanel" aria-labelledby="acquisition-tab-overview" hidden>
+              <details class="glance-details">
+                <summary>Business at a Glance</summary>
+                <div class="glance">
+                  <dl>
+                    <dt>Industry and setting</dt><dd>Fortune 500 food distribution company integrating a large acquired product catalog into an existing enterprise product master.</dd>
+                    <dt>Who the work supported</dt><dd>Product data, acquisition integration, operations, reporting, and business users responsible for resolving uncertain product matches.</dd>
+                    <dt>Business problem</dt><dd>People had to manually compare products across large Excel spreadsheets where descriptions, manufacturers, brands, package sizes, units, quantities, abbreviations, and identifiers did not always align.</dd>
+                    <dt>Why it was useful</dt><dd>The workflow surfaced likely matches, automatically resolved strong cases, preserved human review for uncertain records, and saved hundreds of manual work hours.</dd>
+                    <dt>Key Impact</dt><dd>Saved hundreds of manual work hours while preserving focused review for uncertain or high risk records.</dd>
+                    <dt>Tools</dt><dd>Python and Excel.</dd>
+                  </dl>
+                </div>
+              </details>
+              <details class="owned-details">
+                <summary>What I Owned</summary>
+                <div class="project-grid single">
+                  <article>
+                    <ul>
+                      <li>Translated the integration problem into matching requirements</li>
+                      <li>Defined exact and fuzzy matching rules</li>
+                      <li>Established confidence categories and review thresholds</li>
+                      <li>Tested false positive and false negative scenarios</li>
+                    </ul>
+                  </article>
+                </div>
+              </details>
+              <div class="methods">
+                <h3>Tools and Methods</h3>
+                <dl>
+                  <dt>Tools</dt><dd>Python, Excel</dd>
+                  <dt>Methods</dt><dd>Data profiling, text normalization, exact matching, fuzzy matching, confidence scoring, exception handling, manual review design, false match validation, missed match validation</dd>
+                </dl>
+              </div>
             </div>
           </section>
 
@@ -300,52 +315,60 @@
             <div class="stat-callouts" aria-label="Key metrics">
               <div class="stat"><span class="stat-num">$16B</span><span class="stat-label">state pension fund real estate portfolio monitored</span></div>
             </div>
-            <details class="glance-details">
-              <summary>Business at a Glance</summary>
-              <div class="glance">
-                <dl>
-                  <dt>Industry and setting</dt><dd>16 billion dollar state pension fund real estate portfolio.</dd>
-                  <dt>Who the work supported</dt><dd>Investment, risk, and leadership stakeholders, including the Chief Investment Officer and board level reporting.</dd>
-                  <dt>Business problem</dt><dd>Stakeholders needed to monitor potential hurricane exposure across the portfolio during active storm tracking.</dd>
-                  <dt>Why it was useful</dt><dd>The analysis gave investment, risk, and leadership stakeholders, including the Chief Investment Officer and the board, a fast way to identify potentially affected properties, estimate potentially exposed value, understand geographic concentration of risk, prioritize monitoring and response, and brief leadership during active storm tracking.</dd>
-                  <dt>Key Impact</dt><dd>Built a hurricane exposure view for the portfolio that identified potentially affected properties, summarized potential exposure for the Chief Investment Officer and leadership, and supported board level reporting during storm monitoring.</dd>
-                  <dt>Tools</dt><dd>SQL, Tableau, geospatial shapefiles, and government storm or hurricane data APIs.</dd>
-                </dl>
-              </div>
-            </details>
-            <details class="owned-details">
-              <summary>What I Owned</summary>
-              <div class="project-grid single">
-                <article>
-                  <ul>
-                    <li>Gathered requirements from investment, risk, and leadership stakeholders</li>
-                    <li>Compiled portfolio data and joined geographic location data</li>
-                    <li>Overlaid hurricane path and impact zones to calculate potentially affected exposure</li>
-                    <li>Built executive visuals, presented findings to leadership, the Chief Investment Officer, and the board, and updated the report during active storm tracking</li>
-                  </ul>
+            <div class="tab-row" role="tablist" aria-label="Hurricane Exposure and Portfolio Risk Analysis views">
+              <button type="button" role="tab" id="hurricane-tab-workspace" aria-selected="true" aria-controls="hurricane-view-workspace" data-tab>Workspace</button>
+              <button type="button" role="tab" id="hurricane-tab-overview" aria-selected="false" aria-controls="hurricane-view-overview" data-tab>Overview</button>
+            </div>
+            <div class="tab-view" id="hurricane-view-workspace" role="tabpanel" aria-labelledby="hurricane-tab-workspace">
+              <div class="visual-grid hurricane-visual-stack">
+                <article class="visual-panel hurricane-exposure-panel">
+                  <div class="panel-head">
+                    <div>
+                      <h3>National Hurricane Exposure Map</h3>
+                      <p>Full USA portfolio map with a Hurricane Debby 2024 forecast overlay, highlighted high exposure properties, and ranked affected properties below.</p>
+                    </div>
+                    <button type="button" data-expand="hurricane-map">Expand</button>
+                  </div>
+                  <div id="hurricane-map" class="workspace-visual hurricane-map-visual"></div>
+                  <div id="hurricane-table" class="workspace-visual hurricane-table-visual"></div>
+                  <small class="synthetic-caption">Synthetic data. State pension fund real estate exposure workflow. Storm track and forecast cone from NOAA and NHC public data.</small>
                 </article>
               </div>
-            </details>
-            <div class="visual-grid hurricane-visual-stack">
-              <article class="visual-panel hurricane-exposure-panel">
-                <div class="panel-head">
-                  <div>
-                    <h3>National Hurricane Exposure Map</h3>
-                    <p>Full USA portfolio map with a Hurricane Debby 2024 forecast overlay, highlighted high exposure properties, and ranked affected properties below.</p>
-                  </div>
-                  <button type="button" data-expand="hurricane-map">Expand</button>
-                </div>
-                <div id="hurricane-map" class="workspace-visual hurricane-map-visual"></div>
-                <div id="hurricane-table" class="workspace-visual hurricane-table-visual"></div>
-                <small class="synthetic-caption">Synthetic data. State pension fund real estate exposure workflow. Storm track and forecast cone from NOAA and NHC public data.</small>
-              </article>
             </div>
-            <div class="methods">
-              <h3>Tools and Methods</h3>
-              <dl>
-                <dt>Tools</dt><dd>SQL, Tableau, geospatial shapefiles, government storm or hurricane data APIs</dd>
-                <dt>Methods</dt><dd>Portfolio exposure analysis, location and geographic joins, storm path overlay, impact zone analysis, potential exposure calculation, scenario based monitoring, executive reporting, board level communication</dd>
-              </dl>
+            <div class="tab-view" id="hurricane-view-overview" role="tabpanel" aria-labelledby="hurricane-tab-overview" hidden>
+              <details class="glance-details">
+                <summary>Business at a Glance</summary>
+                <div class="glance">
+                  <dl>
+                    <dt>Industry and setting</dt><dd>16 billion dollar state pension fund real estate portfolio.</dd>
+                    <dt>Who the work supported</dt><dd>Investment, risk, and leadership stakeholders, including the Chief Investment Officer and board level reporting.</dd>
+                    <dt>Business problem</dt><dd>Stakeholders needed to monitor potential hurricane exposure across the portfolio during active storm tracking.</dd>
+                    <dt>Why it was useful</dt><dd>The analysis gave investment, risk, and leadership stakeholders, including the Chief Investment Officer and the board, a fast way to identify potentially affected properties, estimate potentially exposed value, understand geographic concentration of risk, prioritize monitoring and response, and brief leadership during active storm tracking.</dd>
+                    <dt>Key Impact</dt><dd>Built a hurricane exposure view for the portfolio that identified potentially affected properties, summarized potential exposure for the Chief Investment Officer and leadership, and supported board level reporting during storm monitoring.</dd>
+                    <dt>Tools</dt><dd>SQL, Tableau, geospatial shapefiles, and government storm or hurricane data APIs.</dd>
+                  </dl>
+                </div>
+              </details>
+              <details class="owned-details">
+                <summary>What I Owned</summary>
+                <div class="project-grid single">
+                  <article>
+                    <ul>
+                      <li>Gathered requirements from investment, risk, and leadership stakeholders</li>
+                      <li>Compiled portfolio data and joined geographic location data</li>
+                      <li>Overlaid hurricane path and impact zones to calculate potentially affected exposure</li>
+                      <li>Built executive visuals, presented findings to leadership, the Chief Investment Officer, and the board, and updated the report during active storm tracking</li>
+                    </ul>
+                  </article>
+                </div>
+              </details>
+              <div class="methods">
+                <h3>Tools and Methods</h3>
+                <dl>
+                  <dt>Tools</dt><dd>SQL, Tableau, geospatial shapefiles, government storm or hurricane data APIs</dd>
+                  <dt>Methods</dt><dd>Portfolio exposure analysis, location and geographic joins, storm path overlay, impact zone analysis, potential exposure calculation, scenario based monitoring, executive reporting, board level communication</dd>
+                </dl>
+              </div>
             </div>
           </section>
 
@@ -366,65 +389,72 @@
               <div class="stat"><span class="stat-num">17%</span><span class="stat-label">weakest quartile advancement</span></div>
               <div class="stat"><span class="stat-num">528</span><span class="stat-label">players across 48 teams</span></div>
             </div>
-            <details class="glance-details">
-              <summary>Research at a Glance</summary>
-              <div class="glance">
-                <dl>
-                  <dt>Research setting</dt><dd>Independent football analytics research using public tournament usage, player valuation, and team performance data.</dd>
-                  <dt>Purpose and audience</dt><dd>A public research project designed to test and communicate a football analytics hypothesis.</dd>
-                  <dt>Research question</dt><dd>Does lineup floor track group stage performance and advancement better than total value or star power?</dd>
-                  <dt>Why it matters</dt><dd>Football analysis often emphasizes headline talent while underweighting weakness among regular starters.</dd>
-                  <dt>Key Finding</dt><dd>Lineup floor had the strongest observed relationship among the tested value measures, including a 0.77 Spearman relationship with group stage points.</dd>
-                  <dt>Tools</dt><dd>Python, HTML, CSS, JavaScript, GitHub Pages.</dd>
-                </dl>
-              </div>
-            </details>
-            <details class="owned-details">
-              <summary>What I Owned</summary>
-              <div class="project-grid single">
-                <article>
-                  <ul>
-                    <li>Defined the lineup floor research question</li>
-                    <li>Constructed the usage based Core XI</li>
-                    <li>Joined player values and group stage results</li>
-                    <li>Compared lineup floor, total value, and star power</li>
-                  </ul>
-                  <p>The Core XI is retrospective, based on group stage minutes, starts, and appearances. The bottom three are the three lowest valued players within that Core XI, not the full squad and not every player who appeared.</p>
+            <p class="worldcup-links gateway-links">This is an independent public research project; the live analysis is the actual project. <a href="https://belmirsmajic.github.io/2026-world-cup-weakest-link/" target="_blank" rel="noopener noreferrer">View Full Analysis</a> <a href="https://medium.com/@belmirsmajic/a-team-is-only-as-strong-as-the-bottom-of-its-lineup-491d8825fed4" target="_blank" rel="noopener noreferrer">Read the Write Up on Medium</a> <a href="https://github.com/BelmirSmajic/2026-world-cup-weakest-link" target="_blank" rel="noopener noreferrer">View Repository</a></p>
+            <div class="tab-row" role="tablist" aria-label="World Cup Weakest Link Analysis views">
+              <button type="button" role="tab" id="worldcup-tab-workspace" aria-selected="true" aria-controls="worldcup-view-workspace" data-tab>Workspace</button>
+              <button type="button" role="tab" id="worldcup-tab-overview" aria-selected="false" aria-controls="worldcup-view-overview" data-tab>Overview</button>
+            </div>
+            <div class="tab-view" id="worldcup-view-workspace" role="tabpanel" aria-labelledby="worldcup-tab-workspace">
+              <div class="visual-grid worldcup-visual-stack">
+                <article class="visual-panel full-width-workspace">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Mexico and Uruguay Comparison</h3>
+                      <p>Headline value, lineup floor, and advancement outcome tell different stories for these two teams.</p>
+                    </div>
+                    <button type="button" data-expand="worldcup-comparison">Expand</button>
+                  </div>
+                  <div id="worldcup-comparison" class="chart-area"></div>
+                  <small>Source: public World Cup analysis data.</small>
+                </article>
+                <article class="visual-panel full-width-workspace">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Lineup Floor Evidence Panel</h3>
+                      <p>Four headline metrics summarize why this preview points to the full public analysis.</p>
+                    </div>
+                    <button type="button" data-expand="worldcup-evidence">Expand</button>
+                  </div>
+                  <div id="worldcup-evidence" class="workspace-visual"></div>
+                  <small>Source: public World Cup analysis metrics.</small>
                 </article>
               </div>
-            </details>
-            <div class="visual-grid worldcup-visual-stack">
-              <article class="visual-panel full-width-workspace">
-                <div class="panel-head">
-                  <div>
-                    <h3>Mexico and Uruguay Comparison</h3>
-                    <p>Headline value, lineup floor, and advancement outcome tell different stories for these two teams.</p>
-                  </div>
-                  <button type="button" data-expand="worldcup-comparison">Expand</button>
-                </div>
-                <div id="worldcup-comparison" class="chart-area"></div>
-                <small>Source: public World Cup analysis data.</small>
-              </article>
-              <article class="visual-panel full-width-workspace">
-                <div class="panel-head">
-                  <div>
-                    <h3>Lineup Floor Evidence Panel</h3>
-                    <p>Four headline metrics summarize why this preview points to the full public analysis.</p>
-                  </div>
-                  <button type="button" data-expand="worldcup-evidence">Expand</button>
-                </div>
-                <div id="worldcup-evidence" class="workspace-visual"></div>
-                <small>Source: public World Cup analysis metrics.</small>
-              </article>
             </div>
-            <div class="methods">
-              <h3>Tools and Methods</h3>
-              <dl>
-                <dt>Tools</dt><dd>Python, HTML, CSS, JavaScript, GitHub Pages</dd>
-                <dt>Methods</dt><dd>Data cleaning, usage based Core XI construction, player valuation analysis, Spearman correlation, comparative team analysis</dd>
-              </dl>
-              <p>This is an independent public research project. The live analysis is the actual project.</p>
-              <p class="worldcup-links"><a href="https://belmirsmajic.github.io/2026-world-cup-weakest-link/" target="_blank" rel="noopener noreferrer">View Full Analysis</a> <a href="https://medium.com/@belmirsmajic/a-team-is-only-as-strong-as-the-bottom-of-its-lineup-491d8825fed4" target="_blank" rel="noopener noreferrer">Read the Write Up on Medium</a> <a href="https://github.com/BelmirSmajic/2026-world-cup-weakest-link" target="_blank" rel="noopener noreferrer">View Repository</a></p>
+            <div class="tab-view" id="worldcup-view-overview" role="tabpanel" aria-labelledby="worldcup-tab-overview" hidden>
+              <details class="glance-details">
+                <summary>Research at a Glance</summary>
+                <div class="glance">
+                  <dl>
+                    <dt>Research setting</dt><dd>Independent football analytics research using public tournament usage, player valuation, and team performance data.</dd>
+                    <dt>Purpose and audience</dt><dd>A public research project designed to test and communicate a football analytics hypothesis.</dd>
+                    <dt>Research question</dt><dd>Does lineup floor track group stage performance and advancement better than total value or star power?</dd>
+                    <dt>Why it matters</dt><dd>Football analysis often emphasizes headline talent while underweighting weakness among regular starters.</dd>
+                    <dt>Key Finding</dt><dd>Lineup floor had the strongest observed relationship among the tested value measures, including a 0.77 Spearman relationship with group stage points.</dd>
+                    <dt>Tools</dt><dd>Python, HTML, CSS, JavaScript, GitHub Pages.</dd>
+                  </dl>
+                </div>
+              </details>
+              <details class="owned-details">
+                <summary>What I Owned</summary>
+                <div class="project-grid single">
+                  <article>
+                    <ul>
+                      <li>Defined the lineup floor research question</li>
+                      <li>Constructed the usage based Core XI</li>
+                      <li>Joined player values and group stage results</li>
+                      <li>Compared lineup floor, total value, and star power</li>
+                    </ul>
+                    <p>The Core XI is retrospective, based on group stage minutes, starts, and appearances. The bottom three are the three lowest valued players within that Core XI, not the full squad and not every player who appeared.</p>
+                  </article>
+                </div>
+              </details>
+              <div class="methods">
+                <h3>Tools and Methods</h3>
+                <dl>
+                  <dt>Tools</dt><dd>Python, HTML, CSS, JavaScript, GitHub Pages</dd>
+                  <dt>Methods</dt><dd>Data cleaning, usage based Core XI construction, player valuation analysis, Spearman correlation, comparative team analysis</dd>
+                </dl>
+              </div>
             </div>
           </section>
 
