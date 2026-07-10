@@ -139,15 +139,18 @@ def main():
         if p.methods[k] != 1:
             fail(f"{k} methods count {p.methods[k]}")
 
-    # --- Hero identity and contact links ---
+    # --- Hero leads with the portfolio; name stays secondary ---
     hero = hero_block(html)
-    for needed in ["Belmir Smajic", "Data, Business, and Product Analytics",
+    for needed in ["Belmir Smajic", "<h1>Analytics Portfolio</h1>",
+                   "Data, business, and product analytics work",
                    "https://github.com/BelmirSmajic", "mailto:belmirsmajic@outlook.com",
                    "View Projects"]:
         if needed not in hero:
             fail(f"hero missing: {needed}")
     if "linkedin" in hero.lower():
         fail("hero must not contain a LinkedIn link")
+    if "<h1>Belmir Smajic</h1>" in hero:
+        fail("hero h1 must lead with the portfolio, not the standalone name")
 
     # --- Header brand text ---
     if 'class="brand" href="#top">Belmir Smajic' not in html:
@@ -304,20 +307,46 @@ def main():
         if 'class="project-question"' not in section(html, pid):
             fail(f"{pid} missing its business question line")
 
-    # --- Outcome strip under the hero with anchor links ---
-    strip_match = re.search(r'<div class="outcome-strip".*?</div>', html, re.S)
-    strip = strip_match.group(0) if strip_match else ""
-    if not strip:
-        fail("outcome strip missing")
-    anchors = re.findall(r'<a href="(#[a-z]+)">', strip)
-    if len(anchors) < 4:
-        fail(f"outcome strip has {len(anchors)} anchor links; need >= 4")
-    for anc in anchors:
-        if anc[1:] not in PROJECT_ORDER:
-            fail(f"outcome strip anchor does not target a project: {anc}")
-    for token in ["$500,000", "Hundreds", "$16B", "0.77"]:
-        if token not in strip:
-            fail(f"outcome strip missing headline number: {token}")
+    # --- No floating stat strip: headline numbers live inside their projects ---
+    if "outcome-strip" in html or "outcome-strip" in css:
+        fail("the hero outcome strip must be removed; stats belong in their project sections")
+    for pid, token in [("provider", "$500,000"), ("acquisition", "Hundreds"),
+                       ("hurricane", "$16B"), ("worldcup", "0.77")]:
+        if token not in section(html, pid):
+            fail(f"{pid} section missing its headline number {token}")
+
+    # --- Compact index cards in a 3-over-2 desktop grid ---
+    cards = re.findall(r"<article>\s*<div class=\"card-top\">.*?</article>", html, re.S)
+    if len(cards) != 5:
+        fail(f"expected 5 index cards, found {len(cards)}")
+    for card in cards:
+        body = re.search(r"</div>\s*<p>(.*?)</p>", card, re.S)
+        text = re.sub(r"<[^>]+>", "", body.group(1)).strip() if body else ""
+        if not text:
+            fail("index card missing its one-sentence summary")
+        if len(text) > 170:
+            fail(f"index card summary too long ({len(text)} chars): {text[:60]}...")
+    if not re.search(r"\.project-card-grid\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)", css):
+        fail("project index must use a 3-column desktop grid (3 over 2)")
+
+    # --- Workspace / Overview tab views per project ---
+    if html.count('role="tablist"') != 5:
+        fail("expected one tablist per project (5 total)")
+    if html.count('role="tab"') != 10 or html.count('role="tabpanel"') != 10:
+        fail("expected 2 tabs and 2 tabpanels per project")
+    for pid in PROJECT_ORDER:
+        block = section(html, pid)
+        if block.count('role="tab"') != 2 or block.count('role="tabpanel"') != 2:
+            fail(f"{pid} does not have exactly two tab views")
+        if block.count('aria-selected="true"') != 1:
+            fail(f"{pid} must have exactly one selected tab")
+        if f'id="{pid}-view-workspace"' not in block or f'id="{pid}-view-overview"' not in block:
+            fail(f"{pid} tab panels are not named workspace/overview")
+        workspace = re.search(rf'id="{pid}-view-workspace"[^>]*>', block)
+        if workspace and "hidden" in workspace.group(0):
+            fail(f"{pid} workspace view must be the visible default")
+    if "wireTabs" not in js:
+        fail("tab wiring missing from app.js")
 
     # --- Evidence badge on every project header and index card ---
     for pid in ["provider", "contract", "acquisition", "hurricane"]:
