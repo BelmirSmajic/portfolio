@@ -32,7 +32,7 @@ BANNED_BUZZWORDS = ["leveraged", "spearheaded", "passionate", "cutting-edge", "c
 
 RETIRED_PHRASES = [
     "Impact Summary", "Peer Median Comparison", "Savings Variance Bridge", "Savings Bridge",
-    "waterfall", "Matching Funnel", "146,000", "400,000", "50 percent", "Hurricane Debby",
+    "waterfall", "Matching Funnel", "146,000", "400,000", "50 percent",
 ]
 
 
@@ -226,12 +226,12 @@ def main():
     if css_lines >= 800:
         fail(f"styles.css is {css_lines} lines; keep it under 800")
 
-    # --- Storm overlay: real Hurricane Florence 2018 data ---
-    if "Hurricane Florence" not in js:
-        fail("storm SVG does not carry a Hurricane Florence label")
+    # --- Storm overlay: real Hurricane Debby 2024 data ---
+    if "Hurricane Debby" not in js:
+        fail("storm SVG does not carry a Hurricane Debby label")
     sc = data["hurricane"]["scenario"]
-    if "Florence" not in sc.get("stormName", "") or "Florence" not in sc.get("name", ""):
-        fail("hurricane scenario is not labelled Hurricane Florence")
+    if "Debby" not in sc.get("stormName", "") or "Debby" not in sc.get("name", ""):
+        fail("hurricane scenario is not labelled Hurricane Debby")
     forecast = sc.get("forecastTrack", [])
     if len(forecast) < 4:
         fail(f"storm forecast has only {len(forecast)} points; need >= 4")
@@ -288,6 +288,71 @@ def main():
         if r.get("secondBest") and r.get("secondBest") not in {"No second candidate", "No close second candidate"}:
             if r.get("recommended") == r.get("secondBest") or r.get("primaryId") == r.get("secondId") or float(r.get("score") or 0) == float(r.get("secondScore") or 0):
                 fail("acquisition primary and second candidate duplicate")
+
+    # --- Storm swap: zero Florence anywhere; Debby label present ---
+    whole = "\n".join([html, js, css, readme, json.dumps(data, ensure_ascii=False)])
+    if "Florence" in whole:
+        fail("Florence reference still present; the storm must be Debby only")
+    if "Debby" not in html or "Debby" not in js:
+        fail("Hurricane Debby label missing from the page or storm SVG")
+
+    # --- Reader layer: one business question per project header ---
+    questions = re.findall(r'class="project-question"', html)
+    if len(questions) != 5:
+        fail(f"expected 5 project question lines, found {len(questions)}")
+    for pid in PROJECT_ORDER:
+        if 'class="project-question"' not in section(html, pid):
+            fail(f"{pid} missing its business question line")
+
+    # --- Outcome strip under the hero with anchor links ---
+    strip_match = re.search(r'<div class="outcome-strip".*?</div>', html, re.S)
+    strip = strip_match.group(0) if strip_match else ""
+    if not strip:
+        fail("outcome strip missing")
+    anchors = re.findall(r'<a href="(#[a-z]+)">', strip)
+    if len(anchors) < 4:
+        fail(f"outcome strip has {len(anchors)} anchor links; need >= 4")
+    for anc in anchors:
+        if anc[1:] not in PROJECT_ORDER:
+            fail(f"outcome strip anchor does not target a project: {anc}")
+    for token in ["$500,000", "Hundreds", "$16B", "0.77"]:
+        if token not in strip:
+            fail(f"outcome strip missing headline number: {token}")
+
+    # --- Evidence badge on every project header and index card ---
+    for pid in ["provider", "contract", "acquisition", "hurricane"]:
+        if "Confidential work · synthetic demo" not in section(html, pid):
+            fail(f"{pid} missing its confidential evidence badge")
+    if "Public · code and data inspectable" not in section(html, "worldcup"):
+        fail("worldcup missing its public evidence badge")
+    badge_count = html.count("evidence-badge")
+    if badge_count < 10:
+        fail(f"expected an evidence badge on 5 cards and 5 headers, found {badge_count}")
+
+    # --- Collapsible Glance and What I Owned per project ---
+    details_count = len(re.findall(r"<details", html))
+    if details_count != 10:
+        fail(f"expected 10 <details> blocks, found {details_count}")
+    for pid in PROJECT_ORDER:
+        if section(html, pid).count("<details") != 2:
+            fail(f"{pid} does not have exactly two collapsible sections")
+
+    # --- Project identity: numerals 01-05 and domain tags ---
+    numerals = re.findall(r'class="project-numeral">(\d\d)<', html)
+    if numerals != ["01", "02", "03", "04", "05"]:
+        fail(f"project numerals are not 01-05 in order: {numerals}")
+    if len(re.findall(r'class="domain-tag"', html)) != 5:
+        fail("expected 5 project domain tags")
+
+    # --- Table fit: workspace tables free of the scrolling wrapper ---
+    if "table-wrap workspace-table-wrap" in js or 'el("div", "table-wrap")' in js:
+        fail("workspace tables must not use the scrolling table-wrap class")
+    if "workspace-table-wrap" not in js:
+        fail("workspace tables must use workspace-table-wrap")
+    if "overflow-x:visible" not in css.replace(" ", ""):
+        fail("workspace-table-wrap must default to overflow-x: visible (no desktop scroll)")
+    if "tabular-nums" not in css:
+        fail("workspace tables must use font-variant-numeric: tabular-nums")
 
     # --- Only allowed external links appear in the published site ---
     scan = "\n".join([html, js, css, readme, json.dumps(data)])
