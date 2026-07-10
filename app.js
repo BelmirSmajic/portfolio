@@ -511,7 +511,7 @@ function wireExpanders() {
 }
 
 function wireTabs() {
-  document.querySelectorAll('[role="tablist"]').forEach((list) => {
+  document.querySelectorAll('.tab-row[role="tablist"]').forEach((list) => {
     const tabs = [...list.querySelectorAll('[role="tab"]')];
     tabs.forEach((tab) => {
       tab.addEventListener("click", () => {
@@ -526,61 +526,42 @@ function wireTabs() {
   });
 }
 
-function wireSectionNavigation() {
-  const links = [...document.querySelectorAll("[data-section-link]")];
-  function setActive(id) {
-    if (!id) return;
-    links.forEach((link) => {
-      if (link.dataset.sectionLink === id) {
-        link.setAttribute("aria-current", "location");
-      } else {
-        link.removeAttribute("aria-current");
-      }
-    });
-  }
-  const sections = links
-    .map((link) => document.getElementById(link.dataset.sectionLink))
-    .filter(Boolean);
-  let scheduled = false;
-  function updateFromPosition() {
-    scheduled = false;
-    const headerOffset = (document.querySelector(".site-header")?.getBoundingClientRect().bottom || 0) + 12;
-    const current = sections
-      .map((section) => ({ id: section.id, distance: Math.abs(section.getBoundingClientRect().top - headerOffset) }))
-      .sort((a, b) => a.distance - b.distance)[0];
-    if (current) setActive(current.id);
-  }
-  function schedulePositionUpdate() {
-    if (scheduled) return;
-    scheduled = true;
-    window.requestAnimationFrame(updateFromPosition);
-  }
-  if (!("IntersectionObserver" in window)) {
-    setActive("projects");
-    return;
-  }
-  const observer = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter((entry) => entry.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-    if (!visible) return;
-    setActive(visible.target.id);
-  }, { rootMargin: "-25% 0px -55% 0px", threshold: [0.2, 0.45, 0.7] });
-  sections.forEach((section) => observer.observe(section));
-  window.addEventListener("scroll", schedulePositionUpdate, { passive: true });
-  window.addEventListener("resize", schedulePositionUpdate);
-  window.addEventListener("hashchange", () => {
-    setActive(window.location.hash.replace("#", ""));
-    window.setTimeout(schedulePositionUpdate, 120);
+function wireProjectExplorer() {
+  const tabs = [...document.querySelectorAll("[data-project-tab]")];
+  if (!tabs.length) return;
+  const panels = {};
+  tabs.forEach((tab) => {
+    panels[tab.dataset.projectTab] = document.getElementById("panel-" + tab.dataset.projectTab);
   });
-  if (window.location.hash) {
-    const id = window.location.hash.replace("#", "");
-    document.getElementById(id)?.scrollIntoView();
-    setActive(id);
-    window.setTimeout(schedulePositionUpdate, 120);
-  } else {
-    setActive("projects");
+  const explorer = document.getElementById("explorer");
+
+  function select(id, scroll) {
+    if (!panels[id]) return;
+    tabs.forEach((tab) => tab.setAttribute("aria-selected", String(tab.dataset.projectTab === id)));
+    Object.entries(panels).forEach(([key, panel]) => {
+      if (panel) panel.hidden = key !== id;
+    });
+    if (scroll && explorer) explorer.scrollIntoView({ behavior: "smooth", block: "start" });
   }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => select(tab.dataset.projectTab, true));
+  });
+  document.querySelectorAll("[data-project-link]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const id = link.dataset.projectLink;
+      select(id, true);
+      history.replaceState(null, "", "#" + id);
+    });
+  });
+
+  const initial = window.location.hash.replace("#", "");
+  select(panels[initial] ? initial : "provider", false);
+  window.addEventListener("hashchange", () => {
+    const id = window.location.hash.replace("#", "");
+    if (panels[id]) select(id, true);
+  });
 }
 
 function checkVisibleCopy() {
@@ -614,7 +595,7 @@ fetch("assets/portfolio-data.json")
     renderWorldcupEvidence(data.worldcup, document.getElementById("worldcup-evidence"));
     wireExpanders();
     wireTabs();
-    wireSectionNavigation();
+    wireProjectExplorer();
     checkVisibleCopy();
   })
   .catch((error) => {

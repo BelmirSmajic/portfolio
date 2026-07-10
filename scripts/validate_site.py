@@ -127,8 +127,8 @@ def main():
     if p.sections != PROJECT_ORDER:
         fail(f"project order is {p.sections}")
     for pid in PROJECT_ORDER:
-        if f'id="{pid}"' not in html:
-            fail(f"missing project id: {pid}")
+        if f'data-project="{pid}"' not in html:
+            fail(f"missing project: {pid}")
 
     # --- Panel / glance / methods structure ---
     for k, v in PANEL_EXPECTED.items():
@@ -176,11 +176,24 @@ def main():
     if "https://github.com/BelmirSmajic/2026-world-cup-weakest-link" not in wc:
         fail("public World Cup repo link missing from #worldcup")
 
-    # --- Navigation: no section-jump select, rail links intact ---
-    if "section-jump" in public:
-        fail("section-jump select was not removed")
-    if 'data-section-link="provider"' not in html:
-        fail("section navigation rail links missing")
+    # --- Navigation is a project explorer, not the old top nav / scroll rail ---
+    if "section-jump" in public or "data-section-link" in html:
+        fail("old scroll-rail navigation must be removed")
+    header = html[html.find("<header"):html.find("</header>")]
+    for gone in ['href="#projects"', 'href="#approach"', ">Projects</a>", ">Approach</a>"]:
+        if gone in header:
+            fail(f"old top nav link must be removed from the header: {gone}")
+    if 'class="project-tabs" role="tablist"' not in header:
+        fail("header must hold the project-tabs tablist")
+    for pid in PROJECT_ORDER:
+        if f'data-project-tab="{pid}"' not in header:
+            fail(f"project tab missing for {pid}")
+        if f'id="panel-{pid}"' not in html:
+            fail(f"project explorer panel missing for {pid}")
+    if header.count('role="tab"') != 5:
+        fail("header project explorer must have exactly five tabs")
+    if "wireProjectExplorer" not in js:
+        fail("project explorer wiring missing from app.js")
 
     # --- No overflow-x: hidden anywhere (fix overflow at the source) ---
     if "overflow-x:hidden" in css.replace(" ", ""):
@@ -333,24 +346,24 @@ def main():
     if not re.search(r"\.project-card-grid\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)", css):
         fail("project index must use a 3-column desktop grid (3 over 2)")
 
-    # --- Workspace / Overview tab views per project ---
-    if html.count('role="tablist"') != 5:
-        fail("expected one tablist per project (5 total)")
-    if html.count('role="tab"') != 10 or html.count('role="tabpanel"') != 10:
-        fail("expected 2 tabs and 2 tabpanels per project")
+    # --- Workspace / Overview split inside each project module ---
+    # One inner tablist per project (5) plus the header project tablist (1).
+    if html.count('class="tab-row"') != 5:
+        fail("expected one Workspace/Overview tab row per project")
     for pid in PROJECT_ORDER:
         block = section(html, pid)
-        if block.count('role="tab"') != 2 or block.count('role="tabpanel"') != 2:
-            fail(f"{pid} does not have exactly two tab views")
-        if block.count('aria-selected="true"') != 1:
-            fail(f"{pid} must have exactly one selected tab")
+        if block.count("data-tab") != 2:
+            fail(f"{pid} does not have exactly two inner (Workspace/Overview) tabs")
         if f'id="{pid}-view-workspace"' not in block or f'id="{pid}-view-overview"' not in block:
             fail(f"{pid} tab panels are not named workspace/overview")
-        workspace = re.search(rf'id="{pid}-view-workspace"[^>]*>', block)
-        if workspace and "hidden" in workspace.group(0):
+        ws = re.search(rf'id="{pid}-view-workspace"[^>]*>', block)
+        ov = re.search(rf'id="{pid}-view-overview"[^>]*>', block)
+        if ws and "hidden" in ws.group(0):
             fail(f"{pid} workspace view must be the visible default")
+        if not ov or "hidden" not in ov.group(0):
+            fail(f"{pid} overview view must be hidden by default")
     if "wireTabs" not in js:
-        fail("tab wiring missing from app.js")
+        fail("inner tab wiring missing from app.js")
 
     # --- Evidence badge on every project header and index card ---
     for pid in ["provider", "contract", "acquisition", "hurricane"]:
