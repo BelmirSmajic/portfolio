@@ -1,8 +1,10 @@
 # Analytics Portfolio
 
+Belmir Smajic — data, business, and product analytics.
+
 Live portfolio: https://belmirsmajic.github.io/portfolio/
 
-Data, business, and product analytics across healthcare cost, contract strategy, product integration, real estate risk, and decision support.
+Work across healthcare cost, contract strategy, product integration, real estate risk, and decision support.
 
 ![Portfolio homepage screenshot](assets/homepage-screenshot.jpg)
 
@@ -18,18 +20,18 @@ Data, business, and product analytics across healthcare cost, contract strategy,
    Compared approximately 1.4 million acquired products with roughly 4 million existing products while saving hundreds of manual work hours.
 
 4. Hurricane Exposure and Portfolio Risk Analysis
-   Mapped Hurricane Debby 2024 scenario exposure across a 16 billion dollar state pension fund real estate portfolio to identify affected properties, estimate exposed value, and support Chief Investment Officer and board level reporting.
+   Mapped a Hurricane Florence 2018 scenario exposure across a 16 billion dollar state pension fund real estate portfolio to identify affected properties, estimate exposed value, and support Chief Investment Officer and board level reporting.
 
 5. World Cup Weakest Link Analysis
    Independent public research testing whether lineup floor was more informative about group stage performance and advancement than total value or star power.
 
 ## Data Note
 
-Professional project visuals use synthetic data created to demonstrate the original analytical workflows. No employer, member, provider, contract, supplier, property, or product data is displayed. The World Cup analysis uses public data and links to its full public analysis.
+Professional project visuals use synthetic data created to demonstrate the original analytical workflows. No employer, member, provider, contract, supplier, property, or product data is displayed. The World Cup analysis uses public data and links to its full public analysis. The hurricane visual overlays a real Hurricane Florence 2018 storm track and the National Hurricane Center 2018 forecast cone on synthetic portfolio data.
 
 ## Technology
 
-The site is a static portfolio built with HTML, CSS, JavaScript, a local JSON data bundle, and a small Python validation script. GitHub Actions validates the site and publishes the static files to GitHub Pages.
+The site is a static portfolio built with HTML, CSS, JavaScript, a local JSON data bundle, and a small Python validation script. Headings use Fraunces and body text uses Inter, both self hosted as woff2 files. GitHub Actions validates the site and publishes the static files to GitHub Pages.
 
 ## Repository Structure
 
@@ -38,6 +40,7 @@ The site is a static portfolio built with HTML, CSS, JavaScript, a local JSON da
 |-- index.html                  Main page content and project sections
 |-- styles.css                  Visual system, responsive layout, and navigation styles
 |-- app.js                      Interactive visuals, section navigation, and dialogs
+|-- assets/fonts/               Self hosted Fraunces and Inter woff2 files
 |-- assets/portfolio-data.json  Public data bundle for portfolio visuals
 |-- assets/homepage-screenshot.jpg
 |-- scripts/validate_site.py    Local validation checks

@@ -1,4 +1,5 @@
-﻿import json
+import json
+import re
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
@@ -6,68 +7,304 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT_ORDER = ["provider", "contract", "acquisition", "hurricane", "worldcup"]
 PANEL_EXPECTED = {"provider": 1, "contract": 1, "acquisition": 1, "hurricane": 1, "worldcup": 2}
-PRIVATE_TARGETS = ["provider-cost-outlier-analysis", "preferred-provider-contract-model", "acquisition-product-matching", "hurricane-exposure-portfolio-risk-analysis"]
+WORKSPACE_PANELS = ["provider", "contract", "acquisition", "hurricane"]
+
+FONT_FILES = [
+    "inter-latin-400-normal.woff2",
+    "inter-latin-600-normal.woff2",
+    "fraunces-latin-500-normal.woff2",
+    "fraunces-latin-600-normal.woff2",
+]
+
+# Only these external links may appear anywhere in the published site.
+ALLOWED_URLS = {
+    "https://github.com/belmirsmajic",
+    "https://github.com/belmirsmajic/portfolio",
+    "https://github.com/belmirsmajic/2026-world-cup-weakest-link",
+    "https://belmirsmajic.github.io/portfolio",
+    "https://belmirsmajic.github.io/2026-world-cup-weakest-link",
+    "https://medium.com/@belmirsmajic/a-team-is-only-as-strong-as-the-bottom-of-its-lineup-491d8825fed4",
+}
+ALLOWED_HOSTS = {"localhost", "127.0.0.1", "www.w3.org"}
+ALLOWED_REPO_SLUGS = {"portfolio", "2026-world-cup-weakest-link"}
+
+BANNED_BUZZWORDS = ["leveraged", "spearheaded", "passionate", "cutting-edge", "cutting edge", "seamless", "robust"]
+
+RETIRED_PHRASES = [
+    "Impact Summary", "Peer Median Comparison", "Savings Variance Bridge", "Savings Bridge",
+    "waterfall", "Matching Funnel", "146,000", "400,000", "50 percent", "Hurricane Debby",
+]
+
 
 class Parser(HTMLParser):
     def __init__(self):
-        super().__init__(); self.skip=False; self.text=[]; self.sections=[]; self.current=None; self.panels={k:0 for k in PROJECT_ORDER}; self.glance={k:0 for k in PROJECT_ORDER}; self.methods={k:0 for k in PROJECT_ORDER}
-    def handle_starttag(self, tag, attrs):
-        attrs=dict(attrs); classes=attrs.get("class","").split()
-        if tag in {"script","style"}: self.skip=True
-        if tag=="section" and attrs.get("data-project"):
-            self.current=attrs["data-project"]; self.sections.append(self.current)
-        if self.current and "visual-panel" in classes: self.panels[self.current]+=1
-        if self.current and "glance" in classes: self.glance[self.current]+=1
-        if self.current and "methods" in classes: self.methods[self.current]+=1
-    def handle_endtag(self, tag):
-        if tag in {"script","style"}: self.skip=False
-        if tag=="section": self.current=None
-    def handle_data(self, data):
-        if not self.skip and data.strip(): self.text.append(data.strip())
+        super().__init__()
+        self.skip = False
+        self.text = []
+        self.sections = []
+        self.current = None
+        self.panels = {k: 0 for k in PROJECT_ORDER}
+        self.glance = {k: 0 for k in PROJECT_ORDER}
+        self.methods = {k: 0 for k in PROJECT_ORDER}
 
-def fail(msg): print(f"FAIL: {msg}"); sys.exit(1)
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        classes = attrs.get("class", "").split()
+        if tag in {"script", "style"}:
+            self.skip = True
+        if tag == "section" and attrs.get("data-project"):
+            self.current = attrs["data-project"]
+            self.sections.append(self.current)
+        if self.current and "visual-panel" in classes:
+            self.panels[self.current] += 1
+        if self.current and "glance" in classes:
+            self.glance[self.current] += 1
+        if self.current and "methods" in classes:
+            self.methods[self.current] += 1
+
+    def handle_endtag(self, tag):
+        if tag in {"script", "style"}:
+            self.skip = False
+        if tag == "section":
+            self.current = None
+
+    def handle_data(self, data):
+        if not self.skip and data.strip():
+            self.text.append(data.strip())
+
+
+def fail(msg):
+    print(f"FAIL: {msg}")
+    sys.exit(1)
+
+
 def section(html, project):
-    s=html.find(f'data-project="{project}"')
-    if s < 0: fail(f"missing {project}")
-    e=html.find('data-project="', s+1)
+    s = html.find(f'data-project="{project}"')
+    if s < 0:
+        fail(f"missing {project}")
+    e = html.find('data-project="', s + 1)
     return html[s:e if e >= 0 else len(html)]
 
+
+def hero_block(html):
+    s = html.find('<section id="top"')
+    e = html.find("<section", s + 1)
+    return html[s:e if e >= 0 else len(html)]
+
+
+def worldcup_block(html):
+    return section(html, "worldcup")
+
+
 def main():
-    html=(ROOT/'index.html').read_text(encoding='utf-8'); js=(ROOT/'app.js').read_text(encoding='utf-8'); css=(ROOT/'styles.css').read_text(encoding='utf-8'); data=json.loads((ROOT/'assets'/'portfolio-data.json').read_text(encoding='utf-8'))
-    public='\n'.join([html,js,css]); p=Parser(); p.feed(html); visible='\n'.join(p.text)
-    for target in PRIVATE_TARGETS:
-        if target in public: fail(f"private repo target exposed: {target}")
-    for phrase in ["Impact Summary", "Peer Median Comparison", "Savings Variance Bridge", "Savings Bridge", "waterfall", "Matching Funnel", "146,000", "400,000", "50 percent"]:
-        if phrase.lower() in public.lower(): fail(f"retired phrase remains: {phrase}")
-    for phrase in ["Project Index", "Five selected projects", "Impact at a Glance", "Business at a Glance", "Provider Cost Outlier Analysis", "Preferred DME Supplier Scenario", "Manual Review Workspace", "National Hurricane Exposure Map", "World Cup Weakest Link Analysis", "Chief Investment Officer", "board level reporting", "16 billion dollar", "Hurricane Debby 2024", "lineup floor", "Core XI", "bottom three", "0.77 Spearman", "Mexico", "Uruguay"]:
-        if phrase not in visible and phrase not in public: fail(f"missing phrase: {phrase}")
-    if p.sections != PROJECT_ORDER: fail(f"project order is {p.sections}")
-    for k,v in PANEL_EXPECTED.items():
-        if p.panels[k] != v: fail(f"{k} has {p.panels[k]} visual panels")
-        if p.glance[k] != 1: fail(f"{k} glance count {p.glance[k]}")
-        if p.methods[k] != 1: fail(f"{k} methods count {p.methods[k]}")
-    provider=section(html,'provider')
-    for phrase in ["SQL and Tableau", "Cost per active member month", "Peer group comparison", "Provider outlier ranking", "Contracting analytics review"]:
-        if phrase not in provider: fail(f"provider missing {phrase}")
-    contract=section(html,'contract')
-    for phrase in ["SQL and Excel", "80 percent", "DMAS benchmark", "preferred DME supplier"]:
-        if phrase not in contract: fail(f"contract missing {phrase}")
-    acquisition=section(html,'acquisition')
-    for phrase in ["Python and Excel", "1.4 million", "4 million", "hundreds of manual work hours"]:
-        if phrase not in acquisition: fail(f"acquisition missing {phrase}")
-    hurricane=section(html,'hurricane')
-    for phrase in ["Project 04", "Full USA", "High exposure", "Outside exposure area", "SQL, Tableau"]:
-        if phrase not in hurricane and phrase not in public: fail(f"hurricane missing {phrase}")
-    for phrase in ["usa-state", "statePaths", "forecast-cone-mid", "forecast-cone-core", "data-hurricane-property"]:
-        if phrase not in public: fail(f"hurricane map contract missing {phrase}")
-    h=data['hurricane']; tiers={r['exposureTier'] for r in h['properties']}
-    if tiers != {"High exposure", "Outside exposure area"}: fail(f"hurricane tiers not simplified: {tiers}")
-    if len(h['scenario'].get('statePaths',[])) < 49: fail("state paths missing")
-    affected=[r for r in h['properties'] if r['exposureTier']=="High exposure"]
-    if len(affected) < 8: fail("not enough affected properties")
-    if affected != sorted(affected, key=lambda r: r['estimatedValue'], reverse=True): fail("affected properties not ranked")
-    for r in data['acquisition']['review']:
-        if r.get('secondBest') and r.get('secondBest') not in {"No second candidate", "No close second candidate"}:
-            if r.get('recommended') == r.get('secondBest') or r.get('primaryId') == r.get('secondId') or float(r.get('score') or 0) == float(r.get('secondScore') or 0): fail("acquisition primary and second candidate duplicate")
-    print(json.dumps({"status":"passed"}, indent=2))
-if __name__ == '__main__': main()
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+    js = (ROOT / "app.js").read_text(encoding="utf-8")
+    css = (ROOT / "styles.css").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    data = json.loads((ROOT / "assets" / "portfolio-data.json").read_text(encoding="utf-8"))
+
+    public = "\n".join([html, js, css])
+    p = Parser()
+    p.feed(html)
+    visible = "\n".join(p.text)
+
+    # --- No BOM anywhere in text sources ---
+    for name in ["index.html", "app.js", "styles.css", "scripts/validate_site.py", "README.md", "assets/portfolio-data.json"]:
+        raw = (ROOT / name).read_bytes()
+        if raw[:3] == b"\xef\xbb\xbf":
+            fail(f"{name} has a UTF-8 BOM")
+        if b"\r\n" in raw:
+            fail(f"{name} has CRLF line endings; normalize to LF")
+
+    # --- Balanced <section> and <div> tags ---
+    for tag in ["section", "div"]:
+        opens = len(re.findall(rf"<{tag}[\s>]", html))
+        closes = len(re.findall(rf"</{tag}>", html))
+        if opens != closes:
+            fail(f"unbalanced <{tag}> tags: {opens} open / {closes} close")
+
+    # --- All five project ids present, in order ---
+    if p.sections != PROJECT_ORDER:
+        fail(f"project order is {p.sections}")
+    for pid in PROJECT_ORDER:
+        if f'id="{pid}"' not in html:
+            fail(f"missing project id: {pid}")
+
+    # --- Panel / glance / methods structure ---
+    for k, v in PANEL_EXPECTED.items():
+        if p.panels[k] != v:
+            fail(f"{k} has {p.panels[k]} visual panels")
+        if p.glance[k] != 1:
+            fail(f"{k} glance count {p.glance[k]}")
+        if p.methods[k] != 1:
+            fail(f"{k} methods count {p.methods[k]}")
+
+    # --- Hero identity and contact links ---
+    hero = hero_block(html)
+    for needed in ["Belmir Smajic", "Data, Business, and Product Analytics",
+                   "https://github.com/BelmirSmajic", "mailto:belmirsmajic@outlook.com",
+                   "View Projects"]:
+        if needed not in hero:
+            fail(f"hero missing: {needed}")
+    if "linkedin" in hero.lower():
+        fail("hero must not contain a LinkedIn link")
+
+    # --- Header brand text ---
+    if 'class="brand" href="#top">Belmir Smajic' not in html:
+        fail("header brand text is not 'Belmir Smajic'")
+
+    # --- Title, meta, and og tags include the name ---
+    if "<title>Belmir Smajic — Analytics Portfolio</title>" not in html:
+        fail("title is not 'Belmir Smajic — Analytics Portfolio'")
+    for tag in ['name="description"', 'property="og:title"', 'property="og:description"']:
+        m = re.search(rf'<meta {tag} content="([^"]*)"', html)
+        if not m or "Belmir Smajic" not in m.group(1):
+            fail(f"meta {tag} does not include the name")
+
+    # --- Medium write-up link inside #worldcup, alongside the public repo ---
+    wc = worldcup_block(html)
+    medium = "https://medium.com/@belmirsmajic/a-team-is-only-as-strong-as-the-bottom-of-its-lineup-491d8825fed4"
+    if medium not in wc:
+        fail("Medium write-up link missing from #worldcup")
+    if "https://github.com/BelmirSmajic/2026-world-cup-weakest-link" not in wc:
+        fail("public World Cup repo link missing from #worldcup")
+
+    # --- Navigation: no section-jump select, rail links intact ---
+    if "section-jump" in public:
+        fail("section-jump select was not removed")
+    if 'data-section-link="provider"' not in html:
+        fail("section navigation rail links missing")
+
+    # --- No overflow-x: hidden anywhere (fix overflow at the source) ---
+    if "overflow-x:hidden" in css.replace(" ", ""):
+        fail("overflow-x: hidden must not be used; scroll within panels instead")
+
+    # --- No cache-buster query strings on assets ---
+    if "styles.css?v=" in html or "app.js?v=" in html:
+        fail("cache-buster query string remains on a static asset")
+
+    # --- Required metric strings ---
+    metric_targets = {
+        "$500,000": public, "1.4 million": public, "1.4M": public,
+        "4 million": public, "4M records": public, "hundreds of manual work hours": public,
+        "16 billion dollar": public, "$16B": public, "80 percent": public,
+        "DMAS benchmark": public, "0.77": public, "92%": public, "17%": public,
+        "528": public, "48 teams": public,
+    }
+    for token, hay in metric_targets.items():
+        if token not in hay:
+            fail(f"required metric string missing: {token}")
+
+    # --- Banned resume buzzwords ---
+    low = public.lower()
+    for word in BANNED_BUZZWORDS:
+        if re.search(rf"\b{re.escape(word)}\b", low):
+            fail(f"banned buzzword present: {word}")
+
+    # --- Retired phrases must stay gone ---
+    for phrase in RETIRED_PHRASES:
+        if phrase.lower() in public.lower():
+            fail(f"retired phrase remains: {phrase}")
+
+    # --- Synthetic-data caption on every professional workspace panel ---
+    for pid in WORKSPACE_PANELS:
+        block = section(html, pid)
+        if "synthetic-caption" not in block or "Synthetic data" not in block:
+            fail(f"{pid} workspace panel missing a Synthetic data caption")
+
+    # --- Self-hosted fonts exist and are referenced ---
+    for fname in FONT_FILES:
+        if not (ROOT / "assets" / "fonts" / fname).is_file():
+            fail(f"font file missing: {fname}")
+        if fname not in css:
+            fail(f"font file not referenced in styles.css: {fname}")
+    if "font-display:swap" not in css.replace(" ", ""):
+        fail("@font-face must use font-display: swap")
+
+    # --- Stylesheet consolidated under 800 lines ---
+    css_lines = css.count("\n") + 1
+    if css_lines >= 800:
+        fail(f"styles.css is {css_lines} lines; keep it under 800")
+
+    # --- Storm overlay: real Hurricane Florence 2018 data ---
+    if "Hurricane Florence" not in js:
+        fail("storm SVG does not carry a Hurricane Florence label")
+    sc = data["hurricane"]["scenario"]
+    if "Florence" not in sc.get("stormName", "") or "Florence" not in sc.get("name", ""):
+        fail("hurricane scenario is not labelled Hurricane Florence")
+    forecast = sc.get("forecastTrack", [])
+    if len(forecast) < 4:
+        fail(f"storm forecast has only {len(forecast)} points; need >= 4")
+    for token in ["storm-cone", "forecast-point", "forecast-hour", "storm-track-past", "storm-track-forecast", "data-hurricane-property", "usa-state"]:
+        if token not in js:
+            fail(f"storm overlay contract missing: {token}")
+    if len(sc.get("pastTrack", [])) < 2:
+        fail("storm past track is missing")
+    if len(sc.get("statePaths", [])) < 49:
+        fail("state paths missing")
+
+    # --- Cone membership drives the affected set (table matches the cone) ---
+    def proj(lat, lon):
+        return (((lon + 125) / 59) * 920 + 40, ((50 - lat) / 26) * 520 + 30)
+    px_per_nmi = 20 / 60
+    cone_pts = [sc["currentPosition"]] + forecast
+    circles = [(*proj(pt["lat"], pt["lon"]), pt.get("radiusNmi", 0) * px_per_nmi) for pt in cone_pts]
+
+    def in_cone(lat, lon):
+        x, y = proj(lat, lon)
+        for cx, cy, r in circles:
+            if (x - cx) ** 2 + (y - cy) ** 2 <= r * r:
+                return True
+        for i in range(len(circles) - 1):
+            ax, ay, ra = circles[i]
+            bx, by, rb = circles[i + 1]
+            vx, vy = bx - ax, by - ay
+            l2 = vx * vx + vy * vy
+            t = 0 if l2 == 0 else max(0.0, min(1.0, ((x - ax) * vx + (y - ay) * vy) / l2))
+            qx, qy = ax + t * vx, ay + t * vy
+            lr = ra + t * (rb - ra)
+            if (x - qx) ** 2 + (y - qy) ** 2 <= lr * lr:
+                return True
+        return False
+
+    props = data["hurricane"]["properties"]
+    tiers = {r["exposureTier"] for r in props}
+    if tiers != {"High exposure", "Outside exposure area"}:
+        fail(f"hurricane tiers not simplified: {tiers}")
+    for r in props:
+        expected = "High exposure" if in_cone(r["lat"], r["lon"]) else "Outside exposure area"
+        if r["exposureTier"] != expected:
+            fail(f"property {r['id']} tier does not match the forecast cone")
+    affected = [r for r in props if r["exposureTier"] == "High exposure"]
+    if len(affected) < 8:
+        fail(f"only {len(affected)} affected properties; need >= 8")
+    if sc["affectedCount"] != len(affected):
+        fail("scenario affectedCount does not match affected properties")
+    if sc["totalPotentialExposure"] != sum(r["estimatedValue"] for r in affected):
+        fail("scenario totalPotentialExposure does not match affected properties")
+
+    # --- Acquisition primary and second candidate stay distinct ---
+    for r in data["acquisition"]["review"]:
+        if r.get("secondBest") and r.get("secondBest") not in {"No second candidate", "No close second candidate"}:
+            if r.get("recommended") == r.get("secondBest") or r.get("primaryId") == r.get("secondId") or float(r.get("score") or 0) == float(r.get("secondScore") or 0):
+                fail("acquisition primary and second candidate duplicate")
+
+    # --- Only allowed external links appear in the published site ---
+    scan = "\n".join([html, js, css, readme, json.dumps(data)])
+    for raw_url in re.findall(r"https?://[^\s\"'<>)\\]+", scan):
+        url = raw_url.rstrip("/`.,)")
+        host = re.sub(r"^https?://", "", url).split("/")[0].split(":")[0].lower()
+        if host in ALLOWED_HOSTS:
+            continue
+        if url.lower() in ALLOWED_URLS:
+            continue
+        fail(f"disallowed URL present: {raw_url}")
+    for slug in re.findall(r"github\.com/BelmirSmajic/([A-Za-z0-9._-]+)", scan):
+        if slug.rstrip(".").lower() not in ALLOWED_REPO_SLUGS:
+            fail(f"disallowed repository reference: {slug}")
+
+    print(json.dumps({"status": "passed", "cssLines": css_lines, "affected": len(affected)}, indent=2))
+
+
+if __name__ == "__main__":
+    main()
