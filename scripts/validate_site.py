@@ -354,6 +354,15 @@ def main():
     if "tabular-nums" not in css:
         fail("workspace tables must use font-variant-numeric: tabular-nums")
 
+    # --- Layout patch: no breakout; width reclaimed via the grid variables ---
+    if "workspace-breakout" in css or "workspace-breakout" in html:
+        fail(".workspace-breakout must be removed from CSS and HTML")
+    if re.search(r"margin-left\s*:\s*calc\(\s*-", css):
+        fail("no negative margin-left may remain on workspace panels")
+    for var, val in [("--rail", "168px"), ("--shell-gap", "2rem"), ("--maxw", "1360px")]:
+        if not re.search(rf"{re.escape(var)}\s*:\s*{re.escape(val)}", css):
+            fail(f"grid variable {var} is not set to {val}")
+
     # --- Only allowed external links appear in the published site ---
     scan = "\n".join([html, js, css, readme, json.dumps(data)])
     for raw_url in re.findall(r"https?://[^\s\"'<>)\\]+", scan):
