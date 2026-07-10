@@ -171,7 +171,7 @@ function showHurricaneDetail(row, target) {
   state.hurricaneSelected = row.id;
   const detail = target.querySelector(".hurricane-detail");
   if (detail) {
-    const scenarioName = state.data?.hurricane?.scenario?.name || "Hurricane Florence 2018 Scenario";
+    const scenarioName = state.data?.hurricane?.scenario?.name || "Hurricane Debby 2024 Scenario";
     detail.innerHTML = `<h4>${cleanText(row.name)}</h4><div class="detail-grid"><span>City, State<br><strong>${cleanText(row.city)}, ${cleanText(row.state)}</strong></span><span>Property type<br><strong>${cleanText(row.type)}</strong></span><span>Estimated value<br><strong>${money(row.estimatedValue)}</strong></span><span>Exposure tier<br><strong>${cleanText(row.exposureTier)}</strong></span><span>Distance to storm path<br><strong>${row.distanceToPathMiles} miles</strong></span><span>Status<br><strong>${cleanText(row.status)}</strong></span><span>Scenario<br><strong>${cleanText(scenarioName)}</strong></span></div>`;
   }
   document.querySelectorAll("[data-hurricane-property]").forEach((node) => {
@@ -194,7 +194,7 @@ function renderHurricaneMap(data, target) {
   const summary = el("div", "narrative-box", `${scenario.stormName} exposure scenario. ${scenario.affectedCount} potentially affected properties. Total potentially exposed value is ${money(scenario.totalPotentialExposure)}. Highest exposure state is ${scenario.highestExposureState}. Synthetic exposure demonstration on a real storm track.`);
 
   const mapWrap = el("div", "hurricane-map-frame");
-  mapWrap.innerHTML = `<svg class="weather-map" viewBox="0 0 960 560" role="img" aria-label="Full USA Hurricane Florence 2018 forecast cone and property exposure map">
+  mapWrap.innerHTML = `<svg class="weather-map" viewBox="0 0 960 560" role="img" aria-label="Full USA Hurricane Debby 2024 forecast cone and property exposure map">
     <rect class="ocean-bg" x="0" y="0" width="960" height="560"></rect>
     <g class="weather-grid">
       <path d="M54 115 H906 M54 251 H906 M54 387 H906"></path>
@@ -276,20 +276,25 @@ function renderHurricaneTable(data, target) {
     box.innerHTML = `<span>${cleanText(label)}</span><strong>${cleanText(value)}</strong>`;
     summary.appendChild(box);
   });
-  const wrap = el("div", "table-wrap");
+  const wrap = el("div", "workspace-table-wrap hurricane-affected-table");
   const table = el("table");
-  table.innerHTML = `<thead><tr><th>Property</th><th>City, State</th><th>Property type</th><th>Estimated value</th><th>Exposure status</th><th>Distance to storm path</th></tr></thead>`;
+  table.innerHTML = `<thead><tr><th>Property</th><th>Property type</th><th>Estimated value</th><th>Exposure status</th><th>Distance to storm path</th></tr></thead>`;
   const body = el("tbody");
+  const top = affected[0];
   affected.forEach((row) => {
-    const tr = el("tr");
+    const tr = el("tr", row === top ? "annotated" : "");
     tr.dataset.hurricaneProperty = row.id;
-    tr.innerHTML = `<td>${cleanText(row.name)}</td><td>${cleanText(row.city)}, ${cleanText(row.state)}</td><td>${cleanText(row.type)}</td><td>${money(row.estimatedValue)}</td><td><span class="exposure-pill affected">${cleanText(row.exposureTier)}</span></td><td>${row.distanceToPathMiles} miles</td>`;
+    tr.innerHTML = `<td><span class="cell-primary">${cleanText(row.name)}</span><span class="cell-sub">${cleanText(row.city)}, ${cleanText(row.state)}</span></td><td>${cleanText(row.type)}</td><td>${money(row.estimatedValue)}</td><td><span class="exposure-pill affected">${cleanText(row.exposureTier)}</span></td><td>${row.distanceToPathMiles} miles</td>`;
     tr.addEventListener("click", () => showHurricaneDetail(row, document.getElementById("hurricane-map")));
     body.appendChild(tr);
   });
   table.appendChild(body);
   wrap.appendChild(table);
-  target.append(summary, wrap);
+  const annotation = el("div", "visual-annotation");
+  if (top) {
+    annotation.innerHTML = `<strong>Highlighted row:</strong> ${cleanText(top.name)} in ${cleanText(top.city)}, ${cleanText(top.state)} is the highest value property inside the forecast cone at ${money(top.estimatedValue)}.`;
+  }
+  target.append(summary, wrap, annotation);
 }
 
 function renderProviderWorkspace(data, target, expanded = false) {
@@ -304,22 +309,21 @@ function renderProviderWorkspace(data, target, expanded = false) {
 
   const narrative = el("div", "narrative-box");
   const snapshot = el("div", "provider-snapshot");
-  const tableWrap = el("div", "table-wrap workspace-table-wrap provider-table-wrap");
-  target.append(controls, narrative, snapshot, tableWrap);
+  const tableWrap = el("div", "workspace-table-wrap provider-table-wrap");
+  const annotation = el("div", "visual-annotation");
+  target.append(controls, narrative, snapshot, tableWrap, annotation);
 
   const columns = expanded
-    ? ["Provider", "Provider type", "Specialty", "Cost per active member month", "Peer median", "Above median amount", "Ratio to peer median", "Review status", "Active members"]
-    : ["Provider", "Specialty", "Cost per active member month", "Peer median", "Ratio to peer median", "Review status"];
+    ? ["Provider", "Cost per active member month", "Peer median", "Ratio", "Review status", "Above median amount", "Active members"]
+    : ["Provider", "Cost per active member month", "Peer median", "Ratio", "Review status"];
 
   function cell(row, name) {
     switch (name) {
-      case "Provider": return `<td>${cleanText(row.provider)}</td>`;
-      case "Provider type": return `<td>${cleanText(row.type)}</td>`;
-      case "Specialty": return `<td>${cleanText(row.specialty)}</td>`;
+      case "Provider": return `<td><span class="cell-primary">${cleanText(row.provider)}</span><span class="cell-sub">${cleanText(row.type)} · ${cleanText(row.specialty)}</span></td>`;
       case "Cost per active member month": return `<td>${money(row.cost)}</td>`;
       case "Peer median": return `<td>${money(row.peerMedian)}</td>`;
       case "Above median amount": return `<td class="variance-cell">${money(Math.max(0, row.variance))}</td>`;
-      case "Ratio to peer median": return `<td class="ratio-cell">${row.ratio.toFixed(1)}x</td>`;
+      case "Ratio": return `<td class="ratio-cell">${row.ratio.toFixed(1)}x</td>`;
       case "Review status": return `<td><span class="status ${statusKey(row.status)}">${cleanText(row.status)}</span></td>`;
       case "Active members": return `<td>${integer(row.members)}</td>`;
       default: return "<td></td>";
@@ -346,12 +350,15 @@ function renderProviderWorkspace(data, target, expanded = false) {
     table.innerHTML = `<thead><tr>${columns.map((c) => `<th>${cleanText(c)}</th>`).join("")}</tr></thead>`;
     const tbody = el("tbody");
     current.forEach((row) => {
-      const tr = el("tr", statusKey(row.status));
+      const tr = el("tr", statusKey(row.status) + (row === selected ? " annotated" : ""));
       tr.innerHTML = columns.map((c) => cell(row, c)).join("");
       tbody.appendChild(tr);
     });
     table.appendChild(tbody);
     tableWrap.appendChild(table);
+    annotation.innerHTML = selected
+      ? `<strong>Highlighted row:</strong> ${cleanText(selected.provider)} runs ${selected.ratio.toFixed(1)}x its peer median at ${money(selected.cost)} per active member month, the clearest outlier in this view.`
+      : "";
   }
 
   [type.input, specialty.input, review.input].forEach((input) => input.addEventListener("change", update));
@@ -363,7 +370,8 @@ function renderAcquisitionReview(data, target) {
   target.innerHTML = "";
   const list = el("div", "review-queue");
   const detail = el("div", "review-adjudication");
-  target.append(list, detail);
+  const annotation = el("div", "visual-annotation");
+  target.append(list, detail, annotation);
 
   function show(row) {
     [...list.querySelectorAll("button")].forEach((button) => {
@@ -378,10 +386,11 @@ function renderAcquisitionReview(data, target) {
     const secondEvidence = hasSecond ? row.secondEvidence || "Plausible alternate candidate with lower confidence than the primary recommendation" : "No materially distinct candidate was close enough to display.";
     detail.innerHTML = `<div class="selected-product-card"><span>Selected acquired product</span><h4>${cleanText(row.acquired)}</h4><dl><dt>Confidence</dt><dd>${cleanText(row.confidence)}</dd><dt>Method</dt><dd>${cleanText(row.method)}</dd><dt>Decision status</dt><dd>${cleanText(row.decision)}</dd></dl></div>
       <div class="candidate-compare">
-        <article><span>Primary recommended match</span><h4>${cleanText(row.recommended)}</h4><strong>${row.score}</strong><p>${cleanText(row.evidence)}</p><small>Primary ID: ${cleanText(row.primaryId || "recommended")}</small></article>
+        <article class="annotated-cell"><span>Primary recommended match</span><h4>${cleanText(row.recommended)}</h4><strong>${row.score}</strong><p>${cleanText(row.evidence)}</p><small>Primary ID: ${cleanText(row.primaryId || "recommended")}</small></article>
         <article><span>Second closest candidate</span><h4>${cleanText(secondTitle)}</h4><strong>${secondScore}</strong><p>${cleanText(secondEvidence)}</p><small>Second ID: ${cleanText(hasSecond ? row.secondId || "alternate" : "none")}</small></article>
       </div>
       ${reviewControl}`;
+    annotation.innerHTML = `<strong>Highlighted candidate:</strong> the primary match ${cleanText(row.recommended)} scores ${row.score}${hasSecond ? `, ahead of the second candidate at ${row.secondScore}` : " with no close second candidate"}.`;
   }
 
   data.review.slice(0, 8).forEach((row, index) => {
@@ -401,18 +410,21 @@ function renderContractScenario(data, target) {
   const rate = makeRange("Contract percentage", 70, 100, 80);
   controls.append(steer.wrap, rate.wrap);
   const summary = el("div", "contract-scenario-model");
-  target.append(controls, summary);
+  const annotation = el("div", "visual-annotation");
+  target.append(controls, summary, annotation);
 
   function update() {
     const steerFactor = Number(steer.input.value) / 70;
     const rateFactor = (100 - Number(rate.input.value)) / 20;
     const baseSavings = Number(data.summary.projected_savings || 0);
     const estimate = baseSavings * steerFactor * rateFactor;
-    const projectedSpend = Math.max(0, Number(data.summary.baseline_spend || 0) - estimate);
+    const baseline = Number(data.summary.baseline_spend || 0);
+    const projectedSpend = Math.max(0, baseline - estimate);
 
-    summary.innerHTML = `<div class="contract-state current"><span>Current network baseline</span><strong>${money(data.summary.baseline_spend || 0)}</strong><p>Eligible DME service categories priced through current network rates.</p></div>
+    summary.innerHTML = `<div class="contract-state current"><span>Current network baseline</span><strong>${money(baseline)}</strong><p>Eligible DME service categories priced through current network rates.</p></div>
       <div class="contract-state preferred"><span>Preferred provider scenario</span><strong>${money(projectedSpend)}</strong><p>${steer.input.value} percent expected eligible DME volume moving to the preferred supplier at ${rate.input.value} percent of benchmark.</p></div>
-      <div class="contract-impact"><span>Projected savings</span><strong>${money(estimate)}</strong><p>Savings depend on actual volume moving to the preferred DME supplier, not just the 80 percent benchmark rate.</p></div>`;
+      <div class="contract-impact annotated-cell"><span>Projected savings</span><strong>${money(estimate)}</strong><p>Savings depend on actual volume moving to the preferred DME supplier, not just the 80 percent benchmark rate.</p></div>`;
+    annotation.innerHTML = `<strong>Highlighted tile:</strong> at ${rate.input.value} percent of benchmark with ${steer.input.value} percent volume shift, projected savings are ${money(estimate)} against a ${money(baseline)} baseline.`;
   }
 
   [steer.input, rate.input].forEach((input) => input.addEventListener("input", update));
