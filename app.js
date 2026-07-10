@@ -1,11 +1,11 @@
-﻿const state = {};
+const state = {};
+const SVGNS = "http://www.w3.org/2000/svg";
 
 const fmtMoney = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
   maximumFractionDigits: 0
 });
-
 const fmtNum = new Intl.NumberFormat("en-US");
 const fmtCompactMoney = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -13,113 +13,6 @@ const fmtCompactMoney = new Intl.NumberFormat("en-US", {
   notation: "compact",
   maximumFractionDigits: 1
 });
-
-const exposureColors = {
-  "High exposure": "#b91c1c",
-  "Outside exposure area": "#607080"
-};
-
-const legacyHurricaneCityLabels = [
-  { name: "Tampa", lat: 27.9506, lon: -82.4572, dx: -62, dy: 16 },
-  { name: "Tallahassee", lat: 30.4383, lon: -84.2807, dx: -120, dy: 62 },
-  { name: "Gainesville", lat: 29.6516, lon: -82.3248, dx: -76, dy: 20 },
-  { name: "Jacksonville", lat: 30.3322, lon: -81.6557, dx: 10, dy: -10 },
-  { name: "Savannah", lat: 32.0809, lon: -81.0912, dx: -92, dy: -12 },
-  { name: "Charleston", lat: 32.7765, lon: -79.9311, dx: 12, dy: 4 },
-  { name: "Wilmington", lat: 34.2104, lon: -77.8868, dx: 12, dy: -24 },
-  { name: "Raleigh", lat: 35.7796, lon: -78.6382, dx: -74, dy: -16 },
-  { name: "Norfolk", lat: 36.8508, lon: -76.2859, dx: 12, dy: 14 },
-  { name: "Richmond", lat: 37.5407, lon: -77.4360, dx: -72, dy: -10 },
-  { name: "Washington", lat: 38.9072, lon: -77.0369, dx: -96, dy: -8 },
-  { name: "Philadelphia", lat: 39.9526, lon: -75.1652, dx: 12, dy: 32 },
-  { name: "New York", lat: 40.7128, lon: -74.0060, dx: 14, dy: 18 }
-];
-
-const hurricaneForecastLabels = [
-  { day: "Mon 8 AM", wind: "65 mph", dx: -116, dy: 26 },
-  { day: "Mon 8 PM", wind: "80 mph", dx: -142, dy: -82 },
-  { day: "Tue 8 AM", wind: "55 mph", dx: -124, dy: 16 },
-  { day: "Tue 8 PM", wind: "45 mph", dx: 34, dy: 42 },
-  { day: "Wed 8 AM", wind: "40 mph", dx: 42, dy: -58 },
-  { day: "Wed 8 PM", wind: "35 mph", dx: 56, dy: 10 },
-  { day: "Thu 8 AM", wind: "30 mph", dx: 42, dy: -48 },
-  { day: "Thu 8 PM", wind: "25 mph", dx: 42, dy: -20 },
-  { day: "Fri 8 AM", wind: "20 mph", dx: -116, dy: -36 }
-];
-
-const hurricaneMapBounds = {
-  lonMin: -86.8,
-  lonMax: -70.2,
-  latMin: 24.7,
-  latMax: 42.8,
-  width: 960,
-  height: 560,
-  padX: 54,
-  padY: 34
-};
-
-const hurricaneConeWidths = [64, 78, 96, 114, 132, 146, 170, 194, 212];
-
-const hurricaneLandShape = [
-  [42.8, -88.4], [30.45, -88.4], [30.25, -85.2], [29.95, -84.2],
-  [29.45, -83.2], [28.45, -82.65], [27.45, -82.45], [26.2, -82.1],
-  [25.25, -81.1], [25.1, -80.25], [26.1, -80.05], [27.35, -80.25],
-  [28.7, -80.65], [30.15, -81.25], [31.0, -81.05], [31.8, -81.2],
-  [32.25, -80.85], [32.75, -79.95], [33.25, -79.3], [33.85, -78.65],
-  [34.55, -77.85], [35.25, -77.15], [36.05, -76.05], [36.85, -75.7],
-  [37.75, -75.45], [38.65, -75.05], [39.45, -74.65], [40.15, -74.05],
-  [40.7, -73.7], [41.15, -72.75], [41.65, -71.6], [42.35, -70.45],
-  [42.8, -70.2]
-];
-
-const hurricaneCoastline = hurricaneLandShape.slice(2, -1);
-
-const hurricaneStateBoundaryLines = [
-  [[30.72, -85.0], [30.72, -82.1], [30.7, -81.45]],
-  [[31.0, -85.0], [32.0, -85.05], [33.0, -85.05], [34.1, -85.05]],
-  [[35.0, -85.0], [35.0, -83.0], [35.05, -81.05], [34.6, -79.7], [33.85, -78.65]],
-  [[32.05, -81.1], [32.5, -81.05], [33.0, -80.45], [33.6, -79.9]],
-  [[35.0, -81.0], [35.3, -80.0], [35.7, -78.9], [36.05, -76.05]],
-  [[36.55, -83.7], [36.55, -81.8], [36.55, -79.2], [36.55, -75.9]],
-  [[37.9, -79.4], [37.6, -78.3], [37.25, -77.2], [37.05, -76.1]],
-  [[39.72, -79.5], [39.72, -77.9], [39.35, -76.8], [38.65, -75.05]],
-  [[40.1, -80.5], [40.25, -78.8], [40.4, -76.6], [40.15, -74.05]]
-];
-
-const hurricaneStateLabels = [
-  { code: "FL", lat: 28.3, lon: -82.9 },
-  { code: "GA", lat: 32.7, lon: -83.6 },
-  { code: "SC", lat: 33.8, lon: -80.7 },
-  { code: "NC", lat: 35.6, lon: -79.7 },
-  { code: "VA", lat: 37.5, lon: -78.6 },
-  { code: "MD", lat: 39.0, lon: -76.8 },
-  { code: "PA", lat: 40.55, lon: -77.9 },
-  { code: "NJ", lat: 40.05, lon: -74.65 }
-];
-
-const usLandShape = [
-  [48.8, -124.8], [46.3, -124.1], [43.8, -124.1], [41.9, -124.2], [40.2, -123.9],
-  [38.7, -123.0], [37.4, -122.4], [35.6, -121.0], [34.0, -119.0], [32.7, -117.2],
-  [32.5, -114.8], [31.8, -111.1], [31.4, -108.2], [31.8, -106.4], [30.2, -104.7],
-  [29.3, -102.2], [28.8, -100.1], [27.7, -99.1], [26.2, -97.3], [25.8, -96.0],
-  [28.7, -95.0], [29.3, -93.5], [29.1, -91.0], [29.5, -89.2], [30.2, -87.8],
-  [30.3, -85.4], [29.6, -83.7], [28.5, -82.8], [27.2, -82.5], [25.2, -81.2],
-  [25.1, -80.0], [26.2, -80.0], [28.5, -80.5], [30.7, -81.4], [31.9, -80.9],
-  [33.0, -79.5], [34.6, -77.7], [35.3, -76.0], [36.6, -75.5], [38.0, -75.1],
-  [39.3, -74.6], [40.5, -73.9], [41.2, -72.3], [41.7, -70.2], [42.5, -70.7],
-  [43.2, -69.8], [44.5, -67.2], [47.2, -68.8], [45.0, -74.0], [44.4, -76.0],
-  [43.2, -79.0], [42.7, -82.6], [45.2, -83.5], [46.1, -84.8], [48.8, -89.0],
-  [49.0, -95.0], [49.0, -110.0], [48.8, -124.8]
-];
-
-const usStateBoundaryLines = [
-  [[49, -120], [42, -120], [35, -120]], [[42, -124], [42, -114]], [[37, -122], [37, -114]],
-  [[49, -111], [31.5, -111]], [[49, -104], [31.8, -104]], [[49, -97], [26.5, -97]],
-  [[45, -95], [36, -95], [29.5, -95]], [[47, -90], [40, -90], [30, -90]], [[45, -85], [38, -85], [30, -85]],
-  [[42, -80], [35, -80], [26, -80]], [[35, -114], [35, -80]], [[32, -117], [32, -81]],
-  [[40, -124], [40, -73]], [[45, -124], [45, -67]], [[30.7, -85], [30.7, -81.5]],
-  [[35, -85], [35, -78]], [[36.5, -83], [36.5, -75.8]]
-];
 
 const nationalCityLabels = [
   { name: "Seattle", lat: 47.6062, lon: -122.3321, dx: 10, dy: 0 },
@@ -136,73 +29,42 @@ const nationalCityLabels = [
   { name: "New York", lat: 40.7128, lon: -74.0060, dx: 10, dy: -8 }
 ];
 
-const nationalForecastLabels = [
-  { day: "Mon 8 AM", wind: "65 mph", dx: -86, dy: 26 },
-  { day: "Mon 8 PM", wind: "80 mph", dx: -96, dy: -48 },
-  { day: "Tue 8 AM", wind: "55 mph", dx: -92, dy: 20 },
-  { day: "Tue 8 PM", wind: "45 mph", dx: 28, dy: 30 },
-  { day: "Wed 8 AM", wind: "40 mph", dx: 26, dy: -50 },
-  { day: "Wed 8 PM", wind: "35 mph", dx: 28, dy: 12 },
-  { day: "Thu 8 AM", wind: "30 mph", dx: 26, dy: -46 },
-  { day: "Thu 8 PM", wind: "25 mph", dx: 26, dy: -18 },
-  { day: "Fri 8 AM", wind: "20 mph", dx: -92, dy: -36 }
-];
-
-function usPoint(point) {
-  const projected = Array.isArray(point) ? projectUsPoint(point[0], point[1]) : projectUsPoint(point.lat, point.lon);
-  return `${projected.x.toFixed(1)},${projected.y.toFixed(1)}`;
-}
-
-function usLine(points) {
-  return points.map(usPoint).join(" ");
-}
-
-function usPolygon(points) {
-  return `M ${usLine(points)} Z`;
-}
-
+// projectUsPoint maps latitude to 20px/degree, so 1 nautical mile = 20/60 px.
+const PX_PER_NMI = 20 / 60;
 
 function cleanText(value) {
-  return String(value ?? "").replace(/[-\u2013\u2014]/g, " ");
+  return String(value ?? "").replace(/[-–—]/g, " ");
 }
-
 function money(value) {
   const number = Number(value || 0);
   if (number < 0) return `(${fmtMoney.format(Math.abs(number))})`;
   return fmtMoney.format(number);
 }
-
 function compactMoney(value) {
   return fmtCompactMoney.format(Number(value || 0));
 }
-
 function integer(value) {
   return fmtNum.format(Number(value || 0));
 }
-
 function signed(value) {
   const number = Number(value || 0);
   if (number < 0) return `minus ${Math.abs(number)}`;
   return String(number);
 }
-
 function el(tag, className, text) {
   const node = document.createElement(tag);
   if (className) node.className = className;
   if (text !== undefined) node.textContent = cleanText(text);
   return node;
 }
-
 function optionList(values) {
   return [...new Set(values)].sort();
 }
-
 function statusKey(value) {
   if (value === "Materially above median") return "above";
   if (value === "Below median") return "below";
   return "near";
 }
-
 function makeSelect(labelText, values, selected) {
   const wrap = el("label", "", labelText);
   const input = document.createElement("select");
@@ -216,7 +78,6 @@ function makeSelect(labelText, values, selected) {
   wrap.appendChild(input);
   return { wrap, input };
 }
-
 function makeRange(labelText, min, max, value) {
   const wrap = el("label", "", `${labelText} ${value}`);
   const input = document.createElement("input");
@@ -231,128 +92,10 @@ function makeRange(labelText, min, max, value) {
   return { wrap, input };
 }
 
-function titleCase(value) {
-  return cleanText(value).replace(/_/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
-}
-
 function projectUsPoint(lat, lon) {
   const x = ((lon + 125) / 59) * 920 + 40;
   const y = ((50 - lat) / 26) * 520 + 30;
   return { x, y };
-}
-
-function projectHurricanePoint(lat, lon) {
-  const bounds = hurricaneMapBounds;
-  const usableWidth = bounds.width - bounds.padX * 2;
-  const usableHeight = bounds.height - bounds.padY * 2;
-  const x = bounds.padX + ((lon - bounds.lonMin) / (bounds.lonMax - bounds.lonMin)) * usableWidth;
-  const y = bounds.padY + ((bounds.latMax - lat) / (bounds.latMax - bounds.latMin)) * usableHeight;
-  return { x, y };
-}
-
-function hurricanePointString(point) {
-  const projected = Array.isArray(point) ? projectHurricanePoint(point[0], point[1]) : projectHurricanePoint(point.lat, point.lon);
-  return `${projected.x.toFixed(1)},${projected.y.toFixed(1)}`;
-}
-
-function hurricanePolyline(points) {
-  return points.map(hurricanePointString).join(" ");
-}
-
-function hurricanePolygonPath(points) {
-  return `M ${hurricanePolyline(points)} Z`;
-}
-
-function forecastConePath(points, scale = 1) {
-  const left = [];
-  const right = [];
-  points.forEach((point, index) => {
-    const previous = points[Math.max(0, index - 1)];
-    const next = points[Math.min(points.length - 1, index + 1)];
-    const p = projectHurricanePoint(point.lat, point.lon);
-    const a = projectHurricanePoint(previous.lat, previous.lon);
-    const b = projectHurricanePoint(next.lat, next.lon);
-    const dx = b.x - a.x || 1;
-    const dy = b.y - a.y || 1;
-    const length = Math.sqrt(dx * dx + dy * dy) || 1;
-    const nx = -dy / length;
-    const ny = dx / length;
-    const width = hurricaneConeWidths[index] * scale;
-    left.push(`${(p.x + nx * width).toFixed(1)},${(p.y + ny * width).toFixed(1)}`);
-    right.unshift(`${(p.x - nx * width).toFixed(1)},${(p.y - ny * width).toFixed(1)}`);
-  });
-  return `M ${left.concat(right).join(" L ")} Z`;
-}
-
-function corridorPolygon(points, factor) {
-  const left = [];
-  const right = [];
-  points.forEach((point, index) => {
-    const previous = points[Math.max(0, index - 1)];
-    const next = points[Math.min(points.length - 1, index + 1)];
-    const p = projectUsPoint(point.lat, point.lon);
-    const a = projectUsPoint(previous.lat, previous.lon);
-    const b = projectUsPoint(next.lat, next.lon);
-    const dx = b.x - a.x || 1;
-    const dy = b.y - a.y || 1;
-    const length = Math.sqrt(dx * dx + dy * dy) || 1;
-    const nx = -dy / length;
-    const ny = dx / length;
-    const width = Math.max(14, point.radius * factor);
-    const coastalBias = index < 5 ? 1 : 0.84;
-    left.push(`${(p.x + nx * width * coastalBias).toFixed(1)},${(p.y + ny * width).toFixed(1)}`);
-    right.unshift(`${(p.x - nx * width * coastalBias).toFixed(1)},${(p.y - ny * width).toFixed(1)}`);
-  });
-  return left.concat(right).join(" ");
-}
-
-function smoothClosedPath(points) {
-  if (!points.length) return "";
-  const rounded = points.map((point) => ({
-    x: Number(point.x),
-    y: Number(point.y)
-  }));
-  let path = `M ${rounded[0].x.toFixed(1)} ${rounded[0].y.toFixed(1)}`;
-  rounded.forEach((point, index) => {
-    const next = rounded[(index + 1) % rounded.length];
-    const midX = (point.x + next.x) / 2;
-    const midY = (point.y + next.y) / 2;
-    path += ` Q ${point.x.toFixed(1)} ${point.y.toFixed(1)} ${midX.toFixed(1)} ${midY.toFixed(1)}`;
-  });
-  return `${path} Z`;
-}
-
-function corridorPath(points, factor) {
-  const left = [];
-  const right = [];
-  points.forEach((point, index) => {
-    const previous = points[Math.max(0, index - 1)];
-    const next = points[Math.min(points.length - 1, index + 1)];
-    const p = projectUsPoint(point.lat, point.lon);
-    const a = projectUsPoint(previous.lat, previous.lon);
-    const b = projectUsPoint(next.lat, next.lon);
-    const dx = b.x - a.x || 1;
-    const dy = b.y - a.y || 1;
-    const length = Math.sqrt(dx * dx + dy * dy) || 1;
-    const nx = -dy / length;
-    const ny = dx / length;
-    const progress = points.length <= 1 ? 1 : index / (points.length - 1);
-    const taper = 0.74 + progress * 0.34;
-    const width = Math.max(12, point.radius * factor * taper);
-    const coastalBias = 0.92 + Math.min(progress, 0.72) * 0.12;
-    left.push({ x: p.x + nx * width * coastalBias, y: p.y + ny * width });
-    right.unshift({ x: p.x - nx * width * coastalBias, y: p.y - ny * width });
-  });
-  return smoothClosedPath(left.concat(right));
-}
-
-function hurricaneForecastLabel(point, index) {
-  const projected = projectUsPoint(point.lat, point.lon);
-  const label = nationalForecastLabels[index] || { day: point.label, wind: "", dx: 16, dy: 16 };
-  const x = projected.x + label.dx;
-  const y = projected.y + label.dy;
-  const anchorX = x + (label.dx < 0 ? 88 : 0);
-  return `<g class="forecast-label"><path class="forecast-callout" d="M${projected.x.toFixed(1)} ${projected.y.toFixed(1)} L${anchorX.toFixed(1)} ${(y + 18).toFixed(1)}"></path><rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="88" height="38" rx="5"></rect><text x="${(x + 8).toFixed(1)}" y="${(y + 15).toFixed(1)}">${cleanText(label.day)}</text><text x="${(x + 8).toFixed(1)}" y="${(y + 30).toFixed(1)}">${cleanText(label.wind)}</text></g>`;
 }
 
 function hurricaneCityLabel(city) {
@@ -360,11 +103,75 @@ function hurricaneCityLabel(city) {
   return `<g class="city-label"><circle cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="2.8"></circle><text x="${(point.x + city.dx).toFixed(1)}" y="${(point.y + city.dy).toFixed(1)}">${cleanText(city.name)}</text></g>`;
 }
 
+/* ---- Storm forecast cone: tangent hull of the advisory circles ---- */
+function coneCircles(scenario) {
+  const points = [scenario.currentPosition, ...scenario.forecastTrack];
+  return points.map((p) => {
+    const q = projectUsPoint(p.lat, p.lon);
+    return { x: q.x, y: q.y, r: (p.radiusNmi || 0) * PX_PER_NMI };
+  });
+}
+function externalTangent(a, b, side) {
+  const a0 = Math.atan2(b.y - a.y, b.x - a.x);
+  const d = Math.hypot(b.x - a.x, b.y - a.y) || 1;
+  let c = (a.r - b.r) / d;
+  c = Math.max(-1, Math.min(1, c));
+  const n = a0 + side * Math.acos(c);
+  return {
+    pA: { x: a.x + a.r * Math.cos(n), y: a.y + a.r * Math.sin(n) },
+    pB: { x: b.x + b.r * Math.cos(n), y: b.y + b.r * Math.sin(n) }
+  };
+}
+function normAngle(a) {
+  while (a <= -Math.PI) a += 2 * Math.PI;
+  while (a > Math.PI) a -= 2 * Math.PI;
+  return a;
+}
+function arcSamples(circle, aStart, aEnd, through, steps) {
+  let ccw = normAngle(aEnd - aStart);
+  if (ccw < 0) ccw += 2 * Math.PI;
+  const cw = 2 * Math.PI - ccw;
+  const midCcw = normAngle(aStart + ccw / 2);
+  const midCw = normAngle(aStart - cw / 2);
+  const gap = (x) => Math.abs(normAngle(x - through));
+  const span = gap(midCcw) <= gap(midCw) ? ccw : -cw;
+  const out = [];
+  for (let i = 0; i <= steps; i++) {
+    const a = aStart + (span * i) / steps;
+    out.push({ x: circle.x + circle.r * Math.cos(a), y: circle.y + circle.r * Math.sin(a) });
+  }
+  return out;
+}
+function stormConePath(circles) {
+  const n = circles.length;
+  if (n < 2) return "";
+  const left = [];
+  const right = [];
+  for (let i = 0; i < n - 1; i++) {
+    const l = externalTangent(circles[i], circles[i + 1], 1);
+    left.push(l.pA, l.pB);
+    const r = externalTangent(circles[i], circles[i + 1], -1);
+    right.push(r.pA, r.pB);
+  }
+  const first = circles[0];
+  const last = circles[n - 1];
+  const forward = Math.atan2(last.y - circles[n - 2].y, last.x - circles[n - 2].x);
+  const backward = Math.atan2(first.y - circles[1].y, first.x - circles[1].x);
+  const ll = left[left.length - 1];
+  const rr = right[right.length - 1];
+  const termArc = arcSamples(last, Math.atan2(ll.y - last.y, ll.x - last.x), Math.atan2(rr.y - last.y, rr.x - last.x), forward, 16);
+  const lf = left[0];
+  const rf = right[0];
+  const startArc = arcSamples(first, Math.atan2(rf.y - first.y, rf.x - first.x), Math.atan2(lf.y - first.y, lf.x - first.x), backward, 8);
+  const pts = [...left, ...termArc, ...right.slice().reverse(), ...startArc];
+  return "M " + pts.map((p) => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" L ") + " Z";
+}
+
 function showHurricaneDetail(row, target) {
   state.hurricaneSelected = row.id;
   const detail = target.querySelector(".hurricane-detail");
   if (detail) {
-    const scenarioName = state.data?.hurricane?.scenario?.name || "Hurricane Debby 2024 Scenario";
+    const scenarioName = state.data?.hurricane?.scenario?.name || "Hurricane Florence 2018 Scenario";
     detail.innerHTML = `<h4>${cleanText(row.name)}</h4><div class="detail-grid"><span>City, State<br><strong>${cleanText(row.city)}, ${cleanText(row.state)}</strong></span><span>Property type<br><strong>${cleanText(row.type)}</strong></span><span>Estimated value<br><strong>${money(row.estimatedValue)}</strong></span><span>Exposure tier<br><strong>${cleanText(row.exposureTier)}</strong></span><span>Distance to storm path<br><strong>${row.distanceToPathMiles} miles</strong></span><span>Status<br><strong>${cleanText(row.status)}</strong></span><span>Scenario<br><strong>${cleanText(scenarioName)}</strong></span></div>`;
   }
   document.querySelectorAll("[data-hurricane-property]").forEach((node) => {
@@ -375,72 +182,70 @@ function showHurricaneDetail(row, target) {
 function renderHurricaneMap(data, target) {
   target.innerHTML = "";
   const scenario = data.scenario;
-  const pathPoints = scenario.stormPath.map((point) => projectUsPoint(point.lat, point.lon));
-  const line = pathPoints.map((point) => `${point.x},${point.y}`).join(" ");
+  const circles = coneCircles(scenario);
+  const conePath = stormConePath(circles);
+  const cur = projectUsPoint(scenario.currentPosition.lat, scenario.currentPosition.lon);
+  const pastPts = scenario.pastTrack.map((p) => projectUsPoint(p.lat, p.lon));
+  const pastLine = pastPts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
+  const fcPts = scenario.forecastTrack.map((p) => projectUsPoint(p.lat, p.lon));
+  const fcLine = [cur, ...fcPts].map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
   const statePaths = (scenario.statePaths || []).map((row) => `<path class="usa-state" d="${row.path}"><title>${cleanText(row.name)}</title></path>`).join("");
-  const summary = el("div", "narrative-box", `${scenario.name}. ${scenario.affectedCount} potentially affected properties. Total potentially exposed value is ${money(scenario.totalPotentialExposure)}. Highest exposure state is ${scenario.highestExposureState}. Synthetic exposure demo based on a named storm scenario.`);
+
+  const summary = el("div", "narrative-box", `${scenario.stormName} exposure scenario. ${scenario.affectedCount} potentially affected properties. Total potentially exposed value is ${money(scenario.totalPotentialExposure)}. Highest exposure state is ${scenario.highestExposureState}. Synthetic exposure demonstration on a real storm track.`);
+
   const mapWrap = el("div", "hurricane-map-frame");
-  mapWrap.innerHTML = `<svg class="weather-map" viewBox="0 0 960 560" role="img" aria-label="Full USA hurricane forecast and property exposure map">
-    <defs>
-      <linearGradient id="oceanGradient" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#b8ddea"></stop>
-        <stop offset="58%" stop-color="#7fb8cc"></stop>
-        <stop offset="100%" stop-color="#4f91ad"></stop>
-      </linearGradient>
-      <linearGradient id="landGradient" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#e4e0d1"></stop>
-        <stop offset="100%" stop-color="#c9d3be"></stop>
-      </linearGradient>
-      <filter id="mapSoftShadow" x="-10%" y="-10%" width="120%" height="120%">
-        <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#163444" flood-opacity="0.22"></feDropShadow>
-      </filter>
-    </defs>
+  mapWrap.innerHTML = `<svg class="weather-map" viewBox="0 0 960 560" role="img" aria-label="Full USA Hurricane Florence 2018 forecast cone and property exposure map">
     <rect class="ocean-bg" x="0" y="0" width="960" height="560"></rect>
     <g class="weather-grid">
       <path d="M54 115 H906 M54 251 H906 M54 387 H906"></path>
       <path d="M164 34 V526 M384 34 V526 M604 34 V526 M824 34 V526"></path>
     </g>
     <g class="state-layer">${statePaths}</g>
-    <path class="forecast-cone forecast-cone-outer" d="${corridorPath(scenario.stormPath, 1.03)}"></path>
-    <path class="forecast-cone-mid" d="${corridorPath(scenario.stormPath, 0.68)}"></path>
-    <path class="forecast-cone-core" d="${corridorPath(scenario.stormPath, 0.34)}"></path>
+    <path class="storm-cone" d="${conePath}"></path>
     <g class="property-layer"></g>
     <g class="city-layer">${nationalCityLabels.map(hurricaneCityLabel).join("")}</g>
-    <polyline class="storm-track" points="${line}"></polyline>
-    ${scenario.stormPath.map((point, index) => {
-      const projected = pathPoints[index];
-      return `<g class="storm-marker" transform="translate(${projected.x.toFixed(1)} ${projected.y.toFixed(1)})"><circle r="${index < 2 ? 10 : 8}"></circle><path d="M-5 0 C-2 -6 6 -6 7 0 C5 5 -3 6 -6 1"></path></g>`;
+    <polyline class="storm-track-past" points="${pastLine}"></polyline>
+    <polyline class="storm-track-forecast" points="${fcLine}"></polyline>
+    ${scenario.pastTrack.map((p) => {
+      const q = projectUsPoint(p.lat, p.lon);
+      return `<circle class="storm-past-dot" cx="${q.x.toFixed(1)}" cy="${q.y.toFixed(1)}" r="2.4"></circle>`;
     }).join("")}
-    ${scenario.stormPath.map(hurricaneForecastLabel).join("")}
-    <g class="scenario-label"><rect x="28" y="24" width="292" height="62" rx="7"></rect><text x="44" y="48">${cleanText(scenario.name)}</text><text x="44" y="68">Executive exposure monitoring view</text></g>
-    <g class="map-legend"><rect x="724" y="386" width="206" height="136" rx="7"></rect><text x="740" y="412">Exposure legend</text><g transform="translate(742 432)"></g></g>
+    ${scenario.forecastTrack.map((p, i) => {
+      const q = fcPts[i];
+      return `<circle class="forecast-point" cx="${q.x.toFixed(1)}" cy="${q.y.toFixed(1)}" r="4.5"></circle><text class="forecast-hour" x="${(q.x + 8).toFixed(1)}" y="${(q.y - 8).toFixed(1)}">${cleanText(p.label)}</text>`;
+    }).join("")}
+    <g class="storm-eye" transform="translate(${cur.x.toFixed(1)} ${cur.y.toFixed(1)})">
+      <circle class="storm-eye-core" r="8"></circle>
+      <path class="storm-eye-arm" d="M0 0 C 5 -2 7 -6 4 -9.5"></path>
+      <path class="storm-eye-arm" d="M0 0 C -5 2 -7 6 -4 9.5"></path>
+      <circle class="storm-eye-center" r="2.2"></circle>
+    </g>
+    <g class="storm-label"><rect x="28" y="24" width="304" height="52" rx="7"></rect><text class="storm-label-name" x="44" y="48">${cleanText(scenario.stormName)}</text><text x="44" y="66">Advisory ${cleanText(scenario.advisoryDate)}</text></g>
   </svg>`;
-  const legend = el("div", "exposure-legend");
-  Object.entries(exposureColors).forEach(([tier, color]) => {
-    const item = el("span");
-    const definition = scenario.tierDefinitions.find((row) => row.tier === tier);
-    item.innerHTML = `<i style="background:${color}"></i><strong>${cleanText(tier)}</strong> ${cleanText(definition?.description || "")}`;
-    legend.appendChild(item);
-  });
+
+  const legend = el("div", "storm-legend");
+  legend.innerHTML = `<span><i class="prop"></i>Property</span><span><i class="affected"></i>Within cone</span><span><i class="cone"></i>Forecast cone</span><span><i class="track"></i>Forecast track</span>`;
   const detail = el("div", "record-detail hurricane-detail");
   target.append(summary, mapWrap, legend, detail);
 
   const layer = mapWrap.querySelector(".property-layer");
-  const insetLegend = mapWrap.querySelector(".map-legend g");
-  Object.entries(exposureColors).forEach(([tier, color], index) => {
-    const y = index * 22;
-    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-    group.innerHTML = `<circle cx="0" cy="${y}" r="6" fill="${color}"></circle><text x="14" y="${y + 4}">${cleanText(tier)}</text>`;
-    insetLegend.appendChild(group);
-  });
   data.properties.forEach((row) => {
     const point = projectUsPoint(row.lat, row.lon);
-    const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    const affected = row.exposureTier === "High exposure";
+    if (affected) {
+      const halo = document.createElementNS(SVGNS, "circle");
+      halo.setAttribute("cx", point.x);
+      halo.setAttribute("cy", point.y);
+      halo.setAttribute("r", 8.5);
+      halo.setAttribute("class", "dot-halo");
+      layer.appendChild(halo);
+    }
+    const dot = document.createElementNS(SVGNS, "circle");
     dot.setAttribute("cx", point.x);
     dot.setAttribute("cy", point.y);
-    dot.setAttribute("r", row.exposureTier === "High exposure" ? 7.5 : 4.4);
-    dot.setAttribute("fill", exposureColors[row.exposureTier] || exposureColors["Outside exposure area"]);
-    dot.setAttribute("class", "hurricane-dot");
+    dot.setAttribute("r", affected ? 5 : 3.4);
+    dot.setAttribute("class", `hurricane-dot${affected ? " affected" : ""}`);
+    if (!affected) dot.setAttribute("fill", "#607080");
     dot.dataset.hurricaneProperty = row.id;
     dot.setAttribute("tabindex", "0");
     dot.setAttribute("aria-label", cleanText(`${row.name}, ${row.exposureTier}`));
@@ -450,22 +255,22 @@ function renderHurricaneMap(data, target) {
     });
     layer.appendChild(dot);
   });
-  const first = data.properties.find((row) => row.exposureTier === "High") || data.properties[0];
+
+  const first = data.properties.find((row) => row.exposureTier === "High exposure") || data.properties[0];
   if (first) showHurricaneDetail(first, target);
 }
 
 function renderHurricaneTable(data, target) {
   target.innerHTML = "";
-  const summary = el("div", "metric-grid hurricane-summary");
   const affected = data.properties
     .filter((row) => row.exposureTier === "High exposure")
     .sort((a, b) => b.estimatedValue - a.estimatedValue);
+  const summary = el("div", "metric-grid hurricane-summary");
   [
     ["Potentially affected properties", data.scenario.affectedCount],
     ["Total potentially exposed value", money(data.scenario.totalPotentialExposure)],
     ["Highest exposure state", data.scenario.highestExposureState],
-    ["Highest value affected property", affected[0]?.name || "None"],
-    ["Storm scenario name", data.scenario.name]
+    ["Highest value affected property", affected[0]?.name || "None"]
   ].forEach(([label, value]) => {
     const box = el("div", "metric-box");
     box.innerHTML = `<span>${cleanText(label)}</span><strong>${cleanText(value)}</strong>`;
@@ -473,22 +278,21 @@ function renderHurricaneTable(data, target) {
   });
   const wrap = el("div", "table-wrap");
   const table = el("table");
-  table.innerHTML = `<thead><tr><th>Property</th><th>City, State</th><th>Property type</th><th>Estimated value</th><th>Exposure status</th><th>Distance to storm path</th><th>Status</th></tr></thead>`;
+  table.innerHTML = `<thead><tr><th>Property</th><th>City, State</th><th>Property type</th><th>Estimated value</th><th>Exposure status</th><th>Distance to storm path</th></tr></thead>`;
   const body = el("tbody");
-  affected
-    .forEach((row) => {
-      const tr = el("tr");
-      tr.dataset.hurricaneProperty = row.id;
-      tr.innerHTML = `<td>${cleanText(row.name)}</td><td>${cleanText(row.city)}, ${cleanText(row.state)}</td><td>${cleanText(row.type)}</td><td>${money(row.estimatedValue)}</td><td><span class="exposure-pill ${row.exposureTier.toLowerCase()}">${cleanText(row.exposureTier)}</span></td><td>${row.distanceToPathMiles} miles</td><td>${cleanText(row.status)}</td>`;
-      tr.addEventListener("click", () => showHurricaneDetail(row, document.getElementById("hurricane-map")));
-      body.appendChild(tr);
-    });
+  affected.forEach((row) => {
+    const tr = el("tr");
+    tr.dataset.hurricaneProperty = row.id;
+    tr.innerHTML = `<td>${cleanText(row.name)}</td><td>${cleanText(row.city)}, ${cleanText(row.state)}</td><td>${cleanText(row.type)}</td><td>${money(row.estimatedValue)}</td><td><span class="exposure-pill affected">${cleanText(row.exposureTier)}</span></td><td>${row.distanceToPathMiles} miles</td>`;
+    tr.addEventListener("click", () => showHurricaneDetail(row, document.getElementById("hurricane-map")));
+    body.appendChild(tr);
+  });
   table.appendChild(body);
   wrap.appendChild(table);
   target.append(summary, wrap);
 }
 
-function renderProviderWorkspace(data, target) {
+function renderProviderWorkspace(data, target, expanded = false) {
   const rows = data.workspaceRows;
   target.innerHTML = "";
   const controls = el("div", "control-row");
@@ -502,6 +306,25 @@ function renderProviderWorkspace(data, target) {
   const snapshot = el("div", "provider-snapshot");
   const tableWrap = el("div", "table-wrap workspace-table-wrap provider-table-wrap");
   target.append(controls, narrative, snapshot, tableWrap);
+
+  const columns = expanded
+    ? ["Provider", "Provider type", "Specialty", "Cost per active member month", "Peer median", "Above median amount", "Ratio to peer median", "Review status", "Active members"]
+    : ["Provider", "Specialty", "Cost per active member month", "Peer median", "Ratio to peer median", "Review status"];
+
+  function cell(row, name) {
+    switch (name) {
+      case "Provider": return `<td>${cleanText(row.provider)}</td>`;
+      case "Provider type": return `<td>${cleanText(row.type)}</td>`;
+      case "Specialty": return `<td>${cleanText(row.specialty)}</td>`;
+      case "Cost per active member month": return `<td>${money(row.cost)}</td>`;
+      case "Peer median": return `<td>${money(row.peerMedian)}</td>`;
+      case "Above median amount": return `<td class="variance-cell">${money(Math.max(0, row.variance))}</td>`;
+      case "Ratio to peer median": return `<td class="ratio-cell">${row.ratio.toFixed(1)}x</td>`;
+      case "Review status": return `<td><span class="status ${statusKey(row.status)}">${cleanText(row.status)}</span></td>`;
+      case "Active members": return `<td>${integer(row.members)}</td>`;
+      default: return "<td></td>";
+    }
+  }
 
   function update() {
     let current = rows.filter((row) => row.type === type.input.value);
@@ -520,14 +343,14 @@ function renderProviderWorkspace(data, target) {
     ` : "";
     tableWrap.innerHTML = "";
     const table = el("table", "workspace-table provider-workspace-table");
-    table.innerHTML = `<thead><tr><th>Provider</th><th>Provider type</th><th>Specialty</th><th>Cost per active member month</th><th>Peer median</th><th>Above median amount</th><th>Ratio to peer median</th><th>Review status</th><th>Active members</th></tr></thead>`;
-    const body = el("tbody");
+    table.innerHTML = `<thead><tr>${columns.map((c) => `<th>${cleanText(c)}</th>`).join("")}</tr></thead>`;
+    const tbody = el("tbody");
     current.forEach((row) => {
       const tr = el("tr", statusKey(row.status));
-      tr.innerHTML = `<td>${cleanText(row.provider)}</td><td>${cleanText(row.type)}</td><td>${cleanText(row.specialty)}</td><td>${money(row.cost)}</td><td>${money(row.peerMedian)}</td><td class="variance-cell">${money(Math.max(0, row.variance))}</td><td class="ratio-cell">${row.ratio.toFixed(1)}x</td><td><span class="status ${statusKey(row.status)}">${cleanText(row.status)}</span></td><td>${integer(row.members)}</td>`;
-      body.appendChild(tr);
+      tr.innerHTML = columns.map((c) => cell(row, c)).join("");
+      tbody.appendChild(tr);
     });
-    table.appendChild(body);
+    table.appendChild(tbody);
     tableWrap.appendChild(table);
   }
 
@@ -535,8 +358,6 @@ function renderProviderWorkspace(data, target) {
   minimum.input.addEventListener("input", update);
   update();
 }
-
-
 
 function renderAcquisitionReview(data, target) {
   target.innerHTML = "";
@@ -591,13 +412,12 @@ function renderContractScenario(data, target) {
 
     summary.innerHTML = `<div class="contract-state current"><span>Current network baseline</span><strong>${money(data.summary.baseline_spend || 0)}</strong><p>Eligible DME service categories priced through current network rates.</p></div>
       <div class="contract-state preferred"><span>Preferred provider scenario</span><strong>${money(projectedSpend)}</strong><p>${steer.input.value} percent expected eligible DME volume moving to the preferred supplier at ${rate.input.value} percent of benchmark.</p></div>
-      <div class="contract-impact"><span>Projected savings</span><strong>${money(estimate)}</strong><p>Savings depend on actual volume moving to the preferred DME supplier, not just the 80 percent benchmark rate existing.</p></div>`;
+      <div class="contract-impact"><span>Projected savings</span><strong>${money(estimate)}</strong><p>Savings depend on actual volume moving to the preferred DME supplier, not just the 80 percent benchmark rate.</p></div>`;
   }
 
   [steer.input, rate.input].forEach((input) => input.addEventListener("input", update));
   update();
 }
-
 
 function renderWorldcupEvidence(data, target) {
   target.innerHTML = "";
@@ -632,8 +452,11 @@ function renderExpandedVisual(sourceId, destination) {
   const data = state.data;
   if (!data) return;
   const map = {
-    "provider-workspace": () => renderProviderWorkspace(data.provider, destination),    "contract-scenario": () => renderContractScenario(data.preferred, destination),    "acquisition-review": () => renderAcquisitionReview(data.acquisition, destination),
-    "hurricane-map": () => renderHurricaneMap(data.hurricane, destination),    "worldcup-comparison": () => renderWorldcupComparison(data.worldcup, destination),
+    "provider-workspace": () => renderProviderWorkspace(data.provider, destination, true),
+    "contract-scenario": () => renderContractScenario(data.preferred, destination),
+    "acquisition-review": () => renderAcquisitionReview(data.acquisition, destination),
+    "hurricane-map": () => renderHurricaneMap(data.hurricane, destination),
+    "worldcup-comparison": () => renderWorldcupComparison(data.worldcup, destination),
     "worldcup-evidence": () => renderWorldcupEvidence(data.worldcup, destination)
   };
   destination.className = document.getElementById(sourceId).className;
@@ -659,7 +482,6 @@ function wireExpanders() {
 
 function wireSectionNavigation() {
   const links = [...document.querySelectorAll("[data-section-link]")];
-  const jump = document.getElementById("section-jump");
   function setActive(id) {
     if (!id) return;
     links.forEach((link) => {
@@ -668,15 +490,6 @@ function wireSectionNavigation() {
       } else {
         link.removeAttribute("aria-current");
       }
-    });
-    if (jump) {
-      const value = `#${id}`;
-      if ([...jump.options].some((option) => option.value === value)) jump.value = value;
-    }
-  }
-  if (jump) {
-    jump.addEventListener("change", () => {
-      window.location.hash = jump.value;
     });
   }
   const sections = links
@@ -696,7 +509,10 @@ function wireSectionNavigation() {
     scheduled = true;
     window.requestAnimationFrame(updateFromPosition);
   }
-  if (!("IntersectionObserver" in window)) return;
+  if (!("IntersectionObserver" in window)) {
+    setActive("projects");
+    return;
+  }
   const observer = new IntersectionObserver((entries) => {
     const visible = entries
       .filter((entry) => entry.isIntersecting)
@@ -729,7 +545,7 @@ function checkVisibleCopy() {
     const parent = walker.currentNode.parentElement;
     if (!text || !parent || ["SCRIPT", "STYLE"].includes(parent.tagName)) continue;
     if (parent.closest(".worldcup-evidence-grid")) continue;
-    if (/[-\u2013\u2014]/.test(text)) problems.push(text);
+    if (/[-–—]/.test(text)) problems.push(text);
   }
   if (problems.length) {
     console.error("Visible copy dash check failed", problems);
@@ -743,7 +559,9 @@ fetch("assets/portfolio-data.json")
   .then((response) => response.json())
   .then((data) => {
     state.data = data;
-    renderProviderWorkspace(data.provider, document.getElementById("provider-workspace"));    renderContractScenario(data.preferred, document.getElementById("contract-scenario"));    renderAcquisitionReview(data.acquisition, document.getElementById("acquisition-review"));
+    renderProviderWorkspace(data.provider, document.getElementById("provider-workspace"));
+    renderContractScenario(data.preferred, document.getElementById("contract-scenario"));
+    renderAcquisitionReview(data.acquisition, document.getElementById("acquisition-review"));
     renderHurricaneMap(data.hurricane, document.getElementById("hurricane-map"));
     renderHurricaneTable(data.hurricane, document.getElementById("hurricane-table"));
     renderWorldcupComparison(data.worldcup, document.getElementById("worldcup-comparison"));
@@ -755,11 +573,3 @@ fetch("assets/portfolio-data.json")
   .catch((error) => {
     console.error("Portfolio data failed to load", error);
   });
-
-
-
-
-
-
-
-

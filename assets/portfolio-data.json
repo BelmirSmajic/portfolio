@@ -8116,7 +8116,7 @@
         "topThree": 0.0
       },
       {
-        "team": "Cura\u00e7ao",
+        "team": "Curaçao",
         "floor": 141080.81,
         "points": 1.0,
         "goalDifference": -8.0,
@@ -8134,7 +8134,7 @@
         "topThree": 0.0
       },
       {
-        "team": "C\u00f4te d'Ivoire",
+        "team": "Côte d'Ivoire",
         "floor": 5208740.0,
         "points": 6.0,
         "goalDifference": 2.0,
@@ -8404,7 +8404,7 @@
         "topThree": 0.0
       },
       {
-        "team": "T\u00fcrkiye",
+        "team": "Türkiye",
         "floor": 9428960.0,
         "points": 3.0,
         "goalDifference": -2.0,
@@ -8654,78 +8654,78 @@
     "acquisitionMetric": "professional project summary and selected synthetic matching workflow data",
     "worldcupMetric": "2026-world-cup-weakest-link README.md",
     "preferredMetric": "professional project summary and selected synthetic model output",
-    "hurricaneMetric": "selected synthetic Hurricane Debby 2024 exposure monitoring data"
+    "hurricaneMetric": "selected synthetic Hurricane Florence 2018 exposure monitoring data"
   },
   "hurricane": {
     "scenario": {
-      "name": "Hurricane Debby 2024 Scenario",
-      "summary": "Synthetic East Coast exposure monitoring scenario inspired by Hurricane Debby 2024.",
+      "name": "Hurricane Florence 2018 Scenario",
+      "stormName": "Hurricane Florence",
+      "advisoryDate": "September 12, 2018",
+      "advisoryLabel": "Advisory 09-12-2018",
+      "summary": "Synthetic East Coast exposure monitoring scenario built on the real Hurricane Florence 2018 track.",
       "portfolioScale": "16 billion dollar state pension fund real estate portfolio",
       "audience": "Investment, risk, and leadership stakeholders, including the Chief Investment Officer and board level reporting.",
-      "disclaimer": "Synthetic exposure demonstration inspired by the publicly reported Debby 2024 storm track. Property impacts shown here are not real observed Debby impacts and this is not an official weather product.",
-      "stormPath": [
+      "disclaimer": "Synthetic exposure demonstration built on the real Hurricane Florence 2018 storm track and the National Hurricane Center 2018 forecast cone. Property impacts shown here are not real observed Florence impacts and this is not an official weather product.",
+      "sourceNote": "Track positions from NOAA HURDAT2 best track (AL062018). Forecast cone radii from the NHC 2018 track forecast cone definition.",
+      "currentPosition": {
+        "lat": 27.9,
+        "lon": -68.1,
+        "radiusNmi": 26
+      },
+      "pastTrack": [
         {
-          "label": "Eastern Gulf approach",
-          "lat": 27.0,
-          "lon": -84.7,
-          "radius": 80,
-          "intensity": 4
+          "lat": 25.2,
+          "lon": -60.6
         },
         {
-          "label": "Florida Big Bend landfall",
-          "lat": 29.8,
-          "lon": -83.6,
-          "radius": 90,
-          "intensity": 4
+          "lat": 25.6,
+          "lon": -61.8
         },
         {
-          "label": "South Georgia inland track",
-          "lat": 31.4,
-          "lon": -82.5,
-          "radius": 110,
-          "intensity": 3
+          "lat": 26.0,
+          "lon": -63.2
         },
         {
-          "label": "Savannah coastal bend",
-          "lat": 32.1,
-          "lon": -81.0,
-          "radius": 130,
-          "intensity": 2
+          "lat": 26.5,
+          "lon": -64.7
         },
         {
-          "label": "Charleston offshore loop",
-          "lat": 32.7,
-          "lon": -79.5,
-          "radius": 150,
-          "intensity": 2
+          "lat": 27.2,
+          "lon": -66.4
         },
         {
-          "label": "South Carolina second landfall",
-          "lat": 33.2,
-          "lon": -79.2,
-          "radius": 165,
-          "intensity": 2
+          "lat": 27.9,
+          "lon": -68.1
+        }
+      ],
+      "forecastTrack": [
+        {
+          "hour": 24,
+          "label": "24h",
+          "lat": 31.5,
+          "lon": -73.2,
+          "radiusNmi": 43
         },
         {
-          "label": "Central North Carolina",
-          "lat": 35.4,
-          "lon": -78.6,
-          "radius": 205,
-          "intensity": 1
+          "hour": 48,
+          "label": "48h",
+          "lat": 34.0,
+          "lon": -76.5,
+          "radiusNmi": 74
         },
         {
-          "label": "Virginia and Mid Atlantic",
-          "lat": 38.1,
-          "lon": -77.5,
-          "radius": 245,
-          "intensity": 1
+          "hour": 72,
+          "label": "72h",
+          "lat": 33.9,
+          "lon": -78.8,
+          "radiusNmi": 103
         },
         {
-          "label": "Northeast remnant corridor",
-          "lat": 41.1,
-          "lon": -75.7,
-          "radius": 285,
-          "intensity": 0
+          "hour": 96,
+          "label": "96h",
+          "lat": 33.6,
+          "lon": -80.2,
+          "radiusNmi": 151
         }
       ],
       "statePaths": [
@@ -8978,15 +8978,15 @@
       "tierDefinitions": [
         {
           "tier": "High exposure",
-          "description": "Inside the weather style Debby 2024 scenario overlay and included in leadership monitoring."
+          "description": "Inside the Hurricane Florence 2018 forecast cone and included in leadership monitoring."
         },
         {
           "tier": "Outside exposure area",
-          "description": "Outside the scenario overlay used for this national portfolio review."
+          "description": "Outside the forecast cone used for this national portfolio review."
         }
       ],
-      "affectedCount": 21,
-      "totalPotentialExposure": 229910000,
+      "affectedCount": 12,
+      "totalPotentialExposure": 93660000,
       "highestExposureState": "NC"
     },
     "properties": [
@@ -8999,9 +8999,9 @@
         "estimatedValue": 26300000,
         "lat": 30.4383,
         "lon": -84.2807,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 57,
-        "status": "Monitor as affected scenario property"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 324,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P009",
@@ -9013,7 +9013,7 @@
         "lat": 34.2104,
         "lon": -77.8868,
         "exposureTier": "High exposure",
-        "distanceToPathMiles": 58,
+        "distanceToPathMiles": 57,
         "status": "Affected monitoring priority"
       },
       {
@@ -9025,9 +9025,9 @@
         "estimatedValue": 21150000,
         "lat": 42.3601,
         "lon": -71.0589,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 255,
-        "status": "Monitor as affected scenario property"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 648,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P022",
@@ -9038,9 +9038,9 @@
         "estimatedValue": 18540000,
         "lat": 41.824,
         "lon": -71.4128,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 228,
-        "status": "Monitor as affected scenario property"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 607,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P019",
@@ -9051,9 +9051,9 @@
         "estimatedValue": 16760000,
         "lat": 40.7357,
         "lon": -74.1724,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 84,
-        "status": "Affected monitoring priority"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 483,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P020",
@@ -9064,9 +9064,9 @@
         "estimatedValue": 16750000,
         "lat": 40.7178,
         "lon": -74.0431,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 90,
-        "status": "Affected monitoring priority"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 483,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P010",
@@ -9077,9 +9077,9 @@
         "estimatedValue": 15760000,
         "lat": 35.9574,
         "lon": -75.6241,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 146,
-        "status": "Monitor as affected scenario property"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 144,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P016",
@@ -9090,9 +9090,9 @@
         "estimatedValue": 11250000,
         "lat": 39.2904,
         "lon": -76.6122,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 12,
-        "status": "Affected monitoring priority"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 366,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P021",
@@ -9103,9 +9103,9 @@
         "estimatedValue": 10720000,
         "lat": 40.7062,
         "lon": -73.6187,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 112,
-        "status": "Affected monitoring priority"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 490,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P018",
@@ -9116,9 +9116,9 @@
         "estimatedValue": 9290000,
         "lat": 39.9526,
         "lon": -75.1652,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 59,
-        "status": "Affected monitoring priority"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 418,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P025",
@@ -9129,9 +9129,9 @@
         "estimatedValue": 9180000,
         "lat": 40.4406,
         "lon": -79.9959,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 188,
-        "status": "Monitor as affected scenario property"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 457,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P017",
@@ -9142,9 +9142,9 @@
         "estimatedValue": 8380000,
         "lat": 38.9072,
         "lon": -77.0369,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 4,
-        "status": "Affected monitoring priority"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 340,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P008",
@@ -9156,7 +9156,7 @@
         "lat": 33.6891,
         "lon": -78.8867,
         "exposureTier": "High exposure",
-        "distanceToPathMiles": 10,
+        "distanceToPathMiles": 15,
         "status": "Affected monitoring priority"
       },
       {
@@ -9169,7 +9169,7 @@
         "lat": 32.7765,
         "lon": -79.9311,
         "exposureTier": "High exposure",
-        "distanceToPathMiles": 16,
+        "distanceToPathMiles": 59,
         "status": "Affected monitoring priority"
       },
       {
@@ -9181,9 +9181,9 @@
         "estimatedValue": 6700000,
         "lat": 36.8508,
         "lon": -76.2859,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 91,
-        "status": "Affected monitoring priority"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 197,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P005",
@@ -9194,9 +9194,9 @@
         "estimatedValue": 5490000,
         "lat": 30.3322,
         "lon": -81.6557,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 81,
-        "status": "Monitor as affected scenario property"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 241,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P011",
@@ -9208,7 +9208,7 @@
         "lat": 35.7796,
         "lon": -78.6382,
         "exposureTier": "High exposure",
-        "distanceToPathMiles": 10,
+        "distanceToPathMiles": 130,
         "status": "Affected monitoring priority"
       },
       {
@@ -9221,8 +9221,8 @@
         "lat": 35.2271,
         "lon": -80.8431,
         "exposureTier": "High exposure",
-        "distanceToPathMiles": 121,
-        "status": "Monitor as affected scenario property"
+        "distanceToPathMiles": 118,
+        "status": "Affected monitoring priority"
       },
       {
         "id": "P014",
@@ -9233,9 +9233,9 @@
         "estimatedValue": 3220000,
         "lat": 37.5407,
         "lon": -77.436,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 19,
-        "status": "Affected monitoring priority"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 250,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P006",
@@ -9247,7 +9247,7 @@
         "lat": 32.0809,
         "lon": -81.0912,
         "exposureTier": "High exposure",
-        "distanceToPathMiles": 5,
+        "distanceToPathMiles": 117,
         "status": "Affected monitoring priority"
       },
       {
@@ -9259,9 +9259,9 @@
         "estimatedValue": 2160000,
         "lat": 38.3607,
         "lon": -75.5994,
-        "exposureTier": "High exposure",
-        "distanceToPathMiles": 85,
-        "status": "Affected monitoring priority"
+        "exposureTier": "Outside exposure area",
+        "distanceToPathMiles": 305,
+        "status": "Not affected in scenario"
       },
       {
         "id": "P026",
@@ -9273,7 +9273,7 @@
         "lat": 33.749,
         "lon": -84.388,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 196,
+        "distanceToPathMiles": 241,
         "status": "Not affected in scenario"
       },
       {
@@ -9286,7 +9286,7 @@
         "lat": 39.1031,
         "lon": -84.512,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 383,
+        "distanceToPathMiles": 449,
         "status": "Not affected in scenario"
       },
       {
@@ -9299,7 +9299,7 @@
         "lat": 34.0522,
         "lon": -118.2437,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 2042,
+        "distanceToPathMiles": 2171,
         "status": "Not affected in scenario"
       },
       {
@@ -9312,7 +9312,7 @@
         "lat": 41.4993,
         "lon": -81.6944,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 298,
+        "distanceToPathMiles": 548,
         "status": "Not affected in scenario"
       },
       {
@@ -9325,7 +9325,7 @@
         "lat": 44.4759,
         "lon": -73.2121,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 265,
+        "distanceToPathMiles": 745,
         "status": "Not affected in scenario"
       },
       {
@@ -9338,7 +9338,7 @@
         "lat": 44.9778,
         "lon": -93.265,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 924,
+        "distanceToPathMiles": 1049,
         "status": "Not affected in scenario"
       },
       {
@@ -9351,7 +9351,7 @@
         "lat": 47.6588,
         "lon": -117.426,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 2083,
+        "distanceToPathMiles": 2153,
         "status": "Not affected in scenario"
       },
       {
@@ -9364,7 +9364,7 @@
         "lat": 41.2565,
         "lon": -95.9345,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 1002,
+        "distanceToPathMiles": 1010,
         "status": "Not affected in scenario"
       },
       {
@@ -9377,7 +9377,7 @@
         "lat": 32.7157,
         "lon": -117.1611,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 1977,
+        "distanceToPathMiles": 2127,
         "status": "Not affected in scenario"
       },
       {
@@ -9390,7 +9390,7 @@
         "lat": 26.7153,
         "lon": -80.0534,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 276,
+        "distanceToPathMiles": 476,
         "status": "Not affected in scenario"
       },
       {
@@ -9403,7 +9403,7 @@
         "lat": 39.7392,
         "lon": -104.9903,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 1384,
+        "distanceToPathMiles": 1432,
         "status": "Not affected in scenario"
       },
       {
@@ -9416,7 +9416,7 @@
         "lat": 47.6062,
         "lon": -122.3321,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 2311,
+        "distanceToPathMiles": 2377,
         "status": "Not affected in scenario"
       },
       {
@@ -9429,7 +9429,7 @@
         "lat": 33.9806,
         "lon": -117.3755,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 1992,
+        "distanceToPathMiles": 2123,
         "status": "Not affected in scenario"
       },
       {
@@ -9442,7 +9442,7 @@
         "lat": 41.5868,
         "lon": -93.625,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 887,
+        "distanceToPathMiles": 917,
         "status": "Not affected in scenario"
       },
       {
@@ -9455,7 +9455,7 @@
         "lat": 38.2527,
         "lon": -85.7585,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 435,
+        "distanceToPathMiles": 447,
         "status": "Not affected in scenario"
       },
       {
@@ -9468,7 +9468,7 @@
         "lat": 39.0997,
         "lon": -94.5786,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 863,
+        "distanceToPathMiles": 884,
         "status": "Not affected in scenario"
       },
       {
@@ -9481,7 +9481,7 @@
         "lat": 37.3382,
         "lon": -121.8863,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 2249,
+        "distanceToPathMiles": 2341,
         "status": "Not affected in scenario"
       },
       {
@@ -9494,7 +9494,7 @@
         "lat": 33.5186,
         "lon": -86.8104,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 291,
+        "distanceToPathMiles": 381,
         "status": "Not affected in scenario"
       },
       {
@@ -9507,7 +9507,7 @@
         "lat": 30.6954,
         "lon": -88.0399,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 271,
+        "distanceToPathMiles": 500,
         "status": "Not affected in scenario"
       },
       {
@@ -9520,7 +9520,7 @@
         "lat": 43.615,
         "lon": -116.2023,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 2013,
+        "distanceToPathMiles": 2045,
         "status": "Not affected in scenario"
       },
       {
@@ -9533,7 +9533,7 @@
         "lat": 32.7767,
         "lon": -96.797,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 805,
+        "distanceToPathMiles": 960,
         "status": "Not affected in scenario"
       },
       {
@@ -9546,7 +9546,7 @@
         "lat": 36.1699,
         "lon": -115.1398,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 1871,
+        "distanceToPathMiles": 1978,
         "status": "Not affected in scenario"
       },
       {
@@ -9559,7 +9559,7 @@
         "lat": 45.5152,
         "lon": -122.6784,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 2347,
+        "distanceToPathMiles": 2376,
         "status": "Not affected in scenario"
       },
       {
@@ -9572,7 +9572,7 @@
         "lat": 29.9511,
         "lon": -90.0715,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 373,
+        "distanceToPathMiles": 632,
         "status": "Not affected in scenario"
       },
       {
@@ -9585,7 +9585,7 @@
         "lat": 43.0389,
         "lon": -87.9065,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 632,
+        "distanceToPathMiles": 774,
         "status": "Not affected in scenario"
       },
       {
@@ -9598,7 +9598,7 @@
         "lat": 29.4241,
         "lon": -98.4936,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 856,
+        "distanceToPathMiles": 1114,
         "status": "Not affected in scenario"
       },
       {
@@ -9611,7 +9611,7 @@
         "lat": 30.2672,
         "lon": -97.7431,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 822,
+        "distanceToPathMiles": 1053,
         "status": "Not affected in scenario"
       },
       {
@@ -9624,7 +9624,7 @@
         "lat": 29.7604,
         "lon": -95.3698,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 676,
+        "distanceToPathMiles": 930,
         "status": "Not affected in scenario"
       },
       {
@@ -9637,7 +9637,7 @@
         "lat": 41.8781,
         "lon": -87.6298,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 594,
+        "distanceToPathMiles": 701,
         "status": "Not affected in scenario"
       },
       {
@@ -9650,7 +9650,7 @@
         "lat": 42.3314,
         "lon": -83.0458,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 383,
+        "distanceToPathMiles": 623,
         "status": "Not affected in scenario"
       },
       {
@@ -9663,7 +9663,7 @@
         "lat": 36.1627,
         "lon": -86.7816,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 411,
+        "distanceToPathMiles": 413,
         "status": "Not affected in scenario"
       },
       {
@@ -9676,7 +9676,7 @@
         "lat": 26.1224,
         "lon": -80.1373,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 286,
+        "distanceToPathMiles": 517,
         "status": "Not affected in scenario"
       },
       {
@@ -9689,7 +9689,7 @@
         "lat": 33.4484,
         "lon": -112.074,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 1686,
+        "distanceToPathMiles": 1829,
         "status": "Not affected in scenario"
       },
       {
@@ -9702,7 +9702,7 @@
         "lat": 40.7608,
         "lon": -111.891,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 1754,
+        "distanceToPathMiles": 1802,
         "status": "Not affected in scenario"
       },
       {
@@ -9715,7 +9715,7 @@
         "lat": 28.5383,
         "lon": -81.3792,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 156,
+        "distanceToPathMiles": 357,
         "status": "Not affected in scenario"
       },
       {
@@ -9728,7 +9728,7 @@
         "lat": 25.7617,
         "lon": -80.1918,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 292,
+        "distanceToPathMiles": 542,
         "status": "Not affected in scenario"
       },
       {
@@ -9741,7 +9741,7 @@
         "lat": 38.5816,
         "lon": -121.4944,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 2232,
+        "distanceToPathMiles": 2312,
         "status": "Not affected in scenario"
       },
       {
@@ -9754,7 +9754,7 @@
         "lat": 38.627,
         "lon": -90.1994,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 662,
+        "distanceToPathMiles": 657,
         "status": "Not affected in scenario"
       },
       {
@@ -9767,8 +9767,86 @@
         "lat": 28.0836,
         "lon": -80.6081,
         "exposureTier": "Outside exposure area",
-        "distanceToPathMiles": 210,
+        "distanceToPathMiles": 382,
         "status": "Not affected in scenario"
+      },
+      {
+        "id": "P061",
+        "name": "Neuse River Office Park",
+        "city": "New Bern",
+        "state": "NC",
+        "type": "Office",
+        "estimatedValue": 12400000,
+        "lat": 35.108,
+        "lon": -77.044,
+        "exposureTier": "High exposure",
+        "distanceToPathMiles": 83,
+        "status": "Affected monitoring priority"
+      },
+      {
+        "id": "P062",
+        "name": "Cape Fear Valley Logistics",
+        "city": "Fayetteville",
+        "state": "NC",
+        "type": "Industrial",
+        "estimatedValue": 9600000,
+        "lat": 35.053,
+        "lon": -78.879,
+        "exposureTier": "High exposure",
+        "distanceToPathMiles": 80,
+        "status": "Affected monitoring priority"
+      },
+      {
+        "id": "P063",
+        "name": "Onslow Coastal Retail",
+        "city": "Jacksonville",
+        "state": "NC",
+        "type": "Retail",
+        "estimatedValue": 6800000,
+        "lat": 34.754,
+        "lon": -77.435,
+        "exposureTier": "High exposure",
+        "distanceToPathMiles": 75,
+        "status": "Affected monitoring priority"
+      },
+      {
+        "id": "P064",
+        "name": "Pee Dee Distribution Center",
+        "city": "Florence",
+        "state": "SC",
+        "type": "Industrial",
+        "estimatedValue": 5200000,
+        "lat": 34.196,
+        "lon": -79.763,
+        "exposureTier": "High exposure",
+        "distanceToPathMiles": 48,
+        "status": "Affected monitoring priority"
+      },
+      {
+        "id": "P065",
+        "name": "Lumber River Apartments",
+        "city": "Lumberton",
+        "state": "NC",
+        "type": "Multifamily",
+        "estimatedValue": 4100000,
+        "lat": 34.618,
+        "lon": -78.999,
+        "exposureTier": "High exposure",
+        "distanceToPathMiles": 51,
+        "status": "Affected monitoring priority"
+      },
+      {
+        "id": "P066",
+        "name": "Crystal Coast Hospitality",
+        "city": "Morehead City",
+        "state": "NC",
+        "type": "Hospitality",
+        "estimatedValue": 7300000,
+        "lat": 34.723,
+        "lon": -76.726,
+        "exposureTier": "High exposure",
+        "distanceToPathMiles": 52,
+        "status": "Affected monitoring priority"
       }
     ]
   }
