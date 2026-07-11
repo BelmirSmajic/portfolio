@@ -27,6 +27,7 @@
 }
 
 *{box-sizing:border-box;}
+[hidden]{display:none !important;}
 html{scroll-behavior:smooth;scroll-padding-top:5rem;}
 body{
   margin:0;background:var(--bg);color:var(--ink);
@@ -237,8 +238,21 @@ tr.below td{box-shadow:inset 3px 0 var(--normal);}
 /* Hurricane map */
 .hurricane-map-frame{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#eef4f6;}
 .weather-map{display:block;width:100%;height:auto;}
-/* Shrink the national map ~20% on desktop to keep the workspace compact */
-@media (min-width:901px){.hurricane-map-visual .hurricane-map-frame{max-width:80%;margin-inline:auto;}}
+/* Desktop: national map and the paginated affected table sit side by side */
+@media (min-width:901px){
+  .hurricane-exposure-panel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"head head" "map table" "cap cap";column-gap:var(--s4);align-items:start;}
+  .hurricane-exposure-panel .panel-head{grid-area:head;}
+  .hurricane-exposure-panel .hurricane-map-visual{grid-area:map;align-self:center;}
+  .hurricane-exposure-panel .hurricane-table-visual{grid-area:table;margin-top:0;}
+  .hurricane-exposure-panel .hurricane-table-visual .workspace-table-wrap{overflow-x:auto;}
+  .hurricane-exposure-panel .synthetic-caption{grid-area:cap;}
+}
+/* Table pagination controls */
+.table-pager{display:flex;align-items:center;gap:var(--s2);margin-top:var(--s2);font-size:var(--t1);flex-wrap:wrap;}
+.pager-btn{cursor:pointer;font:inherit;font-size:var(--t1);font-weight:600;padding:.3rem .85rem;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);color:var(--accent-strong);}
+.pager-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent);}
+.pager-btn:disabled{opacity:.45;cursor:default;}
+.pager-status{color:var(--muted);}
 .weather-map .ocean-bg{fill:#dbe9ee;}
 .weather-map .weather-grid path{stroke:#c6d6dc;stroke-width:1;fill:none;}
 .weather-map .usa-state{fill:#eef1ea;stroke:#c3ccc0;stroke-width:.8;}

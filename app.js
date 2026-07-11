@@ -298,21 +298,43 @@ function renderHurricaneTable(data, target) {
   const table = el("table");
   table.innerHTML = `<thead><tr><th>Property</th><th>Property type</th><th>Estimated value</th><th>Exposure status</th><th>Distance to storm path</th></tr></thead>`;
   const body = el("tbody");
-  const top = affected[0];
-  affected.forEach((row) => {
-    const tr = el("tr", row === top ? "annotated" : "");
-    tr.dataset.hurricaneProperty = row.id;
-    tr.innerHTML = `<td><span class="cell-primary">${cleanText(row.name)}</span><span class="cell-sub">${cleanText(row.city)}, ${cleanText(row.state)}</span></td><td>${cleanText(row.type)}</td><td>${money(row.estimatedValue)}</td><td><span class="exposure-pill affected">${cleanText(row.exposureTier)}</span></td><td>${row.distanceToPathMiles} miles</td>`;
-    tr.addEventListener("click", () => showHurricaneDetail(row, document.getElementById("hurricane-map")));
-    body.appendChild(tr);
-  });
   table.appendChild(body);
   wrap.appendChild(table);
+  const top = affected[0];
+
+  const perPage = 6;
+  const pageCount = Math.max(1, Math.ceil(affected.length / perPage));
+  let page = 0;
+  const pager = el("div", "table-pager");
+  const prev = el("button", "pager-btn", "Prev");
+  const next = el("button", "pager-btn", "Next");
+  prev.type = "button";
+  next.type = "button";
+  const status = el("span", "pager-status");
+  pager.append(prev, status, next);
+
+  function renderPage() {
+    body.innerHTML = "";
+    affected.slice(page * perPage, page * perPage + perPage).forEach((row) => {
+      const tr = el("tr", row === top ? "annotated" : "");
+      tr.dataset.hurricaneProperty = row.id;
+      tr.innerHTML = `<td><span class="cell-primary">${cleanText(row.name)}</span><span class="cell-sub">${cleanText(row.city)}, ${cleanText(row.state)}</span></td><td>${cleanText(row.type)}</td><td>${money(row.estimatedValue)}</td><td><span class="exposure-pill affected">${cleanText(row.exposureTier)}</span></td><td>${row.distanceToPathMiles} miles</td>`;
+      tr.addEventListener("click", () => showHurricaneDetail(row, document.getElementById("hurricane-map")));
+      body.appendChild(tr);
+    });
+    status.textContent = cleanText(`Page ${page + 1} of ${pageCount} · ${affected.length} affected`);
+    prev.disabled = page === 0;
+    next.disabled = page >= pageCount - 1;
+  }
+  prev.addEventListener("click", () => { if (page > 0) { page -= 1; renderPage(); } });
+  next.addEventListener("click", () => { if (page < pageCount - 1) { page += 1; renderPage(); } });
+  renderPage();
+
   const annotation = el("div", "visual-annotation");
   if (top) {
     annotation.innerHTML = `<strong>Highlighted row:</strong> ${cleanText(top.name)} in ${cleanText(top.city)}, ${cleanText(top.state)} is the highest value property inside the forecast cone at ${money(top.estimatedValue)}.`;
   }
-  target.append(summary, wrap, annotation);
+  target.append(summary, wrap, pager, annotation);
 }
 
 function renderProviderWorkspace(data, target, expanded = false) {

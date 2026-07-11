@@ -282,6 +282,8 @@ def main():
     for token in ["storm-cone", "forecast-point", "forecast-hour", "storm-track-past", "storm-track-forecast", "data-hurricane-property", "usa-state"]:
         if token not in js:
             fail(f"storm overlay contract missing: {token}")
+    if "table-pager" not in js:
+        fail("affected-properties table must be paginated")
     if len(sc.get("pastTrack", [])) < 2:
         fail("storm past track is missing")
     if len(sc.get("statePaths", [])) < 49:
