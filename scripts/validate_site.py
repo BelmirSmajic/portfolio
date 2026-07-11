@@ -346,24 +346,60 @@ def main():
     if not re.search(r"\.project-card-grid\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)", css):
         fail("project index must use a 3-column desktop grid (3 over 2)")
 
-    # --- Workspace / Overview split inside each project module ---
-    # One inner tablist per project (5) plus the header project tablist (1).
+    # --- Header project tabs use the full project names ---
+    project_names = {
+        "provider": "Provider Cost Outlier Analysis",
+        "contract": "Preferred Provider Contract Scenario Model",
+        "acquisition": "Acquisition Product Matching",
+        "hurricane": "Hurricane Exposure and Portfolio Risk Analysis",
+        "worldcup": "World Cup Weakest Link Analysis",
+    }
+    for pid, name in project_names.items():
+        if f'data-project-tab="{pid}">{name}</button>' not in header:
+            fail(f"{pid} project tab must use the full project name")
+
+    # --- Overview first (default), Workspace second, artifact-only ---
     if html.count('class="tab-row"') != 5:
-        fail("expected one Workspace/Overview tab row per project")
+        fail("expected one Overview/Workspace tab row per project")
+
+    def view_slice(block, pid, view):
+        start = block.find(f'id="{pid}-view-{view}"')
+        if start < 0:
+            return ""
+        after = block.find('id="' + pid + '-view-', start + 1)
+        return block[start:after if after >= 0 else len(block)]
+
     for pid in PROJECT_ORDER:
         block = section(html, pid)
         if block.count("data-tab") != 2:
-            fail(f"{pid} does not have exactly two inner (Workspace/Overview) tabs")
-        if f'id="{pid}-view-workspace"' not in block or f'id="{pid}-view-overview"' not in block:
-            fail(f"{pid} tab panels are not named workspace/overview")
-        ws = re.search(rf'id="{pid}-view-workspace"[^>]*>', block)
+            fail(f"{pid} does not have exactly two inner (Overview/Workspace) tabs")
+        row = block[block.find('class="tab-row"'):block.find("</div>", block.find('class="tab-row"'))]
+        if row.find("Overview") < 0 or row.find("Workspace") < 0 or row.find("Overview") > row.find("Workspace"):
+            fail(f"{pid} must list Overview before Workspace")
         ov = re.search(rf'id="{pid}-view-overview"[^>]*>', block)
-        if ws and "hidden" in ws.group(0):
-            fail(f"{pid} workspace view must be the visible default")
-        if not ov or "hidden" not in ov.group(0):
-            fail(f"{pid} overview view must be hidden by default")
+        ws = re.search(rf'id="{pid}-view-workspace"[^>]*>', block)
+        if not ov or "hidden" in ov.group(0):
+            fail(f"{pid} Overview must be the visible default")
+        if not ws or "hidden" not in ws.group(0):
+            fail(f"{pid} Workspace must be hidden until selected")
+        ov_slice = view_slice(block, pid, "overview")
+        ws_slice = view_slice(block, pid, "workspace")
+        for token in ["project-question", 'class="glance"', "stat-callouts", "<h2>"]:
+            if token not in ov_slice:
+                fail(f"{pid} Overview is missing framing content: {token}")
+        for token in ["project-question", 'class="glance"', "stat-callouts", "Business at a Glance"]:
+            if token in ws_slice:
+                fail(f"{pid} Workspace must show only the artifact (found {token})")
+        if "visual-panel" not in ws_slice:
+            fail(f"{pid} Workspace must contain its artifact panel")
     if "wireTabs" not in js:
         fail("inner tab wiring missing from app.js")
+
+    # --- Contract framing: modeled, supported/implemented, and validated ---
+    contract = section(html, "contract")
+    for token in ["supported", "implementation", "materialized", "80 percent", "DMAS benchmark", "preferred DME supplier"]:
+        if token not in contract:
+            fail(f"contract framing missing: {token}")
 
     # --- Evidence badge on every project header and index card ---
     for pid in ["provider", "contract", "acquisition", "hurricane"]:

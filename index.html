@@ -14,18 +14,18 @@
     <header class="site-header">
       <a class="brand" href="#top">Analytics Portfolio</a>
       <nav class="project-tabs" role="tablist" aria-label="Projects">
-        <button type="button" role="tab" id="ptab-provider" aria-selected="true" aria-controls="panel-provider" data-project-tab="provider">Provider</button>
-        <button type="button" role="tab" id="ptab-contract" aria-selected="false" aria-controls="panel-contract" data-project-tab="contract">Contract</button>
-        <button type="button" role="tab" id="ptab-acquisition" aria-selected="false" aria-controls="panel-acquisition" data-project-tab="acquisition">Acquisition</button>
-        <button type="button" role="tab" id="ptab-hurricane" aria-selected="false" aria-controls="panel-hurricane" data-project-tab="hurricane">Hurricane</button>
-        <button type="button" role="tab" id="ptab-worldcup" aria-selected="false" aria-controls="panel-worldcup" data-project-tab="worldcup">World Cup</button>
+        <button type="button" role="tab" id="ptab-provider" aria-selected="true" aria-controls="panel-provider" data-project-tab="provider">Provider Cost Outlier Analysis</button>
+        <button type="button" role="tab" id="ptab-contract" aria-selected="false" aria-controls="panel-contract" data-project-tab="contract">Preferred Provider Contract Scenario Model</button>
+        <button type="button" role="tab" id="ptab-acquisition" aria-selected="false" aria-controls="panel-acquisition" data-project-tab="acquisition">Acquisition Product Matching</button>
+        <button type="button" role="tab" id="ptab-hurricane" aria-selected="false" aria-controls="panel-hurricane" data-project-tab="hurricane">Hurricane Exposure and Portfolio Risk Analysis</button>
+        <button type="button" role="tab" id="ptab-worldcup" aria-selected="false" aria-controls="panel-worldcup" data-project-tab="worldcup">World Cup Weakest Link Analysis</button>
       </nav>
     </header>
 
     <main id="main">
       <div class="page-shell">
         <div class="page-content">
-          <section id="top" class="hero">
+          <section id="top" class="landing hero">
             <p class="eyebrow">Selected Work</p>
             <h1>Analytics Portfolio</h1>
             <p class="hero-copy">Data, business, and product analytics work across healthcare, finance, operations, risk, and public research.</p>
@@ -38,7 +38,7 @@
             </div>
           </section>
 
-          <section id="projects" class="project-index" aria-labelledby="project-index-title">
+          <section id="projects" class="landing project-index" aria-labelledby="project-index-title">
             <div class="section-heading compact">
               <p class="eyebrow">Project Index</p>
               <h2 id="project-index-title">Five selected projects</h2>
@@ -51,7 +51,7 @@
               </article>
               <article>
                 <div class="card-top"><h3><a href="#contract" data-project-link="contract">Preferred Provider Contract Scenario Model</a></h3><span class="evidence-badge confidential">Confidential work · synthetic demo</span></div>
-                <p>Modeled a preferred DME supplier at 80 percent of benchmark rates to test projected savings against expected volume shift.</p>
+                <p>Modeled and supported a preferred DME supplier arrangement at 80 percent of benchmark, then validated the realized volume shift and savings after implementation.</p>
                 <div class="tool-chips"><span>SQL</span><span>Excel</span></div>
               </article>
               <article>
@@ -71,7 +71,7 @@
               </article>
             </div>
           </section>
-          <section class="data-note" aria-labelledby="data-note-title">
+          <section class="landing data-note" aria-labelledby="data-note-title">
             <h2 id="data-note-title">Data note</h2>
             <p>Professional project visuals use synthetic data created to demonstrate the original analytical workflows. No employer, member, provider, contract, supplier, property, or product data is displayed. The World Cup analysis uses public data.</p>
           </section>
@@ -80,39 +80,24 @@
             <div class="section-heading compact">
               <p class="eyebrow">Project Explorer</p>
               <h2>Inspect a project</h2>
-              <p>Switch projects with the tabs in the header. Each project opens on its Workspace; use Overview for the framing.</p>
+              <p>Choose a project from the tabs at the top. Each project opens on its Overview; switch to Workspace for the artifact.</p>
             </div>
 
             <section id="panel-provider" class="project" data-project="provider" role="tabpanel" aria-labelledby="ptab-provider">
-              <div class="project-head">
-                <div class="project-break">
-                  <span class="project-numeral">01</span>
-                  <span class="domain-tag">Healthcare payer</span>
-                  <span class="evidence-badge confidential">Confidential work · synthetic demo</span>
-                </div>
-                <p class="project-question">Is this provider actually expensive, or just big?</p>
-                <h2>Provider Cost Outlier Analysis</h2>
-              </div>
               <div class="tab-row" role="tablist" aria-label="Provider Cost Outlier Analysis views">
-                <button type="button" role="tab" id="provider-tab-workspace" aria-selected="true" aria-controls="provider-view-workspace" data-tab>Workspace</button>
-                <button type="button" role="tab" id="provider-tab-overview" aria-selected="false" aria-controls="provider-view-overview" data-tab>Overview</button>
+                <button type="button" role="tab" id="provider-tab-overview" aria-selected="true" aria-controls="provider-view-overview" data-tab>Overview</button>
+                <button type="button" role="tab" id="provider-tab-workspace" aria-selected="false" aria-controls="provider-view-workspace" data-tab>Workspace</button>
               </div>
-              <div class="tab-view" id="provider-view-workspace" role="tabpanel" aria-labelledby="provider-tab-workspace">
-                <div class="visual-grid wide-workspace-grid">
-                  <article class="visual-panel full-width-workspace">
-                    <div class="panel-head">
-                      <div>
-                        <h3>Provider Review Workspace</h3>
-                        <p>Six examples show cost per active member month, peer median, ratio, review status, and provider detail.</p>
-                      </div>
-                      <button type="button" data-expand="provider-workspace">Expand</button>
-                    </div>
-                    <div id="provider-workspace" class="workspace-visual"></div>
-                    <small class="synthetic-caption">Synthetic data. Provider peer review example.</small>
-                  </article>
+              <div class="tab-view" id="provider-view-overview" role="tabpanel" aria-labelledby="provider-tab-overview">
+                <div class="project-head">
+                  <div class="project-break">
+                    <span class="project-numeral">01</span>
+                    <span class="domain-tag">Healthcare payer</span>
+                    <span class="evidence-badge confidential">Confidential work · synthetic demo</span>
+                  </div>
+                  <p class="project-question">Is this provider actually expensive, or just big?</p>
+                  <h2>Provider Cost Outlier Analysis</h2>
                 </div>
-              </div>
-              <div class="tab-view" id="provider-view-overview" role="tabpanel" aria-labelledby="provider-tab-overview" hidden>
                 <p class="overview">Built contracting analytics for a regional Medicaid health plan, joining claims and provider data, calculating cost per active member month within peer groups, and ranking providers with materially abnormal spend for Finance and Provider Contracting review.</p>
                 <div class="stat-callouts" aria-label="Key result">
                   <div class="stat"><span class="stat-num">$500,000</span><span class="stat-label">in documented annual cost reductions supported</span></div>
@@ -151,23 +136,77 @@
                   </dl>
                 </div>
               </div>
+              <div class="tab-view" id="provider-view-workspace" role="tabpanel" aria-labelledby="provider-tab-workspace" hidden>
+                <div class="visual-grid wide-workspace-grid">
+                  <article class="visual-panel full-width-workspace">
+                    <div class="panel-head">
+                      <div>
+                        <h3>Provider Review Workspace</h3>
+                        <p>Six examples show cost per active member month, peer median, ratio, review status, and provider detail.</p>
+                      </div>
+                      <button type="button" data-expand="provider-workspace">Expand</button>
+                    </div>
+                    <div id="provider-workspace" class="workspace-visual"></div>
+                    <small class="synthetic-caption">Synthetic data. Provider peer review example.</small>
+                  </article>
+                </div>
+              </div>
             </section>
 
             <section id="panel-contract" class="project" data-project="contract" role="tabpanel" aria-labelledby="ptab-contract" hidden>
-              <div class="project-head">
-                <div class="project-break">
-                  <span class="project-numeral">02</span>
-                  <span class="domain-tag">Contract strategy</span>
-                  <span class="evidence-badge confidential">Confidential work · synthetic demo</span>
-                </div>
-                <p class="project-question">Should one DME supplier become preferred at 80% of the DMAS benchmark?</p>
-                <h2>Preferred Provider Contract Scenario Model</h2>
-              </div>
               <div class="tab-row" role="tablist" aria-label="Preferred Provider Contract Scenario Model views">
-                <button type="button" role="tab" id="contract-tab-workspace" aria-selected="true" aria-controls="contract-view-workspace" data-tab>Workspace</button>
-                <button type="button" role="tab" id="contract-tab-overview" aria-selected="false" aria-controls="contract-view-overview" data-tab>Overview</button>
+                <button type="button" role="tab" id="contract-tab-overview" aria-selected="true" aria-controls="contract-view-overview" data-tab>Overview</button>
+                <button type="button" role="tab" id="contract-tab-workspace" aria-selected="false" aria-controls="contract-view-workspace" data-tab>Workspace</button>
               </div>
-              <div class="tab-view" id="contract-view-workspace" role="tabpanel" aria-labelledby="contract-tab-workspace">
+              <div class="tab-view" id="contract-view-overview" role="tabpanel" aria-labelledby="contract-tab-overview">
+                <div class="project-head">
+                  <div class="project-break">
+                    <span class="project-numeral">02</span>
+                    <span class="domain-tag">Contract strategy</span>
+                    <span class="evidence-badge confidential">Confidential work · synthetic demo</span>
+                  </div>
+                  <p class="project-question">Should one DME supplier become preferred at 80% of the DMAS benchmark?</p>
+                  <h2>Preferred Provider Contract Scenario Model</h2>
+                </div>
+                <p class="overview">Modeled the preferred DME supplier arrangement for the plan at 80 percent of benchmark rates, supported the contract decision and implementation, and validated after implementation that the expected volume shift and savings materialized.</p>
+                <div class="stat-callouts" aria-label="Key result">
+                  <div class="stat"><span class="stat-num">80%</span><span class="stat-label">of DMAS benchmark rate, with projected savings validated against actual after implementation</span></div>
+                </div>
+                <details class="glance-details">
+                  <summary>Business at a Glance</summary>
+                  <div class="glance">
+                    <dl>
+                      <dt>Industry and setting</dt><dd>Regional Medicaid health plan and durable medical equipment contracting.</dd>
+                      <dt>Who the work supported</dt><dd>Finance, Provider Contracting, and operational stakeholders evaluating and then implementing a preferred provider arrangement.</dd>
+                      <dt>Business problem</dt><dd>Stakeholders needed to know whether shifting eligible durable medical equipment volume to a preferred DME supplier at 80 percent of benchmark rates would generate savings.</dd>
+                      <dt>Why it was useful</dt><dd>The model tested whether the arrangement was financially attractive, supported the contract decision, and confirmed after implementation that the expected volume shift and savings materialized.</dd>
+                      <dt>Key Impact</dt><dd>Supported the preferred provider contract decision and implementation by testing reimbursement at 80 percent of benchmark rates, eligible services, utilization, and expected volume shift, then validated that projected savings materialized after implementation.</dd>
+                      <dt>Tools</dt><dd>SQL and Excel.</dd>
+                    </dl>
+                  </div>
+                </details>
+                <details class="owned-details">
+                  <summary>What I Owned</summary>
+                  <div class="project-grid single">
+                    <article>
+                      <ul>
+                        <li>Clarified eligible service and code scope</li>
+                        <li>Documented reimbursement and volume assumptions</li>
+                        <li>Modeled alternative rate and steerage scenarios</li>
+                        <li>Compared projected savings with actual results after implementation</li>
+                      </ul>
+                    </article>
+                  </div>
+                </details>
+                <div class="methods">
+                  <h3>Tools and Methods</h3>
+                  <dl>
+                    <dt>Tools</dt><dd>SQL, Excel</dd>
+                    <dt>Methods</dt><dd>Claims analysis, rate comparison, utilization modeling, scenario analysis, volume shift modeling, projected savings validation, post implementation validation</dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="tab-view" id="contract-view-workspace" role="tabpanel" aria-labelledby="contract-tab-workspace" hidden>
                 <div class="visual-grid wide-workspace-grid">
                   <article class="visual-panel full-width-workspace">
                     <div class="panel-head">
@@ -182,77 +221,23 @@
                   </article>
                 </div>
               </div>
-              <div class="tab-view" id="contract-view-overview" role="tabpanel" aria-labelledby="contract-tab-overview" hidden>
-                <p class="overview">Modeled a preferred DME supplier negotiation for the plan, using claims, benchmark rates, reimbursement, and expected volume shift to weigh projected savings and then check them against post implementation performance.</p>
-                <div class="stat-callouts" aria-label="Key result">
-                  <div class="stat"><span class="stat-num">80%</span><span class="stat-label">of DMAS benchmark rate modeled, with projected savings tested against actual</span></div>
-                </div>
-                <details class="glance-details">
-                  <summary>Business at a Glance</summary>
-                  <div class="glance">
-                    <dl>
-                      <dt>Industry and setting</dt><dd>Regional Medicaid health plan and durable medical equipment contracting.</dd>
-                      <dt>Who the work supported</dt><dd>Finance, Provider Contracting, and operational stakeholders evaluating a proposed preferred provider arrangement.</dd>
-                      <dt>Business problem</dt><dd>Stakeholders needed to know whether shifting eligible durable medical equipment volume to a preferred DME supplier at 80 percent of benchmark rates would generate savings.</dd>
-                      <dt>Why it was useful</dt><dd>The model tested whether the specific provider arrangement was financially attractive and showed whether projected savings materialized after implementation.</dd>
-                      <dt>Key Impact</dt><dd>Supported a preferred provider contract decision by testing reimbursement at 80 percent of benchmark rates, eligible services, utilization, and expected volume shift assumptions.</dd>
-                      <dt>Tools</dt><dd>SQL and Excel.</dd>
-                    </dl>
-                  </div>
-                </details>
-                <details class="owned-details">
-                  <summary>What I Owned</summary>
-                  <div class="project-grid single">
-                    <article>
-                      <ul>
-                        <li>Clarified eligible service and code scope</li>
-                        <li>Documented reimbursement and volume assumptions</li>
-                        <li>Modeled alternative rate and steerage scenarios</li>
-                        <li>Compared projected savings with actual results</li>
-                      </ul>
-                    </article>
-                  </div>
-                </details>
-                <div class="methods">
-                  <h3>Tools and Methods</h3>
-                  <dl>
-                    <dt>Tools</dt><dd>SQL, Excel</dd>
-                    <dt>Methods</dt><dd>Claims analysis, rate comparison, utilization modeling, scenario analysis, volume shift modeling, projected savings validation</dd>
-                  </dl>
-                </div>
-              </div>
             </section>
 
             <section id="panel-acquisition" class="project" data-project="acquisition" role="tabpanel" aria-labelledby="ptab-acquisition" hidden>
-              <div class="project-head">
-                <div class="project-break">
-                  <span class="project-numeral">03</span>
-                  <span class="domain-tag">M&amp;A integration</span>
-                  <span class="evidence-badge confidential">Confidential work · synthetic demo</span>
-                </div>
-                <p class="project-question">Which of 1.4M acquired products already exist in our catalog?</p>
-                <h2>Acquisition Product Matching</h2>
-              </div>
               <div class="tab-row" role="tablist" aria-label="Acquisition Product Matching views">
-                <button type="button" role="tab" id="acquisition-tab-workspace" aria-selected="true" aria-controls="acquisition-view-workspace" data-tab>Workspace</button>
-                <button type="button" role="tab" id="acquisition-tab-overview" aria-selected="false" aria-controls="acquisition-view-overview" data-tab>Overview</button>
+                <button type="button" role="tab" id="acquisition-tab-overview" aria-selected="true" aria-controls="acquisition-view-overview" data-tab>Overview</button>
+                <button type="button" role="tab" id="acquisition-tab-workspace" aria-selected="false" aria-controls="acquisition-view-workspace" data-tab>Workspace</button>
               </div>
-              <div class="tab-view" id="acquisition-view-workspace" role="tabpanel" aria-labelledby="acquisition-tab-workspace">
-                <div class="visual-grid wide-workspace-grid">
-                  <article class="visual-panel full-width-workspace">
-                    <div class="panel-head">
-                      <div>
-                        <h3>Manual Review Workspace</h3>
-                        <p>Select a record to compare the primary match, second closest candidate, and review decision.</p>
-                      </div>
-                      <button type="button" data-expand="acquisition-review">Expand</button>
-                    </div>
-                    <div id="acquisition-review" class="workspace-visual"></div>
-                    <small class="synthetic-caption">Synthetic data. Product matching review queue.</small>
-                  </article>
+              <div class="tab-view" id="acquisition-view-overview" role="tabpanel" aria-labelledby="acquisition-tab-overview">
+                <div class="project-head">
+                  <div class="project-break">
+                    <span class="project-numeral">03</span>
+                    <span class="domain-tag">M&amp;A integration</span>
+                    <span class="evidence-badge confidential">Confidential work · synthetic demo</span>
+                  </div>
+                  <p class="project-question">Which of 1.4M acquired products already exist in our catalog?</p>
+                  <h2>Acquisition Product Matching</h2>
                 </div>
-              </div>
-              <div class="tab-view" id="acquisition-view-overview" role="tabpanel" aria-labelledby="acquisition-tab-overview" hidden>
                 <p class="overview">Sped up acquisition integration for a Fortune 500 food distribution company, using Python matching logic to compare approximately 1.4 million acquired products with roughly 4 million existing records and route uncertain matches into structured review.</p>
                 <div class="stat-callouts" aria-label="Key result">
                   <div class="stat"><span class="stat-num">1.4M</span><span class="stat-label">acquired products compared</span></div>
@@ -293,39 +278,38 @@
                   </dl>
                 </div>
               </div>
-            </section>
-
-            <section id="panel-hurricane" class="project" data-project="hurricane" role="tabpanel" aria-labelledby="ptab-hurricane" hidden>
-              <div class="project-head">
-                <div class="project-break">
-                  <span class="project-numeral">04</span>
-                  <span class="domain-tag">Real estate risk</span>
-                  <span class="evidence-badge confidential">Confidential work · synthetic demo</span>
-                </div>
-                <p class="project-question">Which properties sit in the storm's path?</p>
-                <h2>Hurricane Exposure and Portfolio Risk Analysis</h2>
-              </div>
-              <div class="tab-row" role="tablist" aria-label="Hurricane Exposure and Portfolio Risk Analysis views">
-                <button type="button" role="tab" id="hurricane-tab-workspace" aria-selected="true" aria-controls="hurricane-view-workspace" data-tab>Workspace</button>
-                <button type="button" role="tab" id="hurricane-tab-overview" aria-selected="false" aria-controls="hurricane-view-overview" data-tab>Overview</button>
-              </div>
-              <div class="tab-view" id="hurricane-view-workspace" role="tabpanel" aria-labelledby="hurricane-tab-workspace">
-                <div class="visual-grid hurricane-visual-stack">
-                  <article class="visual-panel hurricane-exposure-panel">
+              <div class="tab-view" id="acquisition-view-workspace" role="tabpanel" aria-labelledby="acquisition-tab-workspace" hidden>
+                <div class="visual-grid wide-workspace-grid">
+                  <article class="visual-panel full-width-workspace">
                     <div class="panel-head">
                       <div>
-                        <h3>National Hurricane Exposure Map</h3>
-                        <p>Full USA portfolio map with a Hurricane Debby 2024 forecast overlay, highlighted high exposure properties, and ranked affected properties below.</p>
+                        <h3>Manual Review Workspace</h3>
+                        <p>Select a record to compare the primary match, second closest candidate, and review decision.</p>
                       </div>
-                      <button type="button" data-expand="hurricane-map">Expand</button>
+                      <button type="button" data-expand="acquisition-review">Expand</button>
                     </div>
-                    <div id="hurricane-map" class="workspace-visual hurricane-map-visual"></div>
-                    <div id="hurricane-table" class="workspace-visual hurricane-table-visual"></div>
-                    <small class="synthetic-caption">Synthetic data. State pension fund real estate exposure workflow. Storm track and forecast cone from NOAA and NHC public data.</small>
+                    <div id="acquisition-review" class="workspace-visual"></div>
+                    <small class="synthetic-caption">Synthetic data. Product matching review queue.</small>
                   </article>
                 </div>
               </div>
-              <div class="tab-view" id="hurricane-view-overview" role="tabpanel" aria-labelledby="hurricane-tab-overview" hidden>
+            </section>
+
+            <section id="panel-hurricane" class="project" data-project="hurricane" role="tabpanel" aria-labelledby="ptab-hurricane" hidden>
+              <div class="tab-row" role="tablist" aria-label="Hurricane Exposure and Portfolio Risk Analysis views">
+                <button type="button" role="tab" id="hurricane-tab-overview" aria-selected="true" aria-controls="hurricane-view-overview" data-tab>Overview</button>
+                <button type="button" role="tab" id="hurricane-tab-workspace" aria-selected="false" aria-controls="hurricane-view-workspace" data-tab>Workspace</button>
+              </div>
+              <div class="tab-view" id="hurricane-view-overview" role="tabpanel" aria-labelledby="hurricane-tab-overview">
+                <div class="project-head">
+                  <div class="project-break">
+                    <span class="project-numeral">04</span>
+                    <span class="domain-tag">Real estate risk</span>
+                    <span class="evidence-badge confidential">Confidential work · synthetic demo</span>
+                  </div>
+                  <p class="project-question">Which properties sit in the storm's path?</p>
+                  <h2>Hurricane Exposure and Portfolio Risk Analysis</h2>
+                </div>
                 <p class="overview">Built storm exposure monitoring for a 16 billion dollar state pension fund real estate portfolio, joining property values, locations, and Hurricane Debby 2024 exposure data into a full USA view for CIO briefings and board level reporting.</p>
                 <div class="stat-callouts" aria-label="Key result">
                   <div class="stat"><span class="stat-num">$16B</span><span class="stat-label">state pension fund real estate portfolio monitored</span></div>
@@ -364,50 +348,39 @@
                   </dl>
                 </div>
               </div>
+              <div class="tab-view" id="hurricane-view-workspace" role="tabpanel" aria-labelledby="hurricane-tab-workspace" hidden>
+                <div class="visual-grid hurricane-visual-stack">
+                  <article class="visual-panel hurricane-exposure-panel">
+                    <div class="panel-head">
+                      <div>
+                        <h3>National Hurricane Exposure Map</h3>
+                        <p>Full USA portfolio map with a Hurricane Debby 2024 forecast overlay, highlighted high exposure properties, and ranked affected properties below.</p>
+                      </div>
+                      <button type="button" data-expand="hurricane-map">Expand</button>
+                    </div>
+                    <div id="hurricane-map" class="workspace-visual hurricane-map-visual"></div>
+                    <div id="hurricane-table" class="workspace-visual hurricane-table-visual"></div>
+                    <small class="synthetic-caption">Synthetic data. State pension fund real estate exposure workflow. Storm track and forecast cone from NOAA and NHC public data.</small>
+                  </article>
+                </div>
+              </div>
             </section>
 
             <section id="panel-worldcup" class="project" data-project="worldcup" role="tabpanel" aria-labelledby="ptab-worldcup" hidden>
-              <div class="project-head">
-                <div class="project-break">
-                  <span class="project-numeral">05</span>
-                  <span class="domain-tag">Independent research</span>
-                  <span class="evidence-badge public">Public · code and data inspectable</span>
-                </div>
-                <p class="project-question">Does a weak lineup floor sink a team?</p>
-                <h2>World Cup Weakest Link Analysis</h2>
-                <p class="worldcup-links gateway-links">Independent public research; the live analysis is the actual project. <a href="https://belmirsmajic.github.io/2026-world-cup-weakest-link/" target="_blank" rel="noopener noreferrer">View Full Analysis</a> <a href="https://medium.com/@belmirsmajic/a-team-is-only-as-strong-as-the-bottom-of-its-lineup-491d8825fed4" target="_blank" rel="noopener noreferrer">Read the Write Up on Medium</a> <a href="https://github.com/BelmirSmajic/2026-world-cup-weakest-link" target="_blank" rel="noopener noreferrer">View Repository</a></p>
-              </div>
               <div class="tab-row" role="tablist" aria-label="World Cup Weakest Link Analysis views">
-                <button type="button" role="tab" id="worldcup-tab-workspace" aria-selected="true" aria-controls="worldcup-view-workspace" data-tab>Workspace</button>
-                <button type="button" role="tab" id="worldcup-tab-overview" aria-selected="false" aria-controls="worldcup-view-overview" data-tab>Overview</button>
+                <button type="button" role="tab" id="worldcup-tab-overview" aria-selected="true" aria-controls="worldcup-view-overview" data-tab>Overview</button>
+                <button type="button" role="tab" id="worldcup-tab-workspace" aria-selected="false" aria-controls="worldcup-view-workspace" data-tab>Workspace</button>
               </div>
-              <div class="tab-view" id="worldcup-view-workspace" role="tabpanel" aria-labelledby="worldcup-tab-workspace">
-                <div class="visual-grid worldcup-visual-stack">
-                  <article class="visual-panel full-width-workspace">
-                    <div class="panel-head">
-                      <div>
-                        <h3>Mexico and Uruguay Comparison</h3>
-                        <p>Headline value, lineup floor, and advancement outcome tell different stories for these two teams.</p>
-                      </div>
-                      <button type="button" data-expand="worldcup-comparison">Expand</button>
-                    </div>
-                    <div id="worldcup-comparison" class="chart-area"></div>
-                    <small>Source: public World Cup analysis data.</small>
-                  </article>
-                  <article class="visual-panel full-width-workspace">
-                    <div class="panel-head">
-                      <div>
-                        <h3>Lineup Floor Evidence Panel</h3>
-                        <p>Four headline metrics summarize why this preview points to the full public analysis.</p>
-                      </div>
-                      <button type="button" data-expand="worldcup-evidence">Expand</button>
-                    </div>
-                    <div id="worldcup-evidence" class="workspace-visual"></div>
-                    <small>Source: public World Cup analysis metrics.</small>
-                  </article>
+              <div class="tab-view" id="worldcup-view-overview" role="tabpanel" aria-labelledby="worldcup-tab-overview">
+                <div class="project-head">
+                  <div class="project-break">
+                    <span class="project-numeral">05</span>
+                    <span class="domain-tag">Independent research</span>
+                    <span class="evidence-badge public">Public · code and data inspectable</span>
+                  </div>
+                  <p class="project-question">Does a weak lineup floor sink a team?</p>
+                  <h2>World Cup Weakest Link Analysis</h2>
                 </div>
-              </div>
-              <div class="tab-view" id="worldcup-view-overview" role="tabpanel" aria-labelledby="worldcup-tab-overview" hidden>
                 <p class="overview">Tested a public football analytics hypothesis by building usage based Core XI lineups from group stage starts, minutes, and appearances, then comparing each team&rsquo;s lineup floor against total value, star power, points, and advancement.</p>
                 <div class="stat-callouts" aria-label="Key result">
                   <div class="stat"><span class="stat-num">0.77</span><span class="stat-label">Spearman relationship with group stage points</span></div>
@@ -415,6 +388,7 @@
                   <div class="stat"><span class="stat-num">17%</span><span class="stat-label">weakest quartile advancement</span></div>
                   <div class="stat"><span class="stat-num">528</span><span class="stat-label">players across 48 teams</span></div>
                 </div>
+                <p class="worldcup-links gateway-links">Independent public research; the live analysis is the actual project. <a href="https://belmirsmajic.github.io/2026-world-cup-weakest-link/" target="_blank" rel="noopener noreferrer">View Full Analysis</a> <a href="https://medium.com/@belmirsmajic/a-team-is-only-as-strong-as-the-bottom-of-its-lineup-491d8825fed4" target="_blank" rel="noopener noreferrer">Read the Write Up on Medium</a> <a href="https://github.com/BelmirSmajic/2026-world-cup-weakest-link" target="_blank" rel="noopener noreferrer">View Repository</a></p>
                 <details class="glance-details">
                   <summary>Research at a Glance</summary>
                   <div class="glance">
@@ -450,21 +424,34 @@
                   </dl>
                 </div>
               </div>
+              <div class="tab-view" id="worldcup-view-workspace" role="tabpanel" aria-labelledby="worldcup-tab-workspace" hidden>
+                <div class="visual-grid worldcup-visual-stack">
+                  <article class="visual-panel full-width-workspace">
+                    <div class="panel-head">
+                      <div>
+                        <h3>Mexico and Uruguay Comparison</h3>
+                        <p>Headline value, lineup floor, and advancement outcome tell different stories for these two teams.</p>
+                      </div>
+                      <button type="button" data-expand="worldcup-comparison">Expand</button>
+                    </div>
+                    <div id="worldcup-comparison" class="chart-area"></div>
+                    <small>Source: public World Cup analysis data.</small>
+                  </article>
+                  <article class="visual-panel full-width-workspace">
+                    <div class="panel-head">
+                      <div>
+                        <h3>Lineup Floor Evidence Panel</h3>
+                        <p>Four headline metrics summarize why this preview points to the full public analysis.</p>
+                      </div>
+                      <button type="button" data-expand="worldcup-evidence">Expand</button>
+                    </div>
+                    <div id="worldcup-evidence" class="workspace-visual"></div>
+                    <small>Source: public World Cup analysis metrics.</small>
+                  </article>
+                </div>
+              </div>
             </section>
           </div>
-
-          <section id="approach" class="approach">
-            <div class="section-heading compact">
-              <p class="eyebrow">How I Work</p>
-              <h2>From question to decision</h2>
-            </div>
-            <div class="steps">
-              <article><strong>Frame the decision</strong><p>Clarify the business problem, users, constraints, risks, and definition of success.</p></article>
-              <article><strong>Define the logic</strong><p>Translate the problem into metrics, business rules, scenarios, requirements, or matching criteria.</p></article>
-              <article><strong>Build and validate</strong><p>Develop the analysis or workflow, test edge cases, reconcile results, and document assumptions.</p></article>
-              <article><strong>Turn analysis into action</strong><p>Present the result in a form that business users can review, challenge, and use to make a decision.</p></article>
-            </div>
-          </section>
         </div>
       </div>
     </main>
