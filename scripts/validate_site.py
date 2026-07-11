@@ -153,7 +153,7 @@ def main():
         fail("standalone name must not appear in the visible site body; keep it in metadata and link destinations only")
 
     # --- Header brand leads with the portfolio, not the name ---
-    if 'class="brand" href="#top">Analytics Portfolio' not in html:
+    if not re.search(r'class="brand"[^>]*>Analytics Portfolio</a>', html):
         fail("header brand text must be 'Analytics Portfolio'")
 
     # --- Title and og tags: portfolio-first (the name may stay in metadata) ---
@@ -176,24 +176,48 @@ def main():
     if "https://github.com/BelmirSmajic/2026-world-cup-weakest-link" not in wc:
         fail("public World Cup repo link missing from #worldcup")
 
-    # --- Navigation is a project explorer, not the old top nav / scroll rail ---
+    # --- Header is a single-row tablist: home tab then the five projects ---
     if "section-jump" in public or "data-section-link" in html:
         fail("old scroll-rail navigation must be removed")
     header = html[html.find("<header"):html.find("</header>")]
-    for gone in ['href="#projects"', 'href="#approach"', ">Projects</a>", ">Approach</a>"]:
+    for gone in [">Projects</a>", ">Approach</a>", ">GitHub</a>", ">Email</a>"]:
         if gone in header:
             fail(f"old top nav link must be removed from the header: {gone}")
     if 'class="project-tabs" role="tablist"' not in header:
-        fail("header must hold the project-tabs tablist")
+        fail("header must hold the project tablist")
+    if 'data-project-tab="home"' not in header:
+        fail("header must have the landing (home) tab first")
+    if header.find('data-project-tab="home"') > header.find('data-project-tab="provider"'):
+        fail("the home tab must come before the project tabs")
     for pid in PROJECT_ORDER:
         if f'data-project-tab="{pid}"' not in header:
             fail(f"project tab missing for {pid}")
         if f'id="panel-{pid}"' not in html:
-            fail(f"project explorer panel missing for {pid}")
-    if header.count('role="tab"') != 5:
-        fail("header project explorer must have exactly five tabs")
+            fail(f"project panel missing for {pid}")
+    if header.count('role="tab"') != 6:
+        fail("header must have exactly six tabs (home plus five projects)")
     if "wireProjectExplorer" not in js:
         fail("project explorer wiring missing from app.js")
+
+    # --- Landing is its own page (home tab): hero, index, data note, approach ---
+    hs = html.find('id="panel-home"')
+    he = html.find('id="panel-provider"')
+    home = html[hs:he] if hs >= 0 and he > hs else ""
+    if not home:
+        fail("landing home panel missing")
+    for needed in ['class="hero"', 'class="project-index"', 'class="data-note"', 'id="approach"']:
+        if needed not in home:
+            fail(f"landing page missing: {needed}")
+    home_tag = re.search(r'id="panel-home"[^>]*>', html)
+    if not home_tag or "hidden" in home_tag.group(0):
+        fail("landing (home) must be the default visible page")
+    ph = re.search(r'id="ptab-home"[^>]*>', html)
+    if not ph or 'aria-selected="true"' not in ph.group(0):
+        fail("home tab must be selected by default")
+    for pid in PROJECT_ORDER:
+        panel = re.search(rf'id="panel-{pid}"[^>]*>', html)
+        if not panel or "hidden" not in panel.group(0):
+            fail(f"project panel {pid} must be hidden until selected")
 
     # --- No overflow-x: hidden anywhere (fix overflow at the source) ---
     if "overflow-x:hidden" in css.replace(" ", ""):

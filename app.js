@@ -533,15 +533,13 @@ function wireProjectExplorer() {
   tabs.forEach((tab) => {
     panels[tab.dataset.projectTab] = document.getElementById("panel-" + tab.dataset.projectTab);
   });
-  const explorer = document.getElementById("explorer");
-
   function select(id, scroll) {
     if (!panels[id]) return;
     tabs.forEach((tab) => tab.setAttribute("aria-selected", String(tab.dataset.projectTab === id)));
     Object.entries(panels).forEach(([key, panel]) => {
       if (panel) panel.hidden = key !== id;
     });
-    if (scroll && explorer) explorer.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (scroll) window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   tabs.forEach((tab) => {
@@ -557,7 +555,7 @@ function wireProjectExplorer() {
   });
 
   const initial = window.location.hash.replace("#", "");
-  select(panels[initial] ? initial : "provider", false);
+  select(panels[initial] ? initial : "home", false);
   window.addEventListener("hashchange", () => {
     const id = window.location.hash.replace("#", "");
     if (panels[id]) select(id, true);
