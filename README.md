@@ -6,7 +6,7 @@ Live portfolio: https://belmirsmajic.github.io/portfolio/
 
 Work across healthcare cost, contract strategy, product integration, real estate risk, and decision support.
 
-![Portfolio homepage screenshot](assets/homepage-screenshot.jpg)
+![Portfolio homepage screenshot](assets/homepage-screenshot.png)
 
 ## Projects
 
@@ -42,7 +42,7 @@ The site is a static portfolio built with HTML, CSS, JavaScript, a local JSON da
 |-- app.js                      Interactive visuals, section navigation, and dialogs
 |-- assets/fonts/               Self hosted Fraunces and Inter woff2 files
 |-- assets/portfolio-data.json  Public data bundle for portfolio visuals
-|-- assets/homepage-screenshot.jpg
+|-- assets/homepage-screenshot.png  Current homepage screenshot
 |-- scripts/validate_site.py    Local validation checks
 `-- .github/workflows/pages.yml
 ```
