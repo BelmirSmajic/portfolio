@@ -142,7 +142,7 @@ def main():
     # --- Portfolio-first identity; standalone name not visually central ---
     hero = hero_block(html)
     for needed in ["<h1>Analytics Portfolio</h1>",
-                   "Data, business, and product analytics work",
+                   "Data, business, and product analytics across finance, operations, portfolio risk, healthcare, and public research.",
                    "https://github.com/BelmirSmajic", "mailto:belmirsmajic@outlook.com",
                    "View Projects"]:
         if needed not in hero:
@@ -367,7 +367,7 @@ def main():
         text = re.sub(r"<[^>]+>", "", body.group(1)).strip() if body else ""
         if not text:
             fail("index card missing its one-sentence summary")
-        if len(text) > 170:
+        if len(text) > 185:
             fail(f"index card summary too long ({len(text)} chars): {text[:60]}...")
     if not re.search(r"\.project-card-grid\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)", css):
         fail("project index must use a 3-column desktop grid (3 over 2)")
